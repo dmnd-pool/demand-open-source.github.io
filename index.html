@@ -3,11 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DMND</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
+    <title>SLICE — Fair, transparent, verifiable miner payouts | DMND</title>
+    <meta name="description" content="SLICE is DMND's payout system for Stratum V2. It splits block rewards into subsidy (paid by PPLNS on hashrate) and fees (paid by PPLNS + Job Declaration scoring) — so miners are rewarded for the value of the block they build, not just the work." />
+    <meta name="keywords" content="SLICE, PPLNS, Job Declaration, Stratum V2, Bitcoin mining pool, DMND, mining payout, PPLNS+JD" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="SLICE — Fair, transparent, verifiable miner payouts" />
+    <meta property="og:description" content="A mining pool payout system built for Stratum V2. Lower variance than PPLNS, cheaper than FPPS, and fully compatible with miner-built block templates." />
+    <meta property="og:image" content="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-1-block-reward-split.png" />
+    <meta property="og:url" content="https://www.dmnd.work/slice.html" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://www.dmnd.work/slice.html" />
+
     <!-- Favicons -->
     <link href="assets/img/favicon-48x48.png" rel="icon" />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,11 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -34,67 +41,44 @@
             untilmobile504: { max: "504px" },
             untilslicebreak836: { max: "836px" },
             untilslicebreak578: { max: "578px" },
-            // 'tablet': '992px',
-            // 'laptop': '1366px',
-            // 'desktop': '1920px'
           },
         },
       };
       document.addEventListener("DOMContentLoaded", function () {
-        new Glide(".glide", {
-          type: "carousel",
-          perView: 4,
-          focusAt: "center",
-          gap: 16,
-          autoplay: 5000,
-          animationDuration: 1000,
-          peek: { before: 0, after: 100 },
-          breakpoints: {
-            100000: {
-              perView: 6,
-            },
-            1800: {
-              perView: 5.5,
-            },
-            1700: {
-              perView: 5,
-            },
-            1600: {
-              perView: 4.5,
-            },
-            1500: {
-              perView: 4,
-            },
-            1400: {
-              perView: 3.5,
-            },
-            1130: {
-              perView: 3,
-            },
-            1060: {
-              perView: 2.5,
-            },
-            900: {
-              perView: 2,
-            },
-            750: {
-              perView: 1.5,
-            },
-          },
-        }).mount();
-        let burgerMenuButton = document.getElementById("burger-menu-button");
-        let overlay = document.getElementById("burger-menu");
-        console.log(burgerMenuButton);
-        burgerMenuButton.addEventListener("click", function () {
+        const burgerMenuButton = document.getElementById("burger-menu-button");
+        const overlay = document.getElementById("burger-menu");
+        burgerMenuButton?.addEventListener("click", function () {
           this.classList.toggle("close");
           overlay.classList.toggle("overlay");
         });
+
+        // TOC scroll-spy
+        const tocLinks = document.querySelectorAll("[data-toc] a");
+        const sections = [...tocLinks]
+          .map((a) => document.querySelector(a.getAttribute("href")))
+          .filter(Boolean);
+        function updateActive() {
+          const y = window.scrollY + 200;
+          let current = sections[0]?.id;
+          for (const s of sections) {
+            if (s.offsetTop <= y) current = s.id;
+          }
+          tocLinks.forEach((a) =>
+            a.classList.toggle(
+              "toc-active",
+              a.getAttribute("href") === "#" + current
+            )
+          );
+        }
+        window.addEventListener("scroll", updateActive, { passive: true });
+        updateActive();
       });
     </script>
     <style>
       html {
         font-size: 8px;
         scroll-behavior: smooth;
+        scroll-padding-top: 20rem;
       }
       @media screen and (min-width: 1024px) and (max-width: 2056px) {
         html {
@@ -111,860 +95,460 @@
           font-size: 1.5875vw;
         }
       }
-      * {
-        box-sizing: border-box;
-      }
-      .ibm-plex-mono-thin {
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 100;
-        font-style: normal;
-      }
-      .ibm-plex-mono-extralight {
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 200;
-        font-style: normal;
-      }
-      .ibm-plex-mono-light {
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 300;
-        font-style: normal;
-      }
-      .ibm-plex-mono-regular {
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 400;
-        font-style: normal;
-      }
-      .ibm-plex-mono-medium {
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 500;
-        font-style: normal;
-      }
-      .ibm-plex-mono-semibold {
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 600;
-        font-style: normal;
-      }
-      .ibm-plex-mono-bold {
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 700;
-        font-style: normal;
-      }
-      .ibm-plex-sans-<uniquifier > {
-        font-family: "IBM Plex Sans", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: <weight>;
-        font-style: normal;
-        font-variation-settings: "wdth" 100;
-      }
-      .glide__slide {
-        height: 30rem !important;
-      }
-      @media screen and (min-width: 2060px) {
-        body::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -2rem;
-          height: 100%;
-          width: 10rem;
-          z-index: 2;
-          pointer-events: none;
-          background: linear-gradient(
-            to right,
-            black 0rem,
-            black calc(100% - 22.5rem),
-            transparent 100%
-          );
-        }
-        body::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: -2rem;
-          height: 100%;
-          width: 10rem;
-          background: linear-gradient(
-            to left,
-            black 0rem,
-            black calc(100% - 22.5rem),
-            transparent 100%
-          );
-          z-index: 2;
-          pointer-events: none;
-        }
-      }
-      .bg-fade-edges {
-        background: linear-gradient(to top, white 0%, transparent 10%),
-          linear-gradient(to bottom, white 0%, transparent 10%),
-          linear-gradient(to left, white 0%, transparent 10%),
-          linear-gradient(to right, white 0%, transparent 10%),
-          url("/your-image.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-      /*#hero::after {*/
-      /*    content: '';*/
-      /*    position: absolute;*/
-      /*    bottom: 0;*/
-      /*    left: 0;*/
-      /*    width: 100%;*/
-      /*    height: 22.5rem; !* fixed height *!*/
-      /*    background: linear-gradient(to top, black, transparent);*/
-      /*    z-index: 2;*/
-      /*}*/
-      /*@media screen and (min-width: 200rem) {*/
-      /*    #features::after {*/
-      /*        content: '';*/
-      /*        position: absolute;*/
-      /*        bottom: 0;*/
-      /*        left: 0;*/
-      /*        width: 100%;*/
-      /*        height: 22.5rem; !* fixed height *!*/
-      /*        background: linear-gradient(to top, black, transparent);*/
-      /*        z-index: 2;*/
-      /*    }*/
-      /*}*/
-      /*#second::after {*/
-      /*    content: '';*/
-      /*    position: absolute;*/
-      /*    top: 0;*/
-      /*    left: 0;*/
-      /*    width: 100%;*/
-      /*    height: 11rem; !* fixed height *!*/
-      /*    background: linear-gradient(to bottom, black, transparent);*/
-      /*    z-index: 2;*/
-      /*}*/
+      * { box-sizing: border-box; }
+      .ibm-plex-mono-thin { font-family: "IBM Plex Mono", monospace; font-weight: 100; font-style: normal; }
+      .ibm-plex-mono-extralight { font-family: "IBM Plex Mono", monospace; font-weight: 200; font-style: normal; }
+      .ibm-plex-mono-light { font-family: "IBM Plex Mono", monospace; font-weight: 300; font-style: normal; }
+      .ibm-plex-mono-regular { font-family: "IBM Plex Mono", monospace; font-weight: 400; font-style: normal; }
+      .ibm-plex-mono-medium { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-style: normal; }
+      .ibm-plex-mono-semibold { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-style: normal; }
+      .ibm-plex-mono-bold { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-style: normal; }
+      .ibm-plex-sans { font-family: "IBM Plex Sans", sans-serif; }
+
+      /* Burger menu */
       #burger-menu-button {
-        cursor: pointer;
-        height: 4rem;
-        width: 4rem;
-        overflow: visible;
-        position: relative;
-        z-index: 2;
-        display: none;
+        cursor: pointer; height: 4rem; width: 4rem; overflow: visible;
+        position: relative; z-index: 2; display: none;
       }
       @media screen and (max-width: 620px) {
-        #burger-menu-button {
-          display: block;
-        }
-        #menu {
-          display: none;
-        }
+        #burger-menu-button { display: block; }
+        #menu { display: none; }
       }
       #burger-menu-button span,
       #burger-menu-button span:before,
       #burger-menu-button span:after {
-        background: #fff;
-        display: block;
-        height: 2px;
-        opacity: 1;
-        position: absolute;
-        transition: 0.3s ease-in-out;
+        background: #fff; display: block; height: 2px;
+        opacity: 1; position: absolute; transition: 0.3s ease-in-out;
       }
-      #burger-menu-button span:before,
-      #burger-menu-button span:after {
-        content: "";
-      }
-      #burger-menu-button span:before {
-        left: 0;
-        top: -1.25rem;
-        width: 4rem;
-      }
-      #burger-menu-button span {
-        right: 0;
-        top: 1.625rem;
-        width: 4rem;
-      }
-      #burger-menu-button span:after {
-        left: 0;
-        top: 1.25rem;
-        width: 4rem;
-      }
-      #burger-menu-button.close span:before {
-        top: 0;
-        transform: rotate(90deg);
-        width: 4rem;
-      }
-      #burger-menu-button.close span {
-        transform: rotate(-45deg);
-        top: 13px;
-        width: 4rem;
-      }
-      #burger-menu-button.close span:after {
-        top: 0;
-        left: 0;
-        transform: rotate(90deg);
-        opacity: 0;
-        width: 0;
-      }
+      #burger-menu-button span:before, #burger-menu-button span:after { content: ""; }
+      #burger-menu-button span:before { left: 0; top: -1.25rem; width: 4rem; }
+      #burger-menu-button span { right: 0; top: 1.625rem; width: 4rem; }
+      #burger-menu-button span:after { left: 0; top: 1.25rem; width: 4rem; }
+      #burger-menu-button.close span:before { top: 0; transform: rotate(90deg); width: 4rem; }
+      #burger-menu-button.close span { transform: rotate(-45deg); top: 13px; width: 4rem; }
+      #burger-menu-button.close span:after { top: 0; left: 0; transform: rotate(90deg); opacity: 0; width: 0; }
       #burger-menu {
-        z-index: 1;
-        min-width: 100%;
-        min-height: 100%;
-        position: fixed;
-        top: 0;
-        height: 0;
-        visibility: hidden;
-        opacity: 0;
-        text-align: center;
-        padding-top: 3.25rem;
-        transition: all 0.3s ease-in-out;
+        z-index: 1; min-width: 100%; min-height: 100%;
+        position: fixed; top: 0; height: 0; visibility: hidden; opacity: 0;
+        text-align: center; padding-top: 3.25rem; transition: all 0.3s ease-in-out;
       }
       #burger-menu.overlay {
-        visibility: visible;
-        opacity: 1;
-        padding-top: 12rem;
-        background: rgba(0, 0, 0, 0.8);
+        visibility: visible; opacity: 1; padding-top: 12rem; background: rgba(0, 0, 0, 0.8);
+      }
+
+      /* Prose (article) */
+      .prose h2 {
+        font-family: "IBM Plex Sans", sans-serif;
+        font-weight: 300;
+        font-size: 6rem;
+        line-height: 105%;
+        letter-spacing: -0.03em;
+        color: #fff;
+        margin-top: 12rem;
+        margin-bottom: 4rem;
+        scroll-margin-top: 20rem;
+      }
+      .prose h2:first-child { margin-top: 0; }
+      .prose h3 {
+        font-family: "IBM Plex Sans", sans-serif;
+        font-weight: 400;
+        font-size: 3.5rem;
+        line-height: 110%;
+        color: #fff;
+        margin-top: 6rem;
+        margin-bottom: 2rem;
+      }
+      .prose p {
+        font-family: "IBM Plex Sans", sans-serif;
+        font-weight: 300;
+        color: rgba(255,255,255,0.7);
+        font-size: 2.75rem;
+        line-height: 155%;
+        margin-bottom: 3rem;
+      }
+      .prose p strong, .prose li strong { color: #fff; font-weight: 500; }
+      .prose p em, .prose li em { color: #fff; font-style: italic; }
+      .prose ul, .prose ol {
+        margin-bottom: 3rem;
+        padding-left: 4rem;
+        color: rgba(255,255,255,0.7);
+      }
+      .prose li {
+        font-family: "IBM Plex Sans", sans-serif;
+        font-weight: 300;
+        font-size: 2.75rem;
+        line-height: 155%;
+        margin-bottom: 1.25rem;
+      }
+      .prose ::marker { color: #EF3A2E; }
+      .prose a { color: #EF3A2E; text-decoration: underline; text-decoration-color: rgba(239,58,46,0.4); }
+      .prose a:hover { text-decoration-color: #EF3A2E; }
+
+      /* Figures */
+      .prose figure {
+        margin: 6rem 0;
+        background: #fff;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 0.125rem solid rgba(255,255,255,0.1);
+      }
+      .prose figure img { display: block; width: 100%; height: auto; border-radius: 0.5rem; }
+      .prose figure figcaption {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 300;
+        font-size: 1.75rem;
+        color: rgba(255,255,255,0.5);
+        text-align: center;
+        margin-top: 2.5rem;
+        letter-spacing: 0.02em;
+      }
+
+      /* TOC scroll-spy active */
+      .toc-active {
+        color: #EF3A2E !important;
+        border-left-color: #EF3A2E !important;
       }
     </style>
   </head>
-  <body
-    class="relative ibm-plex-sans-regular mx-auto w-full bg-black w4:w-[2056px]"
-  >
-    <div
-      id="hero"
-      class="relative bg-cover untildesktop:bg-[url('./assets/img/hero-tablet.png')] bg-[url('./assets/img/hero.png')] bg-[center_top] bg-no-repeat"
-    >
-      <nav
-        class="flex justify-between items-center w-full pt-[8.5rem] max-w-[163.875rem] mx-auto"
-      >
-        <a href="index.html" class="px-[3rem]">
-          <svg
-            class="h-[6.5rem]"
-            viewBox="0 0 103 45"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style="position: relative; top: 1rem"
-          >
-            <path
-              d="M24.8279 5.38651C23.3922 3.28993 21.4881 1.82737 19.1677 1.04224C17.8247 0.585404 16.1329 0.338749 14.1277 0.309219H0V33.8805H14.1277C16.5913 33.8805 18.7717 33.3455 20.6102 32.2911C22.4553 31.2333 23.9904 29.63 25.1784 27.5265C26.8972 24.4641 27.7684 20.6896 27.7684 16.3106C27.7684 14.5823 27.5645 12.741 27.1601 10.8373C26.7472 8.89354 25.9637 7.06099 24.8279 5.38824V5.38651ZM19.7508 15.4768C19.7508 15.8659 19.7508 16.2915 19.7508 16.7674C19.7508 19.0342 19.4323 21.0057 18.8071 22.6264C17.7017 25.4751 15.8111 26.8612 13.0256 26.8612H7.71765V7.32849H13.0256C15.7083 7.32849 17.5063 8.0893 18.3656 9.58834C18.4769 9.78462 18.578 9.96527 18.6723 10.1355C19.2891 11.4938 19.6497 13.283 19.7491 15.4768H19.7508Z"
-              fill="#EF3A2E"
-            />
-            <path
-              d="M102.392 10.8371C101.979 8.89343 101.195 7.06088 100.06 5.38814C98.6239 3.29157 96.7198 1.829 94.3994 1.04387C93.0564 0.587037 91.3646 0.340381 89.3594 0.310852H75.2317V33.8804H89.3594C91.8229 33.8804 94.0034 33.3454 95.8419 32.291C97.687 31.2332 99.2238 29.6299 100.41 27.5264C102.129 24.464 103 20.6895 103 16.3105C103 14.5821 102.796 12.7409 102.392 10.8371ZM94.9825 15.4767C94.9825 15.8658 94.9825 16.2914 94.9825 16.7673C94.9825 19.0341 94.664 21.0056 94.0388 22.6263C92.9334 25.475 91.0428 26.8611 88.2573 26.8611H82.9493V7.32838H88.2573C90.94 7.32838 92.7379 8.08919 93.5973 9.58824C93.7086 9.78452 93.8097 9.96517 93.904 10.1354C94.5208 11.4937 94.8814 13.2829 94.9808 15.4767H94.9825Z"
-              fill="#EF3A2E"
-            />
-            <path
-              d="M64.55 19.9652L60.3053 0.614902V0H52.4866V33.8509H60.3053V14.3338L64.5399 33.639H64.55V33.8509H72.3688V0H64.55V19.9652Z"
-              fill="#EF3A2E"
-            />
-            <path
-              d="M72.3688 36.7484H52.5725V44.8081H72.3688V36.7484Z"
-              fill="#EF3A2E"
-            />
-            <path
-              d="M41.7627 0.0173701H41.7559L39.653 10.2536L37.5197 0.16849V0H29.6992V33.8509H37.5197V14.5996L39.5519 28.5808L41.7627 14.5648V33.8509H49.5831V0H41.7627V0.0173701Z"
-              fill="#EF3A2E"
-            />
-          </svg>
-        </a>
-        <ul
-          id="menu"
-          class="flex mx-[3rem] px-[3.5rem] bg-[#D9D9D9]/10 border-[0.125rem] border-white/20 backdrop-blur-sm rounded-full"
-        >
-          <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white">Home</li>
-          <li
-            class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"
-          >
-            <a href="https://blog.dmnd.work/understanding-slice-pplns-jd/"
-              >Slice</a
-            >
-          </li>
-          <li
-            class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"
-          >
-            <a href="https://blog.dmnd.work/">Blog</a>
-          </li>
-          <li
-            class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"
-          >
-            <a href="https://join.dmnd.work">Join Now</a>
-          </li>
-          <li
-            class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"
-          >
-            <a href="https://dashboard.dmnd.work">Login</a>
-          </li>
-          <!--        <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="about.html">About</a></li>-->
+  <body class="relative ibm-plex-sans mx-auto w-full bg-black w4:w-[2056px]">
+
+    <!-- NAV (matches index.html exactly) -->
+    <nav class="relative z-20 flex justify-between items-center w-full pt-[8.5rem] max-w-[163.875rem] mx-auto">
+      <a href="index.html" class="px-[3rem]">
+        <svg class="h-[6.5rem]" viewBox="0 0 103 45" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: relative; top: 1rem">
+          <path d="M24.8279 5.38651C23.3922 3.28993 21.4881 1.82737 19.1677 1.04224C17.8247 0.585404 16.1329 0.338749 14.1277 0.309219H0V33.8805H14.1277C16.5913 33.8805 18.7717 33.3455 20.6102 32.2911C22.4553 31.2333 23.9904 29.63 25.1784 27.5265C26.8972 24.4641 27.7684 20.6896 27.7684 16.3106C27.7684 14.5823 27.5645 12.741 27.1601 10.8373C26.7472 8.89354 25.9637 7.06099 24.8279 5.38824V5.38651ZM19.7508 15.4768C19.7508 15.8659 19.7508 16.2915 19.7508 16.7674C19.7508 19.0342 19.4323 21.0057 18.8071 22.6264C17.7017 25.4751 15.8111 26.8612 13.0256 26.8612H7.71765V7.32849H13.0256C15.7083 7.32849 17.5063 8.0893 18.3656 9.58834C18.4769 9.78462 18.578 9.96527 18.6723 10.1355C19.2891 11.4938 19.6497 13.283 19.7491 15.4768H19.7508Z" fill="#EF3A2E"/>
+          <path d="M102.392 10.8371C101.979 8.89343 101.195 7.06088 100.06 5.38814C98.6239 3.29157 96.7198 1.829 94.3994 1.04387C93.0564 0.587037 91.3646 0.340381 89.3594 0.310852H75.2317V33.8804H89.3594C91.8229 33.8804 94.0034 33.3454 95.8419 32.291C97.687 31.2332 99.2238 29.6299 100.41 27.5264C102.129 24.464 103 20.6895 103 16.3105C103 14.5821 102.796 12.7409 102.392 10.8371ZM94.9825 15.4767C94.9825 15.8658 94.9825 16.2914 94.9825 16.7673C94.9825 19.0341 94.664 21.0056 94.0388 22.6263C92.9334 25.475 91.0428 26.8611 88.2573 26.8611H82.9493V7.32838H88.2573C90.94 7.32838 92.7379 8.08919 93.5973 9.58824C93.7086 9.78452 93.8097 9.96517 93.904 10.1354C94.5208 11.4937 94.8814 13.2829 94.9808 15.4767H94.9825Z" fill="#EF3A2E"/>
+          <path d="M64.55 19.9652L60.3053 0.614902V0H52.4866V33.8509H60.3053V14.3338L64.5399 33.639H64.55V33.8509H72.3688V0H64.55V19.9652Z" fill="#EF3A2E"/>
+          <path d="M72.3688 36.7484H52.5725V44.8081H72.3688V36.7484Z" fill="#EF3A2E"/>
+          <path d="M41.7627 0.0173701H41.7559L39.653 10.2536L37.5197 0.16849V0H29.6992V33.8509H37.5197V14.5996L39.5519 28.5808L41.7627 14.5648V33.8509H49.5831V0H41.7627V0.0173701Z" fill="#EF3A2E"/>
+        </svg>
+      </a>
+      <ul id="menu" class="flex mx-[3rem] px-[3.5rem] bg-[#D9D9D9]/10 border-[0.125rem] border-white/20 backdrop-blur-sm rounded-full">
+        <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="index.html">Home</a></li>
+        <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white"><a href="slice.html">Slice</a></li>
+        <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="https://blog.dmnd.work/">Blog</a></li>
+        <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="https://join.dmnd.work">Join Now</a></li>
+        <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="https://dashboard.dmnd.work">Login</a></li>
+      </ul>
+      <div class="px-[12rem] untildesktop:hidden"></div>
+      <div class="px-[3rem] mr-[2rem]" id="burger-menu-button"><span></span></div>
+      <div id="burger-menu">
+        <ul>
+          <li class="block px-[2.25rem] py-[1.5rem] text-white/80 hover:text-white text-[4rem]"><a href="index.html">Home</a></li>
+          <li class="block px-[2.25rem] py-[1.5rem] text-white text-[4rem]"><a href="slice.html">Slice</a></li>
+          <li class="block px-[2.25rem] py-[1.5rem] text-white/80 hover:text-white text-[4rem]"><a href="https://blog.dmnd.work/">Blog</a></li>
+          <li class="block px-[2.25rem] py-[1.5rem] text-white/80 hover:text-white text-[4rem]"><a href="https://join.dmnd.work">Join Now</a></li>
+          <li class="block px-[2.25rem] py-[1.5rem] text-white/80 hover:text-white text-[4rem]"><a href="https://dashboard.dmnd.work">Login</a></li>
         </ul>
-        <div class="px-[12rem] untildesktop:hidden"></div>
-        <div class="px-[3rem] mr-[2rem]" id="burger-menu-button">
-          <span></span>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="relative">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(239,58,46,0.18), transparent 70%);"></div>
+
+      <div class="relative pt-[15rem] pb-[10rem] px-[3rem] text-center max-w-[160.5625rem] mx-auto">
+        <div class="inline-block ibm-plex-mono-light uppercase text-[1.75rem] tracking-[0.15em] text-[#EF3A2E] border border-[#EF3A2E]/40 bg-[#EF3A2E]/10 rounded-full px-[2.5rem] py-[1rem] mb-[5rem]">
+          Payout system · PPLNS + Job Declaration
         </div>
-        <div id="burger-menu">
-          <ul>
-            <li
-              class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white text-[4rem]"
-            >
-              Home
-            </li>
-            <li
-              class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"
-            >
-              <a href="https://blog.dmnd.work/understanding-slice-pplns-jd/"
-                >Slice</a
-              >
-            </li>
-            <li
-              class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"
-            >
-              <a href="https://blog.dmnd.work/">Blog</a>
-            </li>
-            <li
-              class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"
-            >
-              <a href="https://join.dmnd.work">Join Now</a>
-            </li>
+        <h1 class="text-white font-light text-[18rem] untildesktop:text-[12rem] untilmobile504:text-[10rem] tracking-[-0.05em] leading-[100%]">
+          SLICE
+        </h1>
+        <h3 class="ibm-plex-mono-light uppercase text-white/70 text-[2.75rem] leading-[130%] mt-[5rem] max-w-[96rem] mx-auto">
+          Fair, transparent, verifiable miner payouts — built for Stratum V2. Lower variance than PPLNS, cheaper than FPPS, fully compatible with miner-built block templates.
+        </h3>
+        <div class="flex justify-center items-center flex-wrap gap-[2.5rem] mt-[8rem]">
+          <a href="https://join.dmnd.work" class="whitespace-nowrap px-[6rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">Start mining with DMND</a>
+          <a href="#tldr" class="whitespace-nowrap px-[6rem] py-[1.5rem] border-[0.125rem] border-white/20 rounded-full text-[2.75rem] text-white">Read the explainer</a>
+        </div>
+      </div>
+      <hr class="mx-auto max-w-[153.5625rem] h-[0.125rem] border-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+    </div>
+
+    <!-- CONTENT: sidebar TOC + article -->
+    <div class="max-w-[160.5625rem] mx-auto px-[3rem] pt-[12rem] pb-[15rem] flex gap-[6rem] untildesktop:flex-col">
+
+      <!-- STICKY TOC -->
+      <aside class="w-[40rem] shrink-0 untildesktop:hidden" data-toc>
+        <div class="sticky top-[6rem]">
+          <div class="ibm-plex-mono-light uppercase text-[1.5rem] tracking-[0.15em] text-white/40 mb-[2rem] px-[2rem]">On this page</div>
+          <ul class="border-l border-white/15">
+            <li><a href="#tldr" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">TL;DR</a></li>
+            <li><a href="#glossary" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Glossary</a></li>
+            <li><a href="#intro" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Introduction</a></li>
+            <li><a href="#adapting" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Adapting PPLNS to SV2</a></li>
+            <li><a href="#fair-slices" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Creating fair slices</a></li>
+            <li><a href="#slice-size" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Size of a slice</a></li>
+            <li><a href="#measuring" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Measuring hashrate</a></li>
+            <li><a href="#share-treatment" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Share treatment</a></li>
+            <li><a href="#payouts" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Payouts</a></li>
+            <li><a href="#example" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Worked example</a></li>
+            <li><a href="#lifecycle" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">Life of a share</a></li>
+            <li><a href="#compare" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">SLICE vs FPPS vs PPLNS</a></li>
+            <li><a href="#practical" class="block px-[2rem] py-[1rem] text-[1.75rem] text-white/50 hover:text-white border-l-[0.25rem] border-transparent -ml-[0.125rem]">What this means for you</a></li>
           </ul>
         </div>
-      </nav>
-      <h1
-        class="text-white px-[3rem] pt-[23rem] mx-auto max-w-[160.5625rem] text-center untildesktop:text-[9rem] text-[11.25rem] tracking-[-0.04em] leading-[100%]"
-      >
-        Decentralizing Bitcoin while maximizing profits.
-      </h1>
-      <h3
-        class="ibm-plex-mono-light text-center uppercase mx-auto max-w-[96rem] px-[3rem] pt-[7.5rem] text-white text-[2.75rem] leading-[100%]"
-      >
-        The world’s first Stratum V2 mining pool, purpose built for performance,
-        privacy, and profitability.
-      </h3>
-      <div
-        class="untilmobile504:flex-wrap untilmobile504:justify-center flex px-[3rem] justify-between max-w-[64rem] mx-auto items-center font-light pt-[11.5rem]"
-      >
-        <a
-          href="https://join.dmnd.work"
-          class="whitespace-nowrap px-[9rem] mr-[2.5rem] untilmobile504:mr-0 py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white"
-          >Join Now</a
-        >
-        <a
-          href="#features"
-          class="whitespace-nowrap untilmobile504:mt-[2rem] untilmobile504:mr-0 text-white ml-[2.5rem] text-[2.75rem] underline"
-          >Explore Features</a
-        >
-      </div>
-      <hr
-        class="mx-auto max-w-[153.5625rem] h-[0.125rem] border-0 bg-gradient-to-r from-transparent via-white/30 to-transparent mt-[12.75rem]"
-      />
-      <div class="flex mx-auto justify-between max-w-[150rem] pb-[12rem]">
-        <div
-          class="flex flex-col pl-[6rem] pt-[5rem] untildesktop:px-[3rem] untildesktop:py-[3rem] border-r border-solid"
-          style="
-            border-image: linear-gradient(
-                to bottom,
-                rgb(255, 255, 255, 0.25),
-                transparent
-              )
-              1;
-          "
-        >
-          <div
-            class="rounded-full w-[10rem] h-[10rem] bg-black/30 flex items-center justify-center"
-          >
-            <img src="./assets/img/box.svg" class="w-[4rem] h-[4rem]" />
-          </div>
-          <h3
-            class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2rem] untildesktop:text-[2rem] leading-[100%] mt-[2rem] max-w-[43rem]"
-          >
-            Up to 10% efficiency gains with Stratum V2 block templates
-          </h3>
-        </div>
-        <div
-          class="flex flex-col pl-[6rem] pt-[5rem] untildesktop:px-[3rem] untildesktop:py-[3rem] border-r border-solid"
-          style="
-            border-image: linear-gradient(
-                to bottom,
-                rgb(255, 255, 255, 0.25),
-                transparent
-              )
-              1;
-          "
-        >
-          <div
-            class="rounded-full w-[10rem] h-[10rem] bg-black/30 flex items-center justify-center"
-          >
-            <img
-              src="./assets/img/shield-cross.svg"
-              class="w-[4rem] h-[4rem]"
-            />
-          </div>
-          <h3
-            class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2rem] leading-[100%] mt-[2rem] max-w-[43rem]"
-          >
-            Zero hash hijack incidents since launch — unmatched security
-          </h3>
-        </div>
-        <div
-          class="flex flex-col pl-[6rem] pt-[5rem] untildesktop:px-[3rem] untildesktop:py-[3rem]"
-        >
-          <div
-            class="rounded-full w-[10rem] h-[10rem] bg-black/30 flex items-center justify-center"
-          >
-            <img src="./assets/img/shield-tick.svg" class="w-[4rem] h-[4rem]" />
-          </div>
-          <h3
-            class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2rem] leading-[100%] mt-[2rem] max-w-[43rem]"
-          >
-            SOC 2 Type 2 ready — engineered for enterprise-grade compliance
-          </h3>
-        </div>
-      </div>
-    </div>
-      <div
-      id="second"
-      class="relative bg-cover mx-auto bg-[url('./assets/img/section-2.png')] bg-[center_top] bg-no-repeat"
-    >
-      <a href="https://app.eu.vanta.com/dmnd.work/trust/4u48n4nf8yiwi9swpqjsf"
-         class="ibm-plex-mono-light text-white text-[2rem] underline
-         p-[1.5rem]" >
-      <h5
-        class="text-white font-light mx-auto max-w-[126rem] px-[3rem] text-center text-[3.5rem] tracking-[-0.04em] leading-[100%]"
-      >
-        Click Here for DMND's Trust Center
-      </h5>
-      <div class="max-w-[80rem] mx-auto px-[3rem]">
-        <img src="./assets/img/a-lign-logo.png" />
-      </div>
-          </a>
-      <h2
-        class="text-white font-light mx-auto max-w-[126rem] px-[3rem] text-center text-[7.5rem] tracking-[-0.04em] leading-[100%]"
-      >
-        From industry leaders to high-efficiency solo ops — they mine with DMND
-      </h2>
-      <div class="relative w-full mx-auto mt-[11.25rem]">
-        <div class="w-full mx-auto">
-          <div
-            class="pointer-events-none absolute inset-y-0 left-0 z-10 w-[40rem] bg-gradient-to-r from-black/50 to-transparent"
-          ></div>
-          <div
-            class="pointer-events-none absolute inset-y-0 right-0 z-10 w-[40rem] bg-gradient-to-l from-black/50 to-transparent"
-          ></div>
-      <div
-        class="flex justify-between max-w-[111rem] untilslicebreak836:max-w-none untilslicebreak836:h-auto untilslicebreak836:flex-wrap untilslicebreak836:justify-around px-[3rem] h-[12rem] untildesktop:h-[11.3rem] mb-[5rem] mt-[5.5rem] mx-auto"
-      >
-        <img class="py-[4rem] px-[2rem]" src="./assets/img/coindesk.svg" />
-        <img
-          class="py-[4rem] px-[2rem]"
-          src="./assets/img/bitcoin-magazine.svg"
-        />
-        <img class="py-[4rem] px-[2rem]" src="./assets/img/forbes.svg" />
-        <img
-          class="py-[4rem] px-[2rem]"
-          src="./assets/img/business-insider.svg"
-        />
-        <img class="py-[4rem] px-[2rem]" src="./assets/img/yahoo-finance.svg" />
-      </div>
-    </div>
-    <div
-      id="features"
-      class="relative bg-no-repeat bg-contain bg-[url('./assets/img/section-3.png')] bg-[center_top]"
-    >
-      <h1
-        class="pt-[12.25rem] px-[3rem] text-white font-light mx-auto w-full text-center text-[12.5rem] untildesktop:text-[9rem] tracking-[-0.04em] leading-[100%]"
-      >
-        Feature Rich
-      </h1>
-      <h3
-        class="uppercase ibm-plex-mono-light text-white/70 text-[2.75rem] leading-[100%] pt-[4.5rem] text-center max-w-[76.625rem] px-[3rem] mx-auto"
-      >
-        purpose-built to guarantee every miner receives their full earnings
-      </h3>
-      <div
-        class="max-w-[157rem] pt-[12.25rem] pb-[19.25rem] untilmobile504:pb-[10rem] mx-auto flex flex-col"
-      >
-        <div class="flex flex-wrap flex-1 justify-stretch">
-          <div
-            class="flex-1 relative max-w-[76.5rem] min-h-[58.25rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28"
-          >
-            <h3
-              class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]"
-            >
-              Stratum V2
-            </h3>
-            <p
-              class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]"
-            >
-              End-to-end encrypted, binary protocol. Secure. Efficient.
-              Future-Proof.
-            </p>
-            <img
-              class="w-[45rem] absolute -right-2 -bottom-2 mix-blend-luminosity"
-              src="./assets/img/feature-1.png"
-            />
-          </div>
-          <div
-            class="flex-1 relative max-w-[76.5rem] min-h-[58.25rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28"
-          >
-            <h3
-              class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]"
-            >
-              Enterprise FOSS Software
-            </h3>
-            <p
-              class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]"
-            >
-              Open source, production-grade mining software. Built for mining
-              enterprises.
-            </p>
-            <img
-              class="w-[45rem] absolute -right-2 -bottom-2 mix-blend-luminosity"
-              src="./assets/img/feature-2.png"
-            />
-          </div>
-        </div>
-        <div class="flex flex-wrap flex-1 justify-stretch">
-          <div
-            class="flex-1 relative max-w-[76.5rem] min-h-[55rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28"
-          >
-            <h3
-              class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]"
-            >
-              Encrypted Multiplexing
-            </h3>
-            <p
-              class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]"
-            >
-              Low latency. High throughput. Fully encrypted.
-            </p>
-            <img
-              class="w-[36rem] absolute -right-2 -bottom-2 mix-blend-luminosity"
-              src="./assets/img/feature-3.png"
-            />
-          </div>
-          <div
-            class="flex-1 relative max-w-[76.5rem] min-h-[55rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28"
-          >
-            <h3
-              class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]"
-            >
-              Miner-Side Block Templates
-            </h3>
-            <p
-              class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]"
-            >
-              You choose the block you mine. Not the pool.
-            </p>
-            <img
-              class="w-[36rem] absolute -right-2 -bottom-2 mix-blend-luminosity"
-              src="./assets/img/feature-4.png"
-            />
-          </div>
-          <div
-            class="flex-1 relative max-w-[92rem] min-h-[55rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28"
-          >
-            <h3
-              class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]"
-            >
-              Modular Software Stack
-            </h3>
-            <p
-              class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]"
-            >
-              Plug-and-play architecture. Customize your operations. Scale with
-              ease.
-            </p>
-            <img
-              class="w-[36rem] absolute -right-2 -bottom-2 mix-blend-luminosity"
-              src="./assets/img/feature-5.png"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="bg-[url('./assets/img/section-4.png')] untildesktop:bg-[center_top] bg-[left_-8rem] bg-cover"
-    >
-      <h3
-        class="uppercase ibm-plex-mono-light text-white/70 text-[2.75rem] leading-[100%] text-center max-w-[76.625rem] px-[3rem] mt-[10rem] untilmobile504:mt-0 mx-auto"
-      >
-        purpose-built to guarantee every miner receives their full earnings
-      </h3>
-      <h1
-        class="mt-[9rem] text-white font-light mx-auto max-w-[159.625rem] px-[3rem] text-center text-[12.5rem] untildesktop:text-[9rem] tracking-[-0.04em] leading-[100%]"
-      >
-        SLICE: Fair, Transparent, and Verifiable Miner Payouts
-      </h1>
-      <div
-        class="max-w-[131.625rem] px-[3rem] mt-[51.5rem] pb-[15rem] untilmobile504:pb-[5rem] mx-auto flex flex-col bg-[#13121A]/37"
-      >
-        <div class="flex flex-wrap flex-1 justify-stretch">
-          <div
-            class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] border-r-0 flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem]"
-          >
-            <img
-              class="mix-blend-plus-lighter"
-              src="./assets/img/slice-1.png"
-            />
-            <div class="max-w-[28.75rem] mt-[3.75rem] mx-[1rem]">
-              <h3 class="text-white font-light text-[2.75rem] leading-[100%]">
-                You Mine
-              </h3>
-              <p
-                class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] mt-[3.5rem]"
-              >
-                A new standard for our workers submit valid shares while
-                connected to DMND Pool.
-              </p>
-            </div>
-            <div
-              class="absolute right-6 top-2 ibm-plex-mono-light text-white text-[2.5rem]"
-            >
-              01
-            </div>
-          </div>
-          <div
-            class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] border-r-0 untilslicebreak836:border-r-[0.125rem] flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem]"
-          >
-            <img
-              class="mix-blend-plus-lighter"
-              src="./assets/img/slice-2.png"
-            />
-            <div class="max-w-[28.75rem] mt-[3.75rem] mx-[1rem]">
-              <h3 class="text-white font-light text-[2.75rem] leading-[100%]">
-                Shares Are Logged & Tracked
-              </h3>
-              <p
-                class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] mt-[3.5rem]"
-              >
-                Every valid share is recorded and assigned to your miner
-                profile.
-              </p>
-            </div>
-            <div
-              class="absolute right-6 top-2 ibm-plex-mono-light text-white text-[2.5rem]"
-            >
-              02
-            </div>
-          </div>
-          <div
-            class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] untilslicebreak836:border-r-0 untilslicebreak836:border-t-0 flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem]"
-          >
-            <img
-              class="mix-blend-plus-lighter"
-              src="./assets/img/slice-3.png"
-            />
-            <div class="max-w-[28.75rem] mt-[3.75rem] mx-[1rem]">
-              <h3 class="text-white font-light text-[2.75rem] leading-[100%]">
-                Block found
-              </h3>
-              <p
-                class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] mt-[3.5rem]"
-              >
-                Once a block is found, payout is calculated based on share
-                contribution.
-              </p>
-            </div>
-            <div
-              class="absolute right-6 top-2 ibm-plex-mono-light text-white text-[2.5rem]"
-            >
-              03
-            </div>
-          </div>
-          <div
-            class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] border-t-0 flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem] flex items-center justify-center"
-          >
-            <h3
-              class="text-white font-light text-[2.75rem] leading-[100%] flex items-center gap-[2rem]"
-            >
-              Learn More
-              <a href="https://blog.dmnd.work/understanding-slice-pplns-jd/"
-                ><img src="./assets/img/arrow-right.png" class="w-[6.25rem]"
-              /></a>
-            </h3>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="relative bg-[url('./assets/img/section-5.png')] h-[144rem] untilmobile504:h-[95rem] bg-[center_top] bg-cover overflow-hidden"
-    >
-      <h1
-        class="pt-[12.25rem] untilmobile504:pt-[5rem] px-[3rem] text-white font-light mx-auto w-full text-center text-[12.5rem] untildesktop:text-[9rem] tracking-[-0.04em] leading-[100%]"
-      >
-        Your Operation Visualized
-      </h1>
-      <h3
-        class="uppercase ibm-plex-mono-light text-white/70 text-[2.75rem] leading-[100%] pt-[4.5rem] text-center max-w-[76.625rem] px-[3rem] mx-auto"
-      >
-        Live mining data, earnings, and performance — all in one powerful
-        interface
-      </h3>
-      <img
-        class="pl-[17rem] mt-[17rem] untildashcut:hidden"
-        src="./assets/img/section-5-dashboard.png"
-      />
-      <img
-        class="mt-[12rem] afterdashcut:hidden"
-        src="./assets/img/section_5.png"
-      />
-    </div>
-    <!-- <div
-      id="contact"
-      class="bg-cover bg-[url('./assets/img/section-7.png')] bg-[center_top]"
-    >
-      <h1
-        class="pt-[10.75rem] text-white font-light mx-auto px-[3rem] text-center text-[10rem] tracking-[-0.04em] leading-[100%]"
-      >
-        Start Mining
-      </h1>
-      <h3
-        class="uppercase ibm-plex-mono-light text-white text-[2.75rem] leading-[100%] text-center max-w-[76.625rem] px-[3rem] mt-[6.725rem] mx-auto"
-      >
-        Reach out to us to start decentralized and profitable mining with DMND
-        and Stratum V2
-      </h3>
-      <form
-        id="mining-form"
-        class="max-w-[77.25rem] mx-auto space-y-[1.725rem] mt-[8.5rem] p-[3.75rem]"
-      >
-        <input
-          id="name"
-          type="text"
-          placeholder="YOUR NAME"
-          id="name"
-          class="backdrop-blur-sm w-full bg-[#D9D9D9]/15 text-[2rem] ibm-plex-mono-light text-white placeholder-white/40 px-[2rem] py-[1.75rem] rounded-[1.125rem] border-[0.125rem] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/20"
-        />
-        <input
-          id="company-name"
-          type="text"
-          placeholder="COMPANY NAME"
-          id="company-name"
-          class="backdrop-blur-sm w-full bg-[#D9D9D9]/15 text-[2rem] ibm-plex-mono-light text-white placeholder-white/40 px-[2rem] py-[1.75rem] rounded-[1.125rem] border-[0.125rem] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/20"
-        />
-        <input
-          id="email"
-          type="email"
-          placeholder="EMAIL@ADDRESS.COM"
-          id="email"
-          class="backdrop-blur-sm w-full bg-[#D9D9D9]/15 text-[2rem] ibm-plex-mono-light text-white placeholder-white/40 px-[2rem] py-[1.75rem] rounded-[1.125rem] border-[0.125rem] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/20"
-        />
-        <textarea
-          placeholder="MESSAGE..."
-          class="backdrop-blur-sm w-full bg-[#D9D9D9]/15 text-[2rem] ibm-plex-mono-light text-white placeholder-white/40 px-[2rem] py-[1.75rem] rounded-[1.125rem] border-[0.125rem] border-white/20 h-[11.5rem] resize-none focus:outline-none focus:ring-2 focus:ring-white/20"
-          id="questions-thoughts"
-          name="questions___thoughts"
-        ></textarea>
-        <button
-          type="submit"
-          class="w-full px-[9rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[3.25rem] text-white mt-[5rem]"
-        >
-          Connect
-        </button>
-      </form>
-    </div> -->
-    <div
-      class="bg-[url('./assets/img/section-8.png')] bg-[center_top] bg-cover"
-    >
-      <h1
-        class="pt-[50.75rem] text-white font-light mx-auto max-w-[103rem] px-[3rem] text-center text-[10rem] tracking-[-0.04em] leading-[100%]"
-      >
-        Decentralized Mining Node Distribution
-      </h1>
-      <h3
-        class="uppercase ibm-plex-mono-light text-white text-[2.75rem] leading-[100%] text-center max-w-[61.625rem] px-[3rem] mt-[6.25rem] mx-auto"
-      >
-        Fair payouts. Full control. Stratum V2 starts here.
-      </h3>
-      <div class="mx-auto px-[3rem]">
-        <a
-          href="https://join.dmnd.work"
-          class="mt-[8rem] block mx-auto px-[9rem] py-[1.5rem] max-w-[42rem] border-[0.125rem] border-white/20 rounded-full text-[2.75rem] text-center text-white"
-          >Join Now</a
-        >
-      </div>
-      <footer class="mt-[7rem] pb-[8rem] px-[3rem]">
-        <div class="text-center">
-          <a
-            href="https://x.com/DMND_Sv2"
-            class="ibm-plex-mono-light text-white text-[2rem] underline p-[1.5rem]"
-            >X</a
-          >
-          <a
-            href="https://www.linkedin.com/company/dmndpool"
-            class="ibm-plex-mono-light text-white text-[2rem] underline p-[1.5rem]"
-            >LINKEDIN</a
-          >
-        </div>
-        <div
-          class="mt-[4.25rem] ibm-plex-mono-light flex justify-between items-center max-w-[166.875rem] mx-auto"
-        >
-          <p class="w-[45.625rem] text-white/60 text-[2rem]">
-            © 2026 dmnd pool. all rights reserved.
+      </aside>
+
+      <!-- ARTICLE -->
+      <article class="prose flex-1 min-w-0 max-w-[110rem]">
+
+        <!-- TL;DR CARD -->
+        <div id="tldr" class="scroll-mt-[20rem] relative rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem] border-l-[0.5rem] border-l-[#EF3A2E]">
+          <div class="ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.15em] text-[#EF3A2E] mb-[2rem]">TL;DR</div>
+          <p class="text-white font-light text-[2.75rem] leading-[145%] m-0">
+            SLICE is a mining pool payout system built for Stratum V2. It splits each block reward into two parts: the <strong class="text-white font-medium">subsidy</strong> is paid by classic PPLNS on hashrate alone, while the <strong class="text-white font-medium">fees</strong> are paid by PPLNS with Job Declaration scoring — so miners are compensated for the <em class="text-white">value</em> of the block they built, not just the work. Slicing the lookback window into short time-boxed slices removes the unfairness of comparing shares submitted hours apart.
           </p>
-          <div class="w-[45.625rem] text-center flex flex-col">
-            <a
-              href="termsofservice.html"
-              class="ibm-plex-mono-light text-white/60 text-[2rem] px-[1.5rem]"
-              >TERMS OF SERVICE</a
-            >
-            <a
-              href="privacypolicy.html"
-              class="ibm-plex-mono-light text-white/60 text-[2rem] px-[1.5rem]"
-              >PRIVACY POLICY</a
-            >
-            <a
-              href="responsibledisclosurepolicy.html"
-              class="ibm-plex-mono-light text-white/60 text-[2rem] px-[1.5rem]"
-              >RESPONSIBLE DISCLOSURE POLICY</a
-            >
+        </div>
+
+        <!-- GLOSSARY -->
+        <h2 id="glossary">Glossary</h2>
+        <div class="rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem]">
+          <div class="mb-[3rem]">
+            <div class="ibm-plex-mono-medium text-[#EF3A2E] text-[2.25rem]">PPLNS <span class="text-white/40 font-light">— Pay Per Last N Shares</span></div>
+            <p class="mt-[1rem] mb-0">A payout method where the pool pays miners based on their share of hashrate contributed inside a rolling lookback window of the last N shares.</p>
           </div>
-          <div class="w-[45.625rem] text-right flex flex-col">
-            <p class="text-right text-white/60 text-[2rem] uppercase">
-              info@dmnd.work
-            </p>
-            <p class="text-right text-white/60 text-[2rem]">
-              DESGINED BY
-              <a
-                href="https://peakshift.com/"
-                class="ibm-plex-mono-light text-white text-[2rem] underline"
-                >PEAK SHIFT</a
-              >
-            </p>
+          <div class="mb-[3rem]">
+            <div class="ibm-plex-mono-medium text-[#EF3A2E] text-[2.25rem]">FPPS <span class="text-white/40 font-light">— Full Pay Per Share</span></div>
+            <p class="mt-[1rem] mb-0">A payout method where the pool pays each share at a fixed rate (subsidy + expected fees), acting as an insurer that absorbs variance. Expensive to operate and centralizing.</p>
+          </div>
+          <div class="mb-[3rem]">
+            <div class="ibm-plex-mono-medium text-[#EF3A2E] text-[2.25rem]">JD <span class="text-white/40 font-light">— Job Declaration</span></div>
+            <p class="mt-[1rem] mb-0">A Stratum V2 feature that lets miners construct their own block templates using their own node, instead of accepting a template pushed by the pool.</p>
+          </div>
+          <div class="mb-[3rem]">
+            <div class="ibm-plex-mono-medium text-[#EF3A2E] text-[2.25rem]">MMEV <span class="text-white/40 font-light">— Maximum Mempool Extractable Value</span></div>
+            <p class="mt-[1rem] mb-0">The highest total fee value a block could possibly capture from the mempool at a given moment.</p>
+          </div>
+          <div>
+            <div class="ibm-plex-mono-medium text-[#EF3A2E] text-[2.25rem]">SRI <span class="text-white/40 font-light">— Stratum Reference Implementation</span></div>
+            <p class="mt-[1rem] mb-0">The FOSS reference implementation of Stratum V2.</p>
           </div>
         </div>
-        <p class="text-center text-white/60 font-light text-[1.5rem] mt-[3rem]">
-          DMND is a trading name of Guru Protocol Ltd, a company registered in
-          England and Wales (Company No. 15235937). Registered office: 85 Great
-          Portland Street, London, England, W1W 7LT.
-        </p>
-      </footer>
+
+        <!-- INTRO -->
+        <h2 id="intro">Introduction</h2>
+        <p>DMND Pool is the first pool to use Stratum V2, a protocol developed over the past five years by FOSS developers in the Bitcoin space, primarily the Stratum Reference Implementation (SRI) team. Stratum V2's goal is to decentralize Bitcoin — specifically mining and pooled mining — by fixing the wrong turn Stratum V1 took when it shifted block template creation from miners to pool operators.</p>
+        <p>But decentralizing pooled mining is a two-front problem. Full Pay Per Share (FPPS) has quietly centralized the network at the economic layer: today a handful of pools decide which transactions get mined. Even with universal Stratum V2 adoption, FPPS-style incentives would still push the industry toward centralization.</p>
+        <p>SLICE is a mining pool payment system designed to close the economic gap. It's engineered to work alongside Stratum V2's technical design, so both centralization vectors — technical and economic — are addressed together. Fair, transparent, low variance, and aligned with decentralization.</p>
+
+        <!-- ADAPTING -->
+        <h2 id="adapting">SLICE: adapting PPLNS to Stratum V2</h2>
+        <p>For a pool trying to decentralize, PPLNS is one of the best options available. It's transparent, easy to verify, cheap to operate — it's an actual payout, not an insurance product like FPPS — and it distributes rewards proportionally to hashrate contributed.</p>
+        <p>But PPLNS wasn't built for Stratum V2. It assumes every miner is working on the same block template, so it has no way to reward a miner who chose to build a <em>better</em> block than their neighbour. That's the Achilles heel, and it gets worse as fees become a larger share of block revenue.</p>
+        <p>SLICE fixes this by splitting each block reward in two:</p>
+        <ul>
+          <li><strong>Block subsidy</strong> — distributed by classic PPLNS, based purely on hashrate contributed inside the lookback window.</li>
+          <li><strong>Transaction fees</strong> — distributed by PPLNS <em>plus</em> Job Declaration scoring, so each share is weighted by both its hashrate and the fee value of the template it was mining against.</li>
+        </ul>
+        <p>Because the fee portion uses Stratum V2's Job Declarator, SLICE is also called PPLNS+JD.</p>
+        <figure>
+          <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-1-block-reward-split.png" alt="Block reward split: subsidy paid by classic PPLNS, fees paid by PPLNS + JD scoring" loading="lazy" />
+          <figcaption>Subsidy rewards work. Fees reward valuable work.</figcaption>
+        </figure>
+
+        <!-- FAIR SLICES -->
+        <h2 id="fair-slices">Creating fair slices</h2>
+        <p>Splitting the reward isn't enough on its own. If we scored every share inside the lookback window against the same fee benchmark, we'd punish earlier shares for something they had no control over: fewer transactions in the mempool when they were submitted.</p>
+        <p>The mempool is not static. New transactions arrive constantly, often at higher fee rates than the ones already there. A share submitted at 10:00 has access to a mempool that literally could not have existed at 09:55. Scoring both against the same maximum-fee benchmark would penalise the 09:55 share for time travel it couldn't do. This is the same failure mode that sank older systems like SCORE.</p>
+        <p>The fix is to divide the lookback window into short slices of time. Inside each slice, every share is scored against the highest-value share in that slice — the assumption being that within a short enough window, everyone had roughly the same opportunity to build a valuable template. The benchmark (MMEV) keeps climbing as new high-fee transactions land, so the incentive to construct the best possible block is continuous.</p>
+        <figure>
+          <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-3-mmev-curve.png" alt="MMEV rises over time; shares are scored against the best share in their own slice, not across the whole window" loading="lazy" />
+          <figcaption>MMEV rises over time. Each share is scored against the best in its own slice — not across the whole window.</figcaption>
+        </figure>
+        <p>Within any single slice, that scoring looks like this — the best share sets the benchmark at 1.0 and every other share is graded against it:</p>
+        <figure>
+          <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-4-share-normalization.png" alt="Shares normalized against the best share in the slice" loading="lazy" />
+          <figcaption>Shares are normalized against the best share in the slice.</figcaption>
+        </figure>
+        <p>This is what makes SLICE fair not just across miners, but across time. It's the ingredient that lets Job Declaration work without punishing anyone for the clock.</p>
+
+        <!-- SIZE OF A SLICE -->
+        <h2 id="slice-size">The size of a slice</h2>
+        <p>A slice ends and a new one begins when either of the following happens:</p>
+        <ol>
+          <li>A new block is found — the current slice closes.</li>
+          <li>MMEV increases by a threshold X — the current slice closes and a new one waits until MMEV rises by another X.</li>
+        </ol>
+        <p>The pool chooses X. Smaller X means more slices, which means finer-grained fairness. Slice length is dynamic and driven by real mempool activity, not a fixed clock.</p>
+        <figure>
+          <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-2-slice-timeline.png" alt="Slices close on new blocks or when MMEV rises by X" loading="lazy" />
+          <figcaption>Slices close on new blocks or when MMEV rises by X.</figcaption>
+        </figure>
+        <p>Each slice contains all the shares submitted during that period. Every share has a difficulty attached, which tells the pool how much work it represents. The total difficulty across all shares is the "size" of the slice.</p>
+
+        <!-- MEASURING HASHRATE - callout -->
+        <h2 id="measuring">A note on measuring hashrate</h2>
+        <div class="rounded-[1.5rem] border-[0.125rem] border-white/15 bg-white/[0.03] p-[4rem]">
+          <p class="m-0 text-white/85">
+            Nothing on Bitcoin — no machine, no farm, no pool, not even the network itself — has directly measurable hashrate. Hashrate is always <em class="text-white">inferred</em> from the shares submitted at a known difficulty. That's why every hashrate number fluctuates: it's a statistical estimate that gets better with more samples. Pools ask for many shares per minute specifically to smooth this out.
+          </p>
+          <p class="mt-[2.5rem] mb-0 text-white/70">
+            <strong class="text-white">Quick sanity check:</strong> compare daily blocks to network hashrate on Glassnode or Coinmetrics — they track tightly over any two-week difficulty period, then jump at the adjustment.
+          </p>
+        </div>
+
+        <!-- SHARE TREATMENT -->
+        <h2 id="share-treatment">How SLICE treats shares</h2>
+        <p>DMND Pool targets 6 shares per minute per client and adjusts each miner's pool difficulty dynamically to hit that rate.</p>
+        <p>When a miner submits a share above their pool difficulty, it's added to the current slice — but <strong>every share is valued at the pool difficulty, not at the actual difficulty of the specific share it happened to be</strong>. This matters for fairness.</p>
+        <p>Consider a miner who gets lucky and finds a block. The current network difficulty is above 110T, and DMND's lookback window covers 8× the network difficulty of work. If we counted the lucky share at its true difficulty, that single share would occupy an eighth of the entire window and vacuum up an eighth of all rewards — including rewards owed to other miners who did the same amount of actual work.</p>
+        <figure>
+          <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-5-lookback-window.png" alt="Lookback window = 8× network difficulty, containing many slices, sliding forward over time" loading="lazy" />
+          <figcaption>Lookback window = 8× the current network difficulty of work.</figcaption>
+        </figure>
+        <p>That's a windfall for one miner and a rip-off for everyone else. Valuing all shares at pool difficulty — including the winning one — keeps the system balanced.</p>
+
+        <!-- PAYOUTS -->
+        <h2 id="payouts">Payouts in SLICE</h2>
+        <p>DMND's lookback window is 8× the current network difficulty of work. When a block is found, the pool walks back through recent slices until the accumulated difficulty reaches that threshold. If the boundary lands mid-slice, the whole slice is included — no share gets orphaned by rounding.</p>
+        <p>Inside the window, shares pay out under the two-track rule: <strong>subsidy by hashrate, fees by hashrate weighted by fee score within the share's slice</strong>.</p>
+
+        <!-- WORKED EXAMPLE -->
+        <h2 id="example">A worked example</h2>
+        <div class="rounded-[1.5rem] border-[0.125rem] border-[#EF3A2E]/30 bg-gradient-to-b from-[#EF3A2E]/[0.08] to-[#EF3A2E]/[0.02] p-[4rem]">
+          <div class="ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.15em] text-[#EF3A2E] mb-[2rem]">Payout math in one slice</div>
+          <p class="text-white/85">Say a miner submits <strong>100 shares</strong> at their assigned pool difficulty during one slice. The slice contains <strong>1,000 shares</strong> total from all miners. The highest-fee share in the slice was built against a template worth <strong>0.5 BTC</strong> in fees. Our miner's shares were built against templates worth <strong>0.4 BTC</strong> on average.</p>
+          <div class="ibm-plex-mono-regular text-[2rem] leading-[180%] bg-black/40 rounded-[1rem] p-[2.5rem] border border-white/10 my-[3rem]">
+            <div class="text-white/40"># Subsidy portion — proportional to raw share count</div>
+            <div class="text-white">subsidy_share  =  100 / 1,000  =  <span class="text-[#EF3A2E]">10%</span> of slice subsidy</div>
+            <div class="mt-[1.5rem] text-white/40"># Fee portion — scored against the best share in the slice</div>
+            <div class="text-white">fee_score       =  0.4 BTC / 0.5 BTC  =  0.80</div>
+            <div class="text-white">fee_weighted    =  100 × 0.80  =  <span class="text-[#EF3A2E]">80 effective shares</span></div>
+          </div>
+          <p class="text-white/85 m-0">Both allocations are then scaled by the slice's weight in the overall lookback window. That's the mechanic in a nutshell: <strong>subsidy rewards work, fees reward valuable work.</strong></p>
+        </div>
+
+        <!-- LIFE OF A SHARE -->
+        <h2 id="lifecycle">Life of a share</h2>
+        <figure>
+          <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-7-share-lifecycle.png" alt="Life of a share: from miner submission through payout to ageing out" loading="lazy" />
+          <figcaption>From submission through payout to ageing out.</figcaption>
+        </figure>
+        <p>Because the lookback window is 8× network difficulty, an average share stays in the window for roughly eight payout rounds before ageing out. It's not that a share is paid eight separate times — it's that the sliding window keeps including that share until enough newer work has been submitted to push it out.</p>
+        <figure>
+          <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-6-ramp-up-down.png" alt="Ramp-up when you start mining, ramp-down when you stop — payouts lag hashrate by about 8 rounds" loading="lazy" />
+          <figcaption>Payouts lag hashrate by about 8 rounds — both on the way in and on the way out.</figcaption>
+        </figure>
+        <div class="flex flex-wrap gap-[3rem] my-[5rem]">
+          <div class="flex-1 min-w-[40rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.15em] text-[#EF3A2E] mb-[2rem]">Ramp-up</div>
+            <p class="m-0">When you start mining, your first payouts are smaller than the steady-state rate. It takes about eight rounds before your full contribution is reflected.</p>
+          </div>
+          <div class="flex-1 min-w-[40rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.15em] text-[#EF3A2E] mb-[2rem]">Ramp-down</div>
+            <p class="m-0">When you stop mining, your payouts don't stop immediately. Your shares continue to earn until they age out of the window.</p>
+          </div>
+        </div>
+
+        <!-- COMPARE -->
+        <h2 id="compare">SLICE vs FPPS vs PPLNS</h2>
+        <div class="rounded-[1.5rem] border-[0.125rem] border-white/20 overflow-hidden">
+          <table class="w-full text-left ibm-plex-sans" style="border-collapse: collapse;">
+            <thead>
+              <tr class="bg-[#3A2E54]/40">
+                <th class="p-[2.5rem] text-white/40 ibm-plex-mono-regular uppercase text-[1.5rem] tracking-[0.1em] font-normal"></th>
+                <th class="p-[2.5rem] text-white/70 ibm-plex-mono-regular uppercase text-[1.5rem] tracking-[0.1em] font-normal">FPPS</th>
+                <th class="p-[2.5rem] text-white/70 ibm-plex-mono-regular uppercase text-[1.5rem] tracking-[0.1em] font-normal">PPLNS</th>
+                <th class="p-[2.5rem] text-[#EF3A2E] ibm-plex-mono-regular uppercase text-[1.5rem] tracking-[0.1em] font-normal">SLICE</th>
+              </tr>
+            </thead>
+            <tbody class="text-white/70 font-light text-[2rem]">
+              <tr class="border-t border-white/10">
+                <td class="p-[2.5rem] text-white font-normal">Payout basis</td>
+                <td class="p-[2.5rem]">Insurance (fixed rate per share)</td>
+                <td class="p-[2.5rem]">Rolling hashrate window</td>
+                <td class="p-[2.5rem] bg-[#EF3A2E]/[0.06] text-white">Rolling window + fee-weighted scoring</td>
+              </tr>
+              <tr class="border-t border-white/10">
+                <td class="p-[2.5rem] text-white font-normal">Miner variance</td>
+                <td class="p-[2.5rem]">Very low</td>
+                <td class="p-[2.5rem]">Moderate</td>
+                <td class="p-[2.5rem] bg-[#EF3A2E]/[0.06] text-white">Low–moderate</td>
+              </tr>
+              <tr class="border-t border-white/10">
+                <td class="p-[2.5rem] text-white font-normal">Cost to pool</td>
+                <td class="p-[2.5rem]">High (pool absorbs variance)</td>
+                <td class="p-[2.5rem]">Low</td>
+                <td class="p-[2.5rem] bg-[#EF3A2E]/[0.06] text-white">Low</td>
+              </tr>
+              <tr class="border-t border-white/10">
+                <td class="p-[2.5rem] text-white font-normal">Compatible with Job Declaration</td>
+                <td class="p-[2.5rem]">No</td>
+                <td class="p-[2.5rem]">Partially</td>
+                <td class="p-[2.5rem] bg-[#EF3A2E]/[0.06] text-white">Yes</td>
+              </tr>
+              <tr class="border-t border-white/10">
+                <td class="p-[2.5rem] text-white font-normal">Transparency</td>
+                <td class="p-[2.5rem]">Opaque fee assumptions</td>
+                <td class="p-[2.5rem]">Fully verifiable</td>
+                <td class="p-[2.5rem] bg-[#EF3A2E]/[0.06] text-white">Fully verifiable</td>
+              </tr>
+              <tr class="border-t border-white/10">
+                <td class="p-[2.5rem] text-white font-normal">Centralization pressure</td>
+                <td class="p-[2.5rem]">High</td>
+                <td class="p-[2.5rem]">Low</td>
+                <td class="p-[2.5rem] bg-[#EF3A2E]/[0.06] text-white">Low</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- WHAT THIS MEANS -->
+        <h2 id="practical">What this means if you're mining with DMND</h2>
+        <p>Your first few payout rounds are a ramp-up — don't panic. When you disconnect, your payouts continue for another few rounds as your shares age out — don't panic then either. And building better templates using your own node via Job Declaration directly increases your fee-portion payout. That's the incentive SLICE is built to preserve.</p>
+
+      </article>
     </div>
-    <script
-      async
-      src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js"
-    ></script>
-    <script>
-      document
-        .getElementById("mining-form")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
-          const form = event.target;
-          const formData = new FormData(form);
-          const params = new URLSearchParams(formData);
-          try {
-            const response = await fetch(`${form.action}?${params}`, {
-              method: "GET",
-            });
-            if (response.ok) {
-              alert(
-                "Your message has been received — thank you for contacting DMND! We’ll be in touch shortly."
-              );
-            } else {
-              alert("Error submitting form.");
-            }
-          } catch (err) {
-            const error = err === "" || err === " " ? "Unknown error" : err;
-            alert(`Submission failed: ${error}`);
-          }
-        });
-    </script>
-    <script
-      type="text/javascript"
-      id="hs-script-loader"
-      async
-      defer
-      src="https://js.hs-scripts.com/48095257.js"
-    ></script>
+
+    <!-- FINAL CTA -->
+    <div class="relative border-t border-white/10">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 50% 60% at 50% 100%, rgba(239,58,46,0.15), transparent 70%);"></div>
+      <div class="relative max-w-[160.5625rem] mx-auto px-[3rem] py-[16rem] text-center">
+        <h1 class="text-white font-light text-[10rem] untildesktop:text-[7.5rem] tracking-[-0.04em] leading-[105%] max-w-[103rem] mx-auto">
+          Ready to mine on a pool that pays you fairly?
+        </h1>
+        <h3 class="ibm-plex-mono-light uppercase text-white/70 text-[2.75rem] leading-[130%] mt-[5rem] max-w-[80rem] mx-auto">
+          The first pool built on Stratum V2 — transparent payouts, low variance, and the freedom to choose the blocks you mine.
+        </h3>
+        <div class="flex justify-center items-center flex-wrap gap-[2.5rem] mt-[8rem]">
+          <a href="https://join.dmnd.work" class="whitespace-nowrap px-[6rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">Join Now</a>
+          <a href="https://blog.dmnd.work/understanding-slice-pplns-jd/" class="whitespace-nowrap px-[6rem] py-[1.5rem] border-[0.125rem] border-white/20 rounded-full text-[2.75rem] text-white">Read the deep-dive</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER (matches index.html) -->
+    <footer class="pb-[8rem] px-[3rem] pt-[7rem] border-t border-white/10">
+      <div class="text-center">
+        <a href="https://x.com/DMND_Sv2" class="ibm-plex-mono-light text-white text-[2rem] underline p-[1.5rem]">X</a>
+        <a href="https://www.linkedin.com/company/dmndpool" class="ibm-plex-mono-light text-white text-[2rem] underline p-[1.5rem]">LINKEDIN</a>
+      </div>
+      <div class="mt-[4.25rem] ibm-plex-mono-light flex justify-between items-center max-w-[166.875rem] mx-auto">
+        <p class="w-[45.625rem] text-white/60 text-[2rem]">© 2026 dmnd pool. all rights reserved.</p>
+        <div class="w-[45.625rem] text-center flex flex-col">
+          <a href="termsofservice.html" class="ibm-plex-mono-light text-white/60 text-[2rem] px-[1.5rem]">TERMS OF SERVICE</a>
+          <a href="privacypolicy.html" class="ibm-plex-mono-light text-white/60 text-[2rem] px-[1.5rem]">PRIVACY POLICY</a>
+          <a href="responsibledisclosurepolicy.html" class="ibm-plex-mono-light text-white/60 text-[2rem] px-[1.5rem]">RESPONSIBLE DISCLOSURE POLICY</a>
+        </div>
+        <div class="w-[45.625rem] text-right flex flex-col">
+          <p class="text-right text-white/60 text-[2rem] uppercase">info@dmnd.work</p>
+          <p class="text-right text-white/60 text-[2rem]">DESIGNED BY <a href="https://peakshift.com/" class="ibm-plex-mono-light text-white text-[2rem] underline">PEAK SHIFT</a></p>
+        </div>
+      </div>
+      <p class="text-center text-white/60 font-light text-[1.5rem] mt-[3rem]">
+        DMND is a trading name of Guru Protocol Ltd, a company registered in England and Wales (Company No. 15235937). Registered office: 85 Great Portland Street, London, England, W1W 7LT.
+      </p>
+      <div class="mt-[5rem] max-w-[166.875rem] mx-auto ibm-plex-mono-light text-white/40 text-[1.75rem] leading-[180%]">
+        <div class="uppercase text-white/60 tracking-[0.1em] mb-[1.5rem]">Sources</div>
+        <a href="https://www.dmnd.work/pplns-with-job-declaration/pplns-with-job-declaration.pdf" class="text-white/60 underline">PPLNS with Job Declaration Whitepaper</a> ·
+        <a href="https://delvingbitcoin.org/t/pplns-with-job-declaration/1099" class="text-white/60 underline">Delving Bitcoin discussion</a> ·
+        <a href="https://arxiv.org/abs/1112.4980" class="text-white/60 underline">Rosenfeld, Analysis of Bitcoin Pooled Mining Reward Systems</a> ·
+        <a href="https://github.com/demand-open-source/share-accounting-ext/blob/master/extension.md" class="text-white/60 underline">SV2 share accounting extension</a> ·
+        <a href="https://timroughgarden.org/papers/bitcoin.pdf" class="text-white/60 underline">Roughgarden, Incentive Compatibility of Bitcoin Mining Pool Reward Functions</a>
+      </div>
+    </footer>
+
+    <script type="text/javascript" id="hs-script-loader" async defer src="https://js.hs-scripts.com/48095257.js"></script>
   </body>
 </html>
