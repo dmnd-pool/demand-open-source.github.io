@@ -113,16 +113,6 @@
           z-index: 2; pointer-events: none;
         }
       }
-      .bg-fade-edges {
-        background: linear-gradient(to top, white 0%, transparent 10%),
-          linear-gradient(to bottom, white 0%, transparent 10%),
-          linear-gradient(to left, white 0%, transparent 10%),
-          linear-gradient(to right, white 0%, transparent 10%),
-          url("/your-image.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
       #burger-menu-button {
         cursor: pointer; height: 4rem; width: 4rem; overflow: visible;
         position: relative; z-index: 2; display: none;
@@ -172,7 +162,7 @@
         </a>
         <ul id="menu" class="flex mx-[3rem] px-[3.5rem] bg-[#D9D9D9]/10 border-[0.125rem] border-white/20 backdrop-blur-sm rounded-full">
           <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white">Home</li>
-          <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="slice.html">Slice</a></li>
+          <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="slice.html">Payouts</a></li>
           <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="https://blog.dmnd.work/">Blog</a></li>
           <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="https://join.dmnd.work">Join Now</a></li>
           <li class="px-[2.25rem] py-[1.5rem] text-[2rem] text-white/50 hover:text-white"><a href="https://dashboard.dmnd.work">Login</a></li>
@@ -182,7 +172,7 @@
         <div id="burger-menu">
           <ul>
             <li class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white text-[4rem]">Home</li>
-            <li class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"><a href="slice.html">Slice</a></li>
+            <li class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"><a href="slice.html">Payouts</a></li>
             <li class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"><a href="https://blog.dmnd.work/">Blog</a></li>
             <li class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"><a href="https://join.dmnd.work">Join Now</a></li>
             <li class="block px-[2.25rem] py-[1.5rem] text-[2rem] text-white/80 hover:text-white text-[4rem]"><a href="https://dashboard.dmnd.work">Login</a></li>
@@ -190,187 +180,382 @@
         </div>
       </nav>
       <h1 class="text-white px-[3rem] pt-[23rem] mx-auto max-w-[160.5625rem] text-center untildesktop:text-[9rem] text-[11.25rem] tracking-[-0.04em] leading-[100%]">
-        Decentralizing Bitcoin while maximizing profits.
+        You build the block. Not the pool.
       </h1>
-      <h3 class="ibm-plex-mono-light text-center uppercase mx-auto max-w-[96rem] px-[3rem] pt-[7.5rem] text-white text-[2.75rem] leading-[100%]">
-        The world's first Stratum V2 mining pool, purpose built for performance, privacy, and profitability.
+      <h3 class="ibm-plex-mono-light text-center uppercase mx-auto max-w-[110rem] px-[3rem] pt-[7.5rem] text-white text-[2.75rem] leading-[130%]">
+        The first Stratum V2 mining pool. You build the blocks — and keep the fees inside them.
       </h3>
-      <div class="untilmobile504:flex-wrap untilmobile504:justify-center flex px-[3rem] justify-between max-w-[64rem] mx-auto items-center font-light pt-[11.5rem]">
-        <a href="https://join.dmnd.work" class="whitespace-nowrap px-[9rem] mr-[2.5rem] untilmobile504:mr-0 py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">Join Now</a>
-        <a href="#features" class="whitespace-nowrap untilmobile504:mt-[2rem] untilmobile504:mr-0 text-white ml-[2.5rem] text-[2.75rem] underline">Explore Features</a>
+      <div class="untilmobile504:flex-wrap untilmobile504:justify-center flex px-[3rem] justify-between max-w-[68rem] mx-auto items-center font-light pt-[11.5rem]">
+        <a href="https://join.dmnd.work" class="whitespace-nowrap px-[7rem] mr-[2.5rem] untilmobile504:mr-0 py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">Start Building →</a>
+        <a href="#build-your-own-blocks" class="whitespace-nowrap untilmobile504:mt-[2rem] untilmobile504:mr-0 text-white ml-[2.5rem] text-[2.75rem] underline">See how it works</a>
       </div>
-      <hr class="mx-auto max-w-[153.5625rem] h-[0.125rem] border-0 bg-gradient-to-r from-transparent via-white/30 to-transparent mt-[12.75rem]" />
-      <div class="flex mx-auto justify-between max-w-[150rem] pb-[12rem]">
-        <div class="flex flex-col pl-[6rem] pt-[5rem] untildesktop:px-[3rem] untildesktop:py-[3rem] border-r border-solid" style="border-image: linear-gradient(to bottom, rgb(255, 255, 255, 0.25), transparent) 1;">
-          <div class="rounded-full w-[10rem] h-[10rem] bg-black/30 flex items-center justify-center">
-            <img src="./assets/img/box.svg" class="w-[4rem] h-[4rem]" />
-          </div>
-          <h3 class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2rem] untildesktop:text-[2rem] leading-[100%] mt-[2rem] max-w-[43rem]">
-            Up to 10% efficiency gains with Stratum V2 block templates
-          </h3>
+      <div class="pb-[15rem]"></div>
+    </div>
+
+    <!-- ============================================================
+         MILESTONE BANNER
+         ============================================================ -->
+    <div class="relative bg-black border-t border-b border-white/10 py-[9rem]">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 40% 80% at 50% 50%, rgba(239,58,46,0.10), transparent 70%);"></div>
+      <div class="relative max-w-[160.5625rem] mx-auto px-[3rem] text-center">
+        <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.2em] mb-[3rem]">
+          26 June 2026 · Block 955,318
         </div>
-        <div class="flex flex-col pl-[6rem] pt-[5rem] untildesktop:px-[3rem] untildesktop:py-[3rem] border-r border-solid" style="border-image: linear-gradient(to bottom, rgb(255, 255, 255, 0.25), transparent) 1;">
-          <div class="rounded-full w-[10rem] h-[10rem] bg-black/30 flex items-center justify-center">
-            <img src="./assets/img/shield-cross.svg" class="w-[4rem] h-[4rem]" />
-          </div>
-          <h3 class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2rem] leading-[100%] mt-[2rem] max-w-[43rem]">
-            Zero hash hijack incidents since launch — unmatched security
-          </h3>
-        </div>
-        <div class="flex flex-col pl-[6rem] pt-[5rem] untildesktop:px-[3rem] untildesktop:py-[3rem]">
-          <div class="rounded-full w-[10rem] h-[10rem] bg-black/30 flex items-center justify-center">
-            <img src="./assets/img/shield-tick.svg" class="w-[4rem] h-[4rem]" />
-          </div>
-          <h3 class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2rem] leading-[100%] mt-[2rem] max-w-[43rem]">
-            SOC 2 Type 2 ready — engineered for enterprise-grade compliance
-          </h3>
-        </div>
+        <h2 class="text-white font-light text-[6rem] untildesktop:text-[4.5rem] untilmobile504:text-[4rem] leading-[110%] tracking-[-0.02em] max-w-[130rem] mx-auto">
+          The first Bitcoin block ever mined via Stratum V2 Job Declaration.
+        </h2>
+        <a href="https://blog.dmnd.work/dmnd-mines-the-first-known-bitcoin-block-using-stratum-v2-job-declaration/" class="inline-block mt-[4rem] ibm-plex-mono-light text-white/70 hover:text-white text-[2.25rem] underline decoration-white/30 hover:decoration-white">
+          Read the announcement →
+        </a>
       </div>
     </div>
-    <div id="second" class="relative bg-cover mx-auto bg-[url('./assets/img/section-2.png')] bg-[center_top] bg-no-repeat">
-      <a href="https://app.eu.vanta.com/dmnd.work/trust/4u48n4nf8yiwi9swpqjsf" class="ibm-plex-mono-light text-white text-[2rem] underline p-[1.5rem]">
-        <h5 class="text-white font-light mx-auto max-w-[126rem] px-[3rem] text-center text-[3.5rem] tracking-[-0.04em] leading-[100%]">
-          Click Here for DMND's Trust Center
-        </h5>
-        <div class="max-w-[80rem] mx-auto px-[3rem]">
-          <img src="./assets/img/a-lign-logo.png" />
+
+    <!-- ============================================================
+         BUILD YOUR OWN BLOCKS — the flagship pitch
+         ============================================================ -->
+    <div id="build-your-own-blocks" class="relative bg-black py-[18rem] untilmobile504:py-[10rem] overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(239,58,46,0.14), transparent 70%);"></div>
+
+      <div class="relative max-w-[160.5625rem] mx-auto px-[3rem]">
+        <h3 class="uppercase ibm-plex-mono-light text-[#EF3A2E] text-[2rem] tracking-[0.2em] leading-[100%] text-center">
+          The Economics of Building Your Own Block
+        </h3>
+        <h1 class="mt-[5rem] text-white font-light mx-auto max-w-[140rem] text-center text-[12.5rem] untildesktop:text-[9rem] untilmobile504:text-[7.5rem] tracking-[-0.04em] leading-[100%]">
+          The most profitable block is the one you built.
+        </h1>
+        <h3 class="ibm-plex-mono-light text-center text-white/70 text-[2.75rem] leading-[145%] mt-[7rem] max-w-[115rem] mx-auto">
+          Every pool leaves fees on the table. Every pool quietly keeps the merge-mining rewards. On DMND, you build the block — so every satoshi it earns is yours.
+        </h3>
+
+        <!-- Diagram -->
+        <div class="max-w-[130rem] mt-[12rem] mx-auto">
+          <img src="./assets/img/build-your-own-blocks-diagram.png" alt="Traditional pool builds the template — the miner just hashes. On DMND with Stratum V2, the miner builds the template and the pool coordinates. You control transactions, fees, BIP signaling, and merge mining." class="w-full block" />
         </div>
-      </a>
-      <h2 class="text-white font-light mx-auto max-w-[126rem] px-[3rem] text-center text-[7.5rem] tracking-[-0.04em] leading-[100%]">
-        From industry leaders to high-efficiency solo ops — they mine with DMND
-      </h2>
-      <div class="relative w-full mx-auto mt-[11.25rem]">
-        <div class="w-full mx-auto">
-          <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-[40rem] bg-gradient-to-r from-black/50 to-transparent"></div>
-          <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-[40rem] bg-gradient-to-l from-black/50 to-transparent"></div>
-          <div class="flex justify-between max-w-[111rem] untilslicebreak836:max-w-none untilslicebreak836:h-auto untilslicebreak836:flex-wrap untilslicebreak836:justify-around px-[3rem] h-[12rem] untildesktop:h-[11.3rem] mb-[5rem] mt-[5.5rem] mx-auto">
-            <img class="py-[4rem] px-[2rem]" src="./assets/img/coindesk.svg" />
-            <img class="py-[4rem] px-[2rem]" src="./assets/img/bitcoin-magazine.svg" />
-            <img class="py-[4rem] px-[2rem]" src="./assets/img/forbes.svg" />
-            <img class="py-[4rem] px-[2rem]" src="./assets/img/business-insider.svg" />
-            <img class="py-[4rem] px-[2rem]" src="./assets/img/yahoo-finance.svg" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="features" class="relative bg-no-repeat bg-contain bg-[url('./assets/img/section-3.png')] bg-[center_top]">
-      <h1 class="pt-[12.25rem] px-[3rem] text-white font-light mx-auto w-full text-center text-[12.5rem] untildesktop:text-[9rem] tracking-[-0.04em] leading-[100%]">
-        Feature Rich
-      </h1>
-      <h3 class="uppercase ibm-plex-mono-light text-white/70 text-[2.75rem] leading-[100%] pt-[4.5rem] text-center max-w-[76.625rem] px-[3rem] mx-auto">
-        purpose-built to guarantee every miner receives their full earnings
-      </h3>
-      <div class="max-w-[157rem] pt-[12.25rem] pb-[19.25rem] untilmobile504:pb-[10rem] mx-auto flex flex-col">
-        <div class="flex flex-wrap flex-1 justify-stretch">
-          <div class="flex-1 relative max-w-[76.5rem] min-h-[58.25rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28">
-            <h3 class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]">Stratum V2</h3>
-            <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]">
-              End-to-end encrypted, binary protocol. Secure. Efficient. Future-Proof.
-            </p>
-            <img class="w-[45rem] absolute -right-2 -bottom-2 mix-blend-luminosity" src="./assets/img/feature-1.png" />
-          </div>
-          <div class="flex-1 relative max-w-[76.5rem] min-h-[58.25rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28">
-            <h3 class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]">Enterprise FOSS Software</h3>
-            <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]">
-              Open source, production-grade mining software. Built for mining enterprises.
-            </p>
-            <img class="w-[45rem] absolute -right-2 -bottom-2 mix-blend-luminosity" src="./assets/img/feature-2.png" />
-          </div>
-        </div>
-        <div class="flex flex-wrap flex-1 justify-stretch">
-          <div class="flex-1 relative max-w-[76.5rem] min-h-[55rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28">
-            <h3 class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]">Encrypted Multiplexing</h3>
-            <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]">
-              Low latency. High throughput. Fully encrypted.
-            </p>
-            <img class="w-[36rem] absolute -right-2 -bottom-2 mix-blend-luminosity" src="./assets/img/feature-3.png" />
-          </div>
-          <div class="flex-1 relative max-w-[76.5rem] min-h-[55rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28">
-            <h3 class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]">Miner-Side Block Templates</h3>
-            <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]">
-              You choose the block you mine. Not the pool.
-            </p>
-            <img class="w-[36rem] absolute -right-2 -bottom-2 mix-blend-luminosity" src="./assets/img/feature-4.png" />
-          </div>
-          <div class="flex-1 relative max-w-[92rem] min-h-[55rem] py-[4.5rem] px-[4.5rem] my-[1rem] mx-[1rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28">
-            <h3 class="text-white font-light text-[4.5rem] leading-[100%] max-w-[40.125rem]">Modular Software Stack</h3>
-            <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] max-w-[37.5rem] mt-[4.5rem]">
-              Plug-and-play architecture. Customize your operations. Scale with ease.
-            </p>
-            <img class="w-[36rem] absolute -right-2 -bottom-2 mix-blend-luminosity" src="./assets/img/feature-5.png" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bg-[url('./assets/img/section-4.png')] untildesktop:bg-[center_top] bg-[left_-8rem] bg-cover">
-      <h3 class="uppercase ibm-plex-mono-light text-white/70 text-[2.75rem] leading-[100%] text-center max-w-[76.625rem] px-[3rem] mt-[10rem] untilmobile504:mt-0 mx-auto">
-        purpose-built to guarantee every miner receives their full earnings
-      </h3>
-      <h1 class="mt-[9rem] text-white font-light mx-auto max-w-[159.625rem] px-[3rem] text-center text-[12.5rem] untildesktop:text-[9rem] tracking-[-0.04em] leading-[100%]">
-        SLICE: Fair, Transparent, and Verifiable Miner Payouts
-      </h1>
-      <div class="max-w-[131.625rem] px-[3rem] mt-[51.5rem] pb-[15rem] untilmobile504:pb-[5rem] mx-auto flex flex-col bg-[#13121A]/37">
-        <div class="flex flex-wrap flex-1 justify-stretch">
-          <div class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] border-r-0 flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem]">
-            <img class="mix-blend-plus-lighter" src="./assets/img/slice-1.png" />
-            <div class="max-w-[28.75rem] mt-[3.75rem] mx-[1rem]">
-              <h3 class="text-white font-light text-[2.75rem] leading-[100%]">You Mine</h3>
-              <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] mt-[3.5rem]">
-                Your workers submit valid shares while connected to DMND Pool.
+
+        <!-- Four freedoms -->
+        <div class="mt-[15rem]">
+          <h3 class="ibm-plex-mono-light uppercase text-white/70 text-[1.875rem] leading-[100%] tracking-[0.2em] text-center mb-[6rem]">
+            Four ways you earn more
+          </h3>
+          <div class="flex flex-wrap gap-[3rem] justify-center">
+            <div class="flex-1 min-w-[35rem] max-w-[42rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem]">
+              <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.5rem] tracking-[0.2em] mb-[2rem]">01</div>
+              <h3 class="text-white font-light text-[3rem] leading-[110%] mb-[2.5rem]">Choose your transactions</h3>
+              <p class="text-white/70 font-light text-[2rem] leading-[145%]">
+                Build the mempool selection you want. No more accepting whatever the pool decides to include.
               </p>
             </div>
-            <div class="absolute right-6 top-2 ibm-plex-mono-light text-white text-[2.5rem]">01</div>
-          </div>
-          <div class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] border-r-0 untilslicebreak836:border-r-[0.125rem] flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem]">
-            <img class="mix-blend-plus-lighter" src="./assets/img/slice-2.png" />
-            <div class="max-w-[28.75rem] mt-[3.75rem] mx-[1rem]">
-              <h3 class="text-white font-light text-[2.75rem] leading-[100%]">Shares Are Logged & Tracked</h3>
-              <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] mt-[3.5rem]">
-                Every valid share is recorded and assigned to your miner profile.
+            <div class="flex-1 min-w-[35rem] max-w-[42rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem]">
+              <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.5rem] tracking-[0.2em] mb-[2rem]">02</div>
+              <h3 class="text-white font-light text-[3rem] leading-[110%] mb-[2.5rem]">Capture the fees</h3>
+              <p class="text-white/70 font-light text-[2rem] leading-[145%]">
+                The coinbase is yours, not the pool's. Fees other pools leave on the table go straight to you.
               </p>
             </div>
-            <div class="absolute right-6 top-2 ibm-plex-mono-light text-white text-[2.5rem]">02</div>
-          </div>
-          <div class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] untilslicebreak836:border-r-0 untilslicebreak836:border-t-0 flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem]">
-            <img class="mix-blend-plus-lighter" src="./assets/img/slice-3.png" />
-            <div class="max-w-[28.75rem] mt-[3.75rem] mx-[1rem]">
-              <h3 class="text-white font-light text-[2.75rem] leading-[100%]">Block found</h3>
-              <p class="text-white/70 font-light text-[2.75rem] untildesktop:text-[2.25rem] leading-[100%] mt-[3.5rem]">
-                Once a block is found, payout is calculated based on share contribution.
+            <div class="flex-1 min-w-[35rem] max-w-[42rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem]">
+              <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.5rem] tracking-[0.2em] mb-[2rem]">03</div>
+              <h3 class="text-white font-light text-[3rem] leading-[110%] mb-[2.5rem]">Signal your BIPs</h3>
+              <p class="text-white/70 font-light text-[2rem] leading-[145%]">
+                Your hashpower votes on the soft-forks that shape Bitcoin's future fee markets. Not the pool. Not by default.
               </p>
             </div>
-            <div class="absolute right-6 top-2 ibm-plex-mono-light text-white text-[2.5rem]">03</div>
+            <div class="flex-1 min-w-[35rem] max-w-[42rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[4rem]">
+              <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.5rem] tracking-[0.2em] mb-[2rem]">04</div>
+              <h3 class="text-white font-light text-[3rem] leading-[110%] mb-[2.5rem]">Keep merge-mining rewards</h3>
+              <p class="text-white/70 font-light text-[2rem] leading-[145%]">
+                Rootstock rBTC — and any future merge-mined chain — is yours. You built the block.
+              </p>
+            </div>
           </div>
-          <div class="min-w-[32.25rem] untilslicebreak578:min-w-min border-[0.125rem] border-[#42474C] border-t-0 flex-1 basis-1/3 relative max-w-[41,875rem] w-[40rem] min-h-[38,5rem] py-[2rem] px-[4rem] flex items-center justify-center">
-            <h3 class="text-white font-light text-[2.75rem] leading-[100%] flex items-center gap-[2rem]">
-              Learn More
-              <a href="slice.html"><img src="./assets/img/arrow-right.png" class="w-[6.25rem]" /></a>
-            </h3>
-          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-[12rem]">
+          <a href="https://blog.dmnd.work/build-your-own-blocks-set-up-dmnd-end-to-end/" class="inline-block px-[7rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">
+            See the setup guide →
+          </a>
         </div>
       </div>
     </div>
-    <div class="relative bg-[url('./assets/img/section-5.png')] h-[144rem] untilmobile504:h-[95rem] bg-[center_top] bg-cover overflow-hidden">
-      <h1 class="pt-[12.25rem] untilmobile504:pt-[5rem] px-[3rem] text-white font-light mx-auto w-full text-center text-[12.5rem] untildesktop:text-[9rem] tracking-[-0.04em] leading-[100%]">
-        Your Operation Visualized
-      </h1>
-      <h3 class="uppercase ibm-plex-mono-light text-white/70 text-[2.75rem] leading-[100%] pt-[4.5rem] text-center max-w-[76.625rem] px-[3rem] mx-auto">
-        Live mining data, earnings, and performance — all in one powerful interface
+
+    <!-- ============================================================
+         SLICE (rebuilt)
+         ============================================================ -->
+    <div class="relative bg-[url('./assets/img/section-4.png')] untildesktop:bg-[center_top] bg-[left_-8rem] bg-cover">
+      <h3 class="uppercase ibm-plex-mono-light text-[#EF3A2E] text-[2rem] tracking-[0.2em] leading-[100%] text-center pt-[15rem] untilmobile504:pt-[10rem]">
+        The DMND Payout System
       </h3>
-      <img class="pl-[17rem] mt-[17rem] untildashcut:hidden" src="./assets/img/section-5-dashboard.png" />
-      <img class="mt-[12rem] afterdashcut:hidden" src="./assets/img/section_5.png" />
-    </div>
-    <div class="bg-[url('./assets/img/section-8.png')] bg-[center_top] bg-cover">
-      <h1 class="pt-[50.75rem] text-white font-light mx-auto max-w-[103rem] px-[3rem] text-center text-[10rem] tracking-[-0.04em] leading-[100%]">
-        Decentralized Mining Node Distribution
+      <h1 class="mt-[5rem] text-white font-light mx-auto max-w-[159.625rem] px-[3rem] text-center text-[12.5rem] untildesktop:text-[9rem] tracking-[-0.04em] leading-[100%]">
+        SLICE: Get paid for the block, not just the work.
       </h1>
-      <h3 class="uppercase ibm-plex-mono-light text-white text-[2.75rem] leading-[100%] text-center max-w-[61.625rem] px-[3rem] mt-[6.25rem] mx-auto">
-        Fair payouts. Full control. Stratum V2 starts here.
+      <h3 class="ibm-plex-mono-light text-center text-white/70 text-[2.75rem] leading-[145%] mt-[7rem] max-w-[110rem] px-[3rem] mx-auto">
+        SLICE splits every block reward two ways — <span class="text-white">subsidy by hashrate</span>, <span class="text-white">fees by the value you built</span>. Lower variance than PPLNS, cheaper than FPPS, and it pays you when you build your own blocks.
       </h3>
-      <div class="mx-auto px-[3rem]">
-        <a href="https://join.dmnd.work" class="mt-[8rem] block mx-auto px-[9rem] py-[1.5rem] max-w-[42rem] border-[0.125rem] border-white/20 rounded-full text-[2.75rem] text-center text-white">Join Now</a>
+
+      <!-- Diagram -->
+      <div class="max-w-[110rem] px-[3rem] mt-[10rem] mx-auto">
+        <img src="./assets/img/slice-diagram-dark.png" alt="Block reward split: subsidy paid by classic PPLNS, fees paid by PPLNS + Job Declaration scoring" class="w-full block" />
       </div>
-      <footer class="mt-[7rem] pb-[8rem] px-[3rem]">
+
+      <!-- Compact comparison table -->
+      <div class="max-w-[131.625rem] px-[3rem] mt-[12rem] mx-auto">
+        <h3 class="ibm-plex-mono-light uppercase text-white/70 text-[1.875rem] leading-[100%] tracking-[0.2em] text-center mb-[5rem]">
+          How SLICE Compares
+        </h3>
+        <div class="rounded-[1.5rem] border-[0.125rem] border-white/20 overflow-hidden bg-black/40">
+          <table class="w-full text-left ibm-plex-sans" style="border-collapse: collapse;">
+            <thead>
+              <tr class="bg-[#3A2E54]/40">
+                <th class="p-[3rem] text-white/40 ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.1em] font-normal"></th>
+                <th class="p-[3rem] text-white/70 ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.1em] font-normal">FPPS</th>
+                <th class="p-[3rem] text-white/70 ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.1em] font-normal">PPLNS</th>
+                <th class="p-[3rem] text-[#EF3A2E] ibm-plex-mono-regular uppercase text-[1.75rem] tracking-[0.1em] font-normal">SLICE</th>
+              </tr>
+            </thead>
+            <tbody class="text-white/70 font-light text-[2.25rem]">
+              <tr class="border-t border-white/10">
+                <td class="p-[3rem] text-white font-normal">Miner variance</td>
+                <td class="p-[3rem]">Very low</td>
+                <td class="p-[3rem]">Moderate</td>
+                <td class="p-[3rem] bg-[#EF3A2E]/[0.06] text-white">Low–moderate</td>
+              </tr>
+              <tr class="border-t border-white/10">
+                <td class="p-[3rem] text-white font-normal">Build your own blocks</td>
+                <td class="p-[3rem]">No — pool builds</td>
+                <td class="p-[3rem]">Sometimes</td>
+                <td class="p-[3rem] bg-[#EF3A2E]/[0.06] text-white">Yes, with fee rewards</td>
+              </tr>
+              <tr class="border-t border-white/10">
+                <td class="p-[3rem] text-white font-normal">Centralization pressure</td>
+                <td class="p-[3rem]">High</td>
+                <td class="p-[3rem]">Low</td>
+                <td class="p-[3rem] bg-[#EF3A2E]/[0.06] text-white">Low</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center pt-[10rem] pb-[15rem] untilmobile504:pb-[8rem]">
+        <a href="slice.html" class="inline-block px-[7rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">
+          Learn how SLICE works →
+        </a>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         ROOTSTOCK / MERGE MINING
+         ============================================================ -->
+    <div id="rootstock" class="relative bg-black py-[18rem] untilmobile504:py-[10rem] overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 50% 40% at 50% 0%, rgba(239,58,46,0.10), transparent 70%);"></div>
+
+      <div class="relative max-w-[160.5625rem] mx-auto px-[3rem]">
+        <h3 class="uppercase ibm-plex-mono-light text-[#EF3A2E] text-[2rem] tracking-[0.2em] leading-[100%] text-center">
+          More Rewards · Same Hashpower
+        </h3>
+        <h1 class="mt-[5rem] text-white font-light mx-auto max-w-[130rem] text-center text-[10rem] untildesktop:text-[7.5rem] tracking-[-0.04em] leading-[105%]">
+          Earn rBTC on every block you mine.
+        </h1>
+        <h3 class="ibm-plex-mono-light text-center text-white/70 text-[2.5rem] leading-[145%] mt-[5rem] max-w-[115rem] mx-auto">
+          Same hashpower, extra rewards. Because you build the block on DMND, the coinbase is yours — and it can commit a Rootstock block too, paid to an address you control.
+        </h3>
+
+        <div class="flex flex-wrap gap-[3rem] mt-[12rem] justify-center">
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Same hashing</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Zero extra energy</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              Every hash you already compute for Bitcoin can commit a Rootstock block. No extra electricity, no extra hardware — just extra earnings.
+            </p>
+          </div>
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Miners keep the rBTC</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Not the pool</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              On other pools, merge mining rewards sit in the pool operator's wallet. On DMND, they're yours — because you built the block, you own the coinbase.
+            </p>
+          </div>
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Your address, your keys</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Self-custody by default</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              rBTC is paid to a Rootstock address you set. No custody, no trust, no withdrawal request — same self-custody model as your BTC payouts.
+            </p>
+          </div>
+        </div>
+
+        <div class="text-center mt-[10rem]">
+          <a href="https://blog.dmnd.work/build-your-own-blocks-with-stratum-v2-and-merge-mine-rootstock/" class="inline-block px-[7rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">
+            Set up merge mining →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         TRUST & COMPLIANCE
+         ============================================================ -->
+    <div id="trust" class="relative bg-black py-[18rem] untilmobile504:py-[10rem] overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 50% 40% at 50% 0%, rgba(239,58,46,0.10), transparent 70%);"></div>
+
+      <div class="relative max-w-[160.5625rem] mx-auto px-[3rem]">
+        <h3 class="uppercase ibm-plex-mono-light text-[#EF3A2E] text-[2rem] tracking-[0.2em] leading-[100%] text-center">
+          Security &amp; Compliance
+        </h3>
+        <h1 class="mt-[5rem] text-white font-light mx-auto max-w-[126rem] text-center text-[10rem] untildesktop:text-[7.5rem] tracking-[-0.04em] leading-[105%]">
+          Enterprise-grade trust, verifiable on day one.
+        </h1>
+        <h3 class="ibm-plex-mono-light text-center text-white/70 text-[2.5rem] leading-[140%] mt-[5rem] max-w-[100rem] mx-auto">
+          DMND is SOC 2 Type 2 audited, continuously monitored via Vanta, and independently verified by A-lign. Every security control is public — inspect them yourself.
+        </h3>
+
+        <div class="flex flex-wrap gap-[3rem] mt-[12rem] justify-center">
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">SOC 2 Type 2</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Audited by A-lign</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              Independent verification of DMND's security, availability, and confidentiality controls — the standard enterprise buyers require.
+            </p>
+          </div>
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Zero hash hijacks</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Since launch</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              Stratum V2's end-to-end encryption makes hash hijacking mathematically infeasible — not just policy, but protocol.
+            </p>
+          </div>
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Continuous monitoring</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Live via Vanta</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              Every control status, audit report, and security policy is publicly viewable — no need to email us to ask.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-[6rem] mt-[10rem] flex-wrap">
+          <img src="./assets/img/a-lign-logo.png" class="h-[8rem] opacity-80" alt="A-lign — independent auditor" />
+        </div>
+
+        <div class="text-center mt-[8rem]">
+          <a href="https://app.eu.vanta.com/dmnd.work/trust/4u48n4nf8yiwi9swpqjsf" class="inline-block px-[7rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">
+            View DMND's Trust Center →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         ENTERPRISE TOOLS (replaces Dashboard)
+         ============================================================ -->
+    <div id="enterprise" class="relative bg-black py-[18rem] untilmobile504:py-[10rem] overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(239,58,46,0.10), transparent 70%);"></div>
+
+      <div class="relative max-w-[160.5625rem] mx-auto px-[3rem]">
+        <h3 class="uppercase ibm-plex-mono-light text-[#EF3A2E] text-[2rem] tracking-[0.2em] leading-[100%] text-center">
+          Enterprise Tooling
+        </h3>
+        <h1 class="mt-[5rem] text-white font-light mx-auto max-w-[140rem] text-center text-[10rem] untildesktop:text-[7.5rem] tracking-[-0.04em] leading-[105%]">
+          Institutional-grade visibility. Miner-first defaults.
+        </h1>
+        <h3 class="ibm-plex-mono-light text-center text-white/70 text-[2.5rem] leading-[145%] mt-[5rem] max-w-[115rem] mx-auto">
+          Every metric that matters, exported the way you want. A public API for programmatic integration. A broker dashboard for aggregators. No lock-in, no black boxes.
+        </h3>
+
+        <!-- Screenshot -->
+        <div class="max-w-[140rem] mt-[12rem] mx-auto">
+          <img class="w-full block untildashcut:hidden" src="./assets/img/section-5-dashboard.png" alt="DMND institutional dashboard: live hashrate, rejection accounting, payout history, and revenue accounting with time-resolution controls" />
+          <img class="w-full block afterdashcut:hidden" src="./assets/img/section_5.png" alt="DMND dashboard on tablet" />
+        </div>
+
+        <!-- 3 tiles -->
+        <div class="flex flex-wrap gap-[3rem] mt-[12rem] justify-center">
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Institutional dashboard</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Everything, exported.</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              Live hashrate, rejection accounting, payout history, revenue by day — all with time-resolution controls and CSV exports.
+            </p>
+          </div>
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Public API</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Programmatic access.</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              Per-subaccount authentication. Endpoints for earnings, hashrate, rejection rate, pool fee, miner count, and profitability — plug directly into your stack.
+            </p>
+          </div>
+          <div class="flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem]">
+            <div class="ibm-plex-mono-regular uppercase text-[#EF3A2E] text-[1.75rem] tracking-[0.15em] mb-[2.5rem]">Broker Dashboard</div>
+            <h3 class="text-white font-light text-[3.5rem] leading-[110%] mb-[3rem]">Manage referrals at scale.</h3>
+            <p class="text-white/70 font-light text-[2.25rem] leading-[145%]">
+              Purpose-built for aggregators — instant overview of every referred operation, live metrics, uptime, revenue per client.
+            </p>
+          </div>
+        </div>
+
+        <div class="text-center mt-[10rem]">
+          <a href="https://dashboard.dmnd.work" class="inline-block px-[7rem] py-[1.5rem] bg-[#EF3A2E] rounded-full text-[2.75rem] text-white">
+            Sign in to your dashboard →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         LATEST FROM THE BLOG
+         ============================================================ -->
+    <div id="latest" class="relative bg-black py-[15rem] untilmobile504:py-[10rem]">
+      <div class="max-w-[160.5625rem] mx-auto px-[3rem]">
+        <h3 class="uppercase ibm-plex-mono-light text-[#EF3A2E] text-[2rem] tracking-[0.2em] leading-[100%] text-center">
+          Latest from the blog
+        </h3>
+        <h1 class="mt-[5rem] text-white font-light mx-auto max-w-[126rem] text-center text-[9rem] untildesktop:text-[6.5rem] tracking-[-0.04em] leading-[105%]">
+          Building in public.
+        </h1>
+
+        <div class="flex flex-wrap gap-[3rem] mt-[12rem] justify-center">
+          <a href="https://blog.dmnd.work/build-your-own-blocks-with-stratum-v2-and-merge-mine-rootstock/" class="flex flex-col flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem] transition duration-200 hover:border-[#EF3A2E]/60">
+            <div class="ibm-plex-mono-regular uppercase text-white/50 text-[1.5rem] tracking-[0.15em] mb-[2rem]">27 Jul 2026 · 6 min read</div>
+            <h3 class="text-white font-light text-[3.25rem] leading-[115%] mb-[3rem]">Build Your Own Blocks and Merge Mine Rootstock</h3>
+            <p class="text-white/70 font-light text-[2rem] leading-[145%] flex-1">
+              Earn rBTC rewards from the same hashing, paid straight to an address you control.
+            </p>
+            <div class="mt-[4rem] ibm-plex-mono-light text-[#EF3A2E] text-[1.875rem]">Read →</div>
+          </a>
+
+          <a href="https://blog.dmnd.work/build-your-own-blocks-set-up-dmnd-end-to-end/" class="flex flex-col flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem] transition duration-200 hover:border-[#EF3A2E]/60">
+            <div class="ibm-plex-mono-regular uppercase text-white/50 text-[1.5rem] tracking-[0.15em] mb-[2rem]">20 Jul 2026 · 4 min read</div>
+            <h3 class="text-white font-light text-[3.25rem] leading-[115%] mb-[3rem]">Set Up DMND End to End with Stratum V2</h3>
+            <p class="text-white/70 font-light text-[2rem] leading-[145%] flex-1">
+              A single guide from bare node to mining your own blocks. Ports, flags, and everything in between.
+            </p>
+            <div class="mt-[4rem] ibm-plex-mono-light text-[#EF3A2E] text-[1.875rem]">Read →</div>
+          </a>
+
+          <a href="https://blog.dmnd.work/understanding-slice-pplns-jd/" class="flex flex-col flex-1 min-w-[45rem] max-w-[52rem] rounded-[1.5rem] border-[0.125rem] border-white/20 bg-[#3A2E54]/28 p-[5rem] transition duration-200 hover:border-[#EF3A2E]/60">
+            <div class="ibm-plex-mono-regular uppercase text-white/50 text-[1.5rem] tracking-[0.15em] mb-[2rem]">Deep dive · 8 min read</div>
+            <h3 class="text-white font-light text-[3.25rem] leading-[115%] mb-[3rem]">Understanding SLICE (PPLNS + JD)</h3>
+            <p class="text-white/70 font-light text-[2rem] leading-[145%] flex-1">
+              How SLICE splits block rewards to pay you for the value you built, not just the work.
+            </p>
+            <div class="mt-[4rem] ibm-plex-mono-light text-[#EF3A2E] text-[1.875rem]">Read →</div>
+          </a>
+        </div>
+
+        <div class="text-center mt-[10rem]">
+          <a href="https://blog.dmnd.work/" class="inline-block px-[6rem] py-[1.5rem] border-[0.125rem] border-white/20 rounded-full text-[2.5rem] text-white hover:bg-white/5">
+            Browse all posts →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <div class="bg-black">
+      <footer class="pt-[15rem] pb-[8rem] px-[3rem]">
         <div class="text-center">
           <a href="https://x.com/DMND_Sv2" class="ibm-plex-mono-light text-white text-[2rem] underline p-[1.5rem]">X</a>
           <a href="https://www.linkedin.com/company/dmndpool" class="ibm-plex-mono-light text-white text-[2rem] underline p-[1.5rem]">LINKEDIN</a>
