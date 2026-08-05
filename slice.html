@@ -6,7 +6,7 @@
 <title>SLICE — Fair, transparent, verifiable miner payouts | DMND</title>
 <meta name="description" content="SLICE is DMND's payout system for Stratum V2. It splits block rewards into subsidy (paid by PPLNS on hashrate) and fees (paid by PPLNS + Job Declaration scoring) — so miners are rewarded for the value of the block they build, not just the work.">
 <meta property="og:title" content="SLICE — Fair, transparent, verifiable miner payouts">
-<meta property="og:description" content="A mining pool payout system built for Stratum V2. Lower variance than PPLNS, cheaper than FPPS, and fully compatible with miner-built block templates.">
+<meta property="og:description" content="A mining pool payout system built for Stratum V2. Comparable variance to PPLNS with fairer fee attribution, none of FPPS's insurance overhead, and fully compatible with miner-built block templates.">
 <meta property="og:image" content="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-1-block-reward-split.png">
 <meta property="og:url" content="https://www.dmnd.work/slice.html">
 <meta property="og:type" content="article">
@@ -246,6 +246,20 @@
   }
   .tldr p { color: var(--text); margin: 0; }
 
+  /* Pull quote */
+  .pullquote {
+    margin: 32px 0;
+    padding: 24px 28px;
+    border-left: 3px solid var(--accent);
+    background: rgba(226, 55, 68, 0.06);
+    border-radius: 0 8px 8px 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
   /* Glossary */
   .glossary {
     display: grid;
@@ -420,6 +434,9 @@
     font-size: 16px;
   }
   section.final-cta a.secondary:hover { background: var(--bg-card); text-decoration: none; }
+  section.final-cta .whitepaper-link { margin-top: 20px; font-size: 14px; }
+  section.final-cta .whitepaper-link a { color: var(--text-dim); text-decoration: underline; text-decoration-color: var(--border); }
+  section.final-cta .whitepaper-link a:hover { color: var(--text); }
 
   /* Footer */
   footer {
@@ -470,7 +487,7 @@
 <header class="hero">
   <div class="eyebrow">Payout system — PPLNS + Job Declaration</div>
   <h1>SLICE</h1>
-  <p class="subtitle">Fair, transparent, verifiable miner payouts — built for Stratum V2. Lower variance than PPLNS, cheaper than FPPS, and fully compatible with miner-built block templates.</p>
+  <p class="subtitle">Fair, transparent, verifiable miner payouts — built for Stratum V2. Comparable variance to PPLNS with fairer fee attribution, none of FPPS's insurance overhead, and fully compatible with miner-built block templates.</p>
   <a href="https://join.dmnd.work" class="hero-cta">Start mining with DMND →</a>
   <a href="#tldr" class="hero-cta secondary">Read the explainer</a>
 </header>
@@ -484,6 +501,7 @@
       <li><a href="#glossary">Glossary</a></li>
       <li><a href="#intro">Introduction</a></li>
       <li><a href="#adapting">Adapting PPLNS to SV2</a></li>
+      <li><a href="#necessity">Why JD requires this</a></li>
       <li><a href="#fair-slices">Creating fair slices</a></li>
       <li><a href="#slice-size">The size of a slice</a></li>
       <li><a href="#measuring">Measuring hashrate</a></li>
@@ -512,34 +530,45 @@
       <dt>JD <span style="color: var(--text-muted); font-weight: 400;">— Job Declaration</span></dt>
       <dd>A Stratum V2 feature that lets miners construct their own block templates using their own node, instead of accepting a template pushed by the pool.</dd>
       <dt>MMEV <span style="color: var(--text-muted); font-weight: 400;">— Maximum Mempool Extractable Value</span></dt>
-      <dd>The highest total fee value a block could possibly capture from the mempool at a given moment.</dd>
+      <!-- CONFIRM (ein): denominator used in scoring — is it the best OBSERVED share in the slice (as worked example 0.4/0.5 implies), or an independently COMPUTED mempool optimum? Definition below is written to the observed-proxy reading. Flip if computed. -->
+      <dd>The highest total fee value a block could capture from the mempool at a given moment. True MMEV cannot be measured directly in real time, so SLICE scores each slice against the highest-fee template <em>actually observed</em> in it — an empirical proxy for MMEV within that slice.</dd>
       <dt>SRI <span style="color: var(--text-muted); font-weight: 400;">— Stratum Reference Implementation</span></dt>
       <dd>The FOSS reference implementation of Stratum V2.</dd>
     </dl>
 
     <h2 id="intro">Introduction</h2>
-    <p>DMND Pool is the first pool to use Stratum V2, a protocol developed over the past five years by FOSS developers in the Bitcoin space, primarily the Stratum Reference Implementation (SRI) team. Stratum V2's goal is to decentralize Bitcoin — specifically mining and pooled mining — by fixing the wrong turn Stratum V1 took when it shifted block template creation from miners to pool operators.</p>
-    <p>But decentralizing pooled mining is a two-front problem. Full Pay Per Share (FPPS) has quietly centralized the network at the economic layer: today a handful of pools decide which transactions get mined. Even with universal Stratum V2 adoption, FPPS-style incentives would still push the industry toward centralization.</p>
+    <p>DMND Pool mined the first Stratum V2 block built end to end from a miner's own template using Job Declaration — block 955,318, on 25 June 2026. Stratum V2 is a protocol developed over the past five years by FOSS developers in the Bitcoin space, primarily the Stratum Reference Implementation (SRI) team. Its goal is to decentralize Bitcoin — specifically mining and pooled mining — by fixing the wrong turn Stratum V1 took when it shifted block template creation from miners to pool operators.</p>
+    <p>But decentralizing pooled mining is a <strong>two-front problem — technical and economic</strong>. Stratum V2 addresses the technical front by handing template creation back to miners. It does not touch the economic front. Full Pay Per Share (FPPS) has quietly centralized the network at the economic layer: because the pool must estimate fees and pay a fixed rate per share, it absorbs all the variance — which is expensive to run and pushes hashrate toward the few pools large enough to bankroll it. The result is that today a handful of pools decide which transactions get mined. Even with universal Stratum V2 adoption, FPPS-style incentives would still push the industry toward centralization.</p>
     <p>SLICE is a mining pool payment system designed to close the economic gap. It's engineered to work alongside Stratum V2's technical design, so both centralization vectors — technical and economic — are addressed together. Fair, transparent, low variance, and aligned with decentralization.</p>
 
     <h2 id="adapting">SLICE: adapting PPLNS to Stratum V2</h2>
     <p>For a pool trying to decentralize, PPLNS is one of the best options available. It's transparent, easy to verify, cheap to operate — it's an actual payout, not an insurance product like FPPS — and it distributes rewards proportionally to hashrate contributed.</p>
-    <p>But PPLNS wasn't built for Stratum V2. It assumes every miner is working on the same block template, so it has no way to reward a miner who chose to build a <em>better</em> block than their neighbour. That's the Achilles heel, and it gets worse as fees become a larger share of block revenue.</p>
+    <p>PPLNS assumes every miner is working on the same block template. If two miners submit equal work, they earn equal reward — because they had the same opportunity to collect transaction fees. Under Job Declaration that assumption no longer holds: two miners contributing identical hashrate may be mining different templates with different fee values, and classic PPLNS has no mechanism to tell them apart. That's the Achilles heel, and it gets worse as fees become a larger share of block revenue.</p>
     <p>SLICE fixes this by splitting each block reward in two:</p>
     <ul>
       <li><strong>Block subsidy</strong> — distributed by classic PPLNS, based purely on hashrate contributed inside the lookback window.</li>
       <li><strong>Transaction fees</strong> — distributed by PPLNS <em>plus</em> Job Declaration scoring, so each share is weighted by both its hashrate and the fee value of the template it was mining against.</li>
     </ul>
     <p>Because the fee portion uses Stratum V2's Job Declarator, SLICE is also called PPLNS+JD.</p>
+    <div class="pullquote">Subsidy rewards work. Fees reward valuable work.</div>
     <figure>
       <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-1-block-reward-split.png" alt="Block reward split: subsidy paid by classic PPLNS, fees paid by PPLNS + JD scoring" loading="lazy">
-      <figcaption>Subsidy rewards work. Fees reward valuable work.</figcaption>
+      <figcaption>Block reward split: the subsidy is paid by classic PPLNS, the fees by PPLNS + JD scoring.</figcaption>
     </figure>
+
+    <h2 id="necessity">Why template-aware payouts become necessary under JD</h2>
+    <p>Job Declaration doesn't just enable a new payout system — it makes one necessary. The logic is short:</p>
+    <ol>
+      <li>Classical PPLNS assumes every miner mines the same template.</li>
+      <li>Job Declaration removes that assumption: miners build their own templates, of differing fee value.</li>
+      <li>Therefore a payout system must distinguish between equally difficult work performed on templates of different value — or it systematically underpays the miners building the most valuable blocks.</li>
+    </ol>
+    <p>None of those premises names a specific design. They only establish that <strong>template awareness is now required</strong>. SLICE is our answer to that requirement.</p>
 
     <h2 id="fair-slices">Creating fair slices</h2>
     <p>Splitting the reward isn't enough on its own. If we scored every share inside the lookback window against the same fee benchmark, we'd punish earlier shares for something they had no control over: fewer transactions in the mempool when they were submitted.</p>
-    <p>The mempool is not static. New transactions arrive constantly, often at higher fee rates than the ones already there. A share submitted at 10:00 has access to a mempool that literally could not have existed at 09:55. Scoring both against the same maximum-fee benchmark would penalise the 09:55 share for time travel it couldn't do. This is the same failure mode that sank older systems like SCORE.</p>
-    <p>The fix is to divide the lookback window into short slices of time. Inside each slice, every share is scored against the highest-value share in that slice — the assumption being that within a short enough window, everyone had roughly the same opportunity to build a valuable template. The benchmark (MMEV) keeps climbing as new high-fee transactions land, so the incentive to construct the best possible block is continuous.</p>
+    <p>The mempool is not static. New transactions arrive constantly, often at higher fee rates than the ones already there. A share submitted at 10:00 has access to a mempool that literally could not have existed at 09:55. Scoring both against the same maximum-fee benchmark would penalise the 09:55 share for transactions that had not yet entered the mempool. In effect, it would ask miners to compete against a future they could not observe. This is the same failure mode that sank older systems like SCORE.</p>
+    <p>The fix is to divide the lookback window into short slices of time. Inside each slice, every share is scored against the highest-value share <em>observed in that slice</em> — the assumption being that within a short enough window, everyone had roughly the same opportunity to build a valuable template. The benchmark (our observed proxy for MMEV) keeps climbing as new high-fee transactions land, so the incentive to construct the best possible block is continuous.</p>
     <figure>
       <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-3-mmev-curve.png" alt="MMEV rises over time; shares are scored against the best share in their own slice, not across the whole window" loading="lazy">
       <figcaption>MMEV rises over time. Each share is scored against the best in its own slice — not across the whole window.</figcaption>
@@ -557,7 +586,8 @@
       <li>A new block is found — the current slice closes.</li>
       <li>MMEV increases by a threshold X — the current slice closes and a new one waits until MMEV rises by another X.</li>
     </ol>
-    <p>The pool chooses X. Smaller X means more slices, which means finer-grained fairness. Slice length is dynamic and driven by real mempool activity, not a fixed clock.</p>
+    <!-- CONFIRM (ein): what is X? Fixed satoshi amount / percentage of current MMEV / operator-tuned per conditions? Add a concrete definition or example here once decided. -->
+    <p>X is set by the pool. Smaller X means more slices, which means finer-grained fairness. Slice length is dynamic and driven by real mempool activity, not a fixed clock.</p>
     <figure>
       <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-2-slice-timeline.png" alt="Slices close on new blocks or when MMEV rises by X" loading="lazy">
       <figcaption>Slices close on new blocks or when MMEV rises by X.</figcaption>
@@ -566,18 +596,20 @@
 
     <h2 id="measuring">A note on measuring hashrate</h2>
     <div class="callout">
-      Nothing on Bitcoin — no machine, no farm, no pool, not even the network itself — has directly measurable hashrate. Hashrate is always <em>inferred</em> from the shares submitted at a known difficulty. That's why every hashrate number fluctuates: it's a statistical estimate that gets better with more samples. Pools ask for many shares per minute specifically to smooth this out. <strong>Quick sanity check:</strong> compare daily blocks to network hashrate on Glassnode or Coinmetrics — they track tightly over any two-week difficulty period, then jump at the adjustment.
+      Hashrate is never observed directly. It is inferred statistically from valid work submitted over time — no machine, farm, pool, or even the network itself has a directly measurable hash rate. That's why every hashrate number fluctuates: it's a statistical estimate that gets better with more samples. Pools ask for many shares per minute specifically to smooth this out. <strong>Quick sanity check:</strong> compare daily blocks to network hashrate on Glassnode or Coinmetrics — they track tightly over any two-week difficulty period, then jump at the adjustment.
     </div>
 
     <h2 id="share-treatment">How SLICE treats shares</h2>
-    <p>DMND Pool targets 6 shares per minute per client and adjusts each miner's pool difficulty dynamically to hit that rate.</p>
+    <p>Pool difficulty exists solely to regulate how often miners submit proofs of work. It's a measurement tool, not a measure of value. DMND Pool targets 6 shares per minute per client and adjusts each miner's pool difficulty dynamically to hit that rate.</p>
     <p>When a miner submits a share above their pool difficulty, it's added to the current slice — but <strong>every share is valued at the pool difficulty, not at the actual difficulty of the specific share it happened to be</strong>. This matters for fairness.</p>
-    <p>Consider a miner who gets lucky and finds a block. The current network difficulty is above 110T, and DMND's lookback window covers 8× the network difficulty of work. If we counted the lucky share at its true difficulty, that single share would occupy an eighth of the entire window and vacuum up an eighth of all rewards — including rewards owed to other miners who did the same amount of actual work.</p>
+    <p>Consider a miner who gets lucky and finds a block. Say network difficulty is around 110T, and DMND's lookback window covers 8× the network difficulty of work. If we counted the lucky share at its true difficulty, that single share would occupy an eighth of the entire window and vacuum up an eighth of all rewards — including rewards owed to other miners who did the same amount of actual work.</p>
     <figure>
       <img src="https://storage.ghost.io/c/8f/fc/8ffc4c5e-fd08-45c1-9a1c-d73a3116a148/content/images/2026/08/image-5-lookback-window.png" alt="Lookback window = 8× network difficulty, containing many slices, sliding forward over time" loading="lazy">
       <figcaption>Lookback window = 8× the current network difficulty of work. When the boundary lands mid-slice, the whole slice is included.</figcaption>
     </figure>
-    <p>That's a windfall for one miner and a rip-off for everyone else. Valuing all shares at pool difficulty — including the winning one — keeps the system balanced.</p>
+    <div class="callout">
+      <strong>The point:</strong> valuing every share at pool difficulty — including a block-finding share — stops one lucky miner from vacuuming up rewards owed to everyone who did the same actual work. That keeps the system balanced.
+    </div>
 
     <h2 id="payouts">Payouts in SLICE</h2>
     <p>DMND's lookback window is 8× the current network difficulty of work. When a block is found, the pool walks back through recent slices until the accumulated difficulty reaches that threshold. If the boundary lands mid-slice, the whole slice is included — no share gets orphaned by rounding.</p>
@@ -586,7 +618,7 @@
     <h2 id="example">A worked example</h2>
     <div class="worked-example">
       <h3>Payout math in one slice</h3>
-      <p>Say a miner submits <strong>100 shares</strong> at their assigned pool difficulty during one slice. The slice contains <strong>1,000 shares</strong> total from all miners. The highest-fee share in the slice was built against a template worth <strong>0.5 BTC</strong> in fees. Our miner's shares were built against templates worth <strong>0.4 BTC</strong> on average.</p>
+      <p>Say a miner submits <strong>100 shares</strong> at their assigned pool difficulty during one slice. The slice contains <strong>1,000 shares</strong> total from all miners. The highest-fee share in the slice was built against a template worth <strong>0.5 BTC</strong> in fees. Our miner's shares were built against templates worth <strong>0.4 BTC</strong> on average. <span style="color: var(--text-muted);">(Figures illustrative.)</span></p>
       <div class="example-math">
         <div class="row"><span class="comment"># Subsidy portion — proportional to raw share count</span></div>
         <div class="row">subsidy_share  =  100 / 1,000  =  <strong style="color: var(--warning);">10%</strong>  of slice's subsidy allocation</div>
@@ -640,7 +672,7 @@
             <td>Miner variance</td>
             <td>Very low</td>
             <td>Moderate</td>
-            <td class="slice">Low–moderate</td>
+            <td class="slice">Comparable to PPLNS</td>
           </tr>
           <tr>
             <td>Cost to pool</td>
@@ -649,16 +681,16 @@
             <td class="slice">Low</td>
           </tr>
           <tr>
-            <td>Compatible with Job Declaration</td>
+            <td>Rewards template quality</td>
             <td>No</td>
-            <td>Partially</td>
+            <td>No</td>
             <td class="slice">Yes</td>
           </tr>
           <tr>
-            <td>Transparency</td>
-            <td>Opaque fee assumptions</td>
-            <td>Fully verifiable</td>
-            <td class="slice">Fully verifiable</td>
+            <td>Independently verifiable</td>
+            <td>No (opaque fee assumptions)</td>
+            <td>Yes</td>
+            <td class="slice">Yes</td>
           </tr>
           <tr>
             <td>Centralization pressure</td>
@@ -678,11 +710,12 @@
 
 <section class="final-cta">
   <h2>Ready to mine on a pool that pays you fairly?</h2>
-  <p>DMND is the first pool built on Stratum V2 — with SLICE, you get transparent payouts, low variance, and the freedom to choose the blocks you mine.</p>
+  <p>DMND mined the first Stratum V2 block built end to end from a miner's own template — with SLICE, you get transparent payouts, low variance, and the freedom to choose the blocks you mine.</p>
   <div class="buttons">
     <a href="https://join.dmnd.work" class="primary">Join Now</a>
     <a href="https://blog.dmnd.work/understanding-slice-pplns-jd/" class="secondary">Read the deep-dive</a>
   </div>
+  <div class="whitepaper-link"><a href="https://www.dmnd.work/pplns-with-job-declaration/pplns-with-job-declaration.pdf">Read the PPLNS with Job Declaration whitepaper →</a></div>
 </section>
 
 <footer>
