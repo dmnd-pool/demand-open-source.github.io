@@ -337,6 +337,7 @@
     color: var(--text-dim);
   }
   .callout strong { color: var(--text); }
+  .callout.proof { border-left: 3px solid var(--success); }
 
   /* Worked example box */
   .worked-example {
@@ -542,7 +543,7 @@
     <p>SLICE is a mining pool payment system designed to close the economic gap. It's engineered to work alongside Stratum V2's technical design, so both centralization vectors — technical and economic — are addressed together. Fair, transparent, low variance, and aligned with decentralization.</p>
 
     <h2 id="adapting">SLICE: adapting PPLNS to Stratum V2</h2>
-    <p>For a pool trying to decentralize, PPLNS is one of the best options available. It's transparent, easy to verify, cheap to operate — it's an actual payout, not an insurance product like FPPS — and it distributes rewards proportionally to hashrate contributed.</p>
+    <p>For a pool trying to decentralize, PPLNS is one of the best options available. It's transparent, easy to verify, cheap to operate — it's an actual payout, not an insurance product like FPPS — and it distributes rewards proportionally to hashrate contributed. That cost difference matters beyond the balance sheet: because SLICE never has to bankroll variance the way an FPPS pool does, DMND isn't pushed onto the grow-or-die treadmill that FPPS economics create. The pool's incentives stay aligned with paying miners fairly, not with getting large enough to absorb risk.</p>
     <p>PPLNS assumes every miner is working on the same block template. If two miners submit equal work, they earn equal reward — because they had the same opportunity to collect transaction fees. Under Job Declaration that assumption no longer holds: two miners contributing identical hashrate may be mining different templates with different fee values, and classic PPLNS has no mechanism to tell them apart. That's the Achilles heel, and it gets worse as fees become a larger share of block revenue.</p>
     <p>SLICE fixes this by splitting each block reward in two:</p>
     <ul>
@@ -564,6 +565,9 @@
       <li>Therefore a payout system must distinguish between equally difficult work performed on templates of different value — or it systematically underpays the miners building the most valuable blocks.</li>
     </ol>
     <p>None of those premises names a specific design. They only establish that <strong>template awareness is now required</strong>. SLICE is our answer to that requirement.</p>
+    <div class="callout proof">
+      <strong>Not theoretical.</strong> DMND has run Stratum V2 with miner-built templates in production since block 955,318 (25 June 2026) — the first time any pool mined a block built end to end from the miner's own template. Everything below describes a system that is live, not a proposal.
+    </div>
 
     <h2 id="fair-slices">Creating fair slices</h2>
     <p>Splitting the reward isn't enough on its own. If we scored every share inside the lookback window against the same fee benchmark, we'd punish earlier shares for something they had no control over: fewer transactions in the mempool when they were submitted.</p>
@@ -608,11 +612,14 @@
       <figcaption>Lookback window = 8× the current network difficulty of work. When the boundary lands mid-slice, the whole slice is included.</figcaption>
     </figure>
     <div class="callout">
-      <strong>The point:</strong> valuing every share at pool difficulty — including a block-finding share — stops one lucky miner from vacuuming up rewards owed to everyone who did the same actual work. That keeps the system balanced.
+      <strong>What this protects:</strong> valuing every share at pool difficulty — including a block-finding share — means a luckier neighbour can't capture the reward your work earned. Nobody wins a windfall at the expense of miners who did the same actual work. That's a protection SLICE gives you, not an accounting detail.
     </div>
 
     <h2 id="payouts">Payouts in SLICE</h2>
-    <p>DMND's lookback window is 8× the current network difficulty of work. When a block is found, the pool walks back through recent slices until the accumulated difficulty reaches that threshold. If the boundary lands mid-slice, the whole slice is included — no share gets orphaned by rounding.</p>
+    <p>DMND's lookback window is 8× the current network difficulty of work. When a block is found, the pool walks back through recent slices until the accumulated difficulty reaches that threshold.</p>
+    <div class="callout">
+      <strong>No share left behind.</strong> If the window boundary lands in the middle of a slice, the whole slice is included rather than truncated — so no share is ever orphaned by rounding. Every valid share you submit is accounted for in full.
+    </div>
     <p>Inside the window, shares pay out under the two-track rule: <strong>subsidy by hashrate, fees by hashrate weighted by fee score within the share's slice</strong>.</p>
 
     <h2 id="example">A worked example</h2>
@@ -645,8 +652,8 @@
         <p>When you start mining, your first payouts are smaller than the steady-state rate. It takes about eight rounds before your full contribution is reflected.</p>
       </div>
       <div class="card">
-        <h4>Ramp-down</h4>
-        <p>When you stop mining, your payouts don't stop immediately. Your shares continue to earn until they age out of the window.</p>
+        <h4>Ramp-down — your work keeps paying</h4>
+        <p>When you stop mining, your earnings don't stop with you. The shares you already contributed keep paying out as they age out of the window — you're compensated for hashrate you actually delivered, not cut off the instant you disconnect.</p>
       </div>
     </div>
 
@@ -662,6 +669,18 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>Rewards template quality</td>
+            <td>No</td>
+            <td>No</td>
+            <td class="slice">Yes</td>
+          </tr>
+          <tr>
+            <td>Independently verifiable</td>
+            <td>No (opaque fee assumptions)</td>
+            <td>Not typically (trust the pool's share count)</td>
+            <td class="slice">Yes — shares and scoring are published</td>
+          </tr>
           <tr>
             <td>Payout basis</td>
             <td>Insurance (fixed rate per share)</td>
@@ -681,18 +700,6 @@
             <td class="slice">Low</td>
           </tr>
           <tr>
-            <td>Rewards template quality</td>
-            <td>No</td>
-            <td>No</td>
-            <td class="slice">Yes</td>
-          </tr>
-          <tr>
-            <td>Independently verifiable</td>
-            <td>No (opaque fee assumptions)</td>
-            <td>Yes</td>
-            <td class="slice">Yes</td>
-          </tr>
-          <tr>
             <td>Centralization pressure</td>
             <td>High</td>
             <td>Low</td>
@@ -703,7 +710,8 @@
     </div>
 
     <h2 id="practical">What this means if you're mining with DMND</h2>
-    <p>Your first few payout rounds are a ramp-up — don't panic. When you disconnect, your payouts continue for another few rounds as your shares age out — don't panic then either. And building better templates using your own node via Job Declaration directly increases your fee-portion payout. That's the incentive SLICE is built to preserve.</p>
+    <p>Your first few payout rounds are a ramp-up — don't panic. When you disconnect, your payouts continue for another few rounds as your shares age out — that's your earlier work still earning, not a delay. And building better templates using your own node via Job Declaration directly increases your fee-portion payout. That's the incentive SLICE is built to preserve.</p>
+    <p>Underneath all of it is one thing FPPS pools can't offer: Job Declaration gives you real control over the blocks you build — on your own node, within Bitcoin's existing consensus rules. No protocol changes, no asking permission. Block construction goes back into miners' hands, and SLICE makes sure you're paid for the value you put into it.</p>
 
   </article>
 </div>
