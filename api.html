@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Monitoring API — Your mining data, connected | DMND</title>
-  <meta name="description" content="Connect your monitoring tools to DMND. A practical guide to API keys, hashrate, workers, earnings, and confirmed payout history, with examples to get you started.">
-  <meta property="og:title" content="DMND Monitoring API — Your mining data, connected">
-  <meta property="og:description" content="Monitor your hashrate, workers, earnings, and payouts with DMND's read-only API. Get started with clear explanations and copyable examples.">
+  <title>Read-only monitoring API | DMND</title>
+  <meta name="description" content="The monitoring API provides account hashrate, worker status, share statistics, fees, estimated earnings, and confirmed payout-output history for automatic monitoring systems.">
+  <meta property="og:title" content="Read-only monitoring API | DMND">
+  <meta property="og:description" content="The monitoring API provides account hashrate, worker status, share statistics, fees, estimated earnings, and confirmed payout-output history for automatic monitoring systems.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.dmnd.work/api.html">
   <meta property="og:image" content="https://www.dmnd.work/assets/img/og-image.png">
@@ -20,7 +20,7 @@
   <script src="assets/js/api.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#quick-start">Skip to documentation</a>
+  <a class="skip-link" href="#overview">Skip to documentation</a>
   <nav class="top" aria-label="Main navigation">
     <div class="top-inner">
       <a href="/" class="brand" aria-label="DMND home">DMND<span>.</span></a>
@@ -35,14 +35,7 @@
   </nav>
 
   <header class="hero">
-    <div class="eyebrow">MONITORING API · V1</div>
-    <h1>Your mining data,<br>connected.</h1>
-    <p class="subtitle">Bring your DMND hashrate, workers, earnings, and payouts into the tools you already use. Here’s how to get started.</p>
-    <div class="hero-actions">
-      <a href="#quick-start" class="button primary">View request example →</a>
-      <a href="#endpoints" class="button">Explore the endpoints</a>
-    </div>
-    <div class="hero-meta"><span>Read-only access</span><span>JSON responses</span><span>HTTPS</span></div>
+    <h1>Read-only monitoring API</h1>
   </header>
 
   <main class="layout">
@@ -50,53 +43,64 @@
       <div class="toc-label">On this page</div>
       <nav aria-label="On this page">
         <ul>
-          <li><a href="#quick-start">Quick start</a></li>
-          <li><a href="#authentication">API keys &amp; permissions</a></li>
-          <li><a href="#endpoints">Choose an endpoint</a></li>
-          <li><a href="#hashrate">Hashrate</a></li>
-          <li><a href="#workers">Workers</a></li>
-          <li><a href="#shares-fees">Shares &amp; fees</a></li>
-          <li><a href="#earnings">Estimated earnings</a></li>
-          <li><a href="#payouts">Confirmed payouts</a></li>
-          <li><a href="#subaccounts">Subaccounts</a></li>
-          <li><a href="#polling">Polling &amp; limits</a></li>
-          <li><a href="#errors">Errors &amp; troubleshooting</a></li>
-          <li><a href="#reading-data">Reading the values</a></li>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#authentication">Authentication and access</a></li>
+          <li><a href="#quick-start">Example: one monitoring read</a></li>
+          <li><a href="#endpoints">Endpoints</a></li>
+          <li><a href="#hashrate">Hashrate and freshness</a></li>
+          <li><a href="#workers">Workers, counters, and fees</a></li>
+          <li><a href="#earnings">Earnings windows</a></li>
+          <li><a href="#payouts">Confirmed payout history</a></li>
+          <li><a href="#polling">Polling, errors, and compatibility</a></li>
         </ul>
       </nav>
-      <div class="toc-note">Need an API key?<a href="https://dashboard.dmnd.work">Open your dashboard ↗</a></div>
     </aside>
 
     <details class="mobile-toc">
       <summary>On this page</summary>
       <nav aria-label="Mobile documentation contents">
-        <a href="#quick-start">Quick start</a><a href="#authentication">API keys &amp; permissions</a>
-        <a href="#endpoints">Endpoints</a><a href="#hashrate">Hashrate</a>
-        <a href="#workers">Workers</a><a href="#shares-fees">Shares &amp; fees</a>
-        <a href="#earnings">Estimated earnings</a><a href="#payouts">Confirmed payouts</a>
-        <a href="#subaccounts">Subaccounts</a><a href="#polling">Polling &amp; limits</a>
-        <a href="#errors">Errors &amp; troubleshooting</a><a href="#reading-data">Reading the values</a>
+        <a href="#overview">Overview</a>
+        <a href="#authentication">Authentication and access</a>
+        <a href="#quick-start">Example: one monitoring read</a>
+        <a href="#endpoints">Endpoints</a>
+        <a href="#hashrate">Hashrate and freshness</a>
+        <a href="#workers">Workers, counters, and fees</a>
+        <a href="#earnings">Earnings windows</a>
+        <a href="#payouts">Confirmed payout history</a>
+        <a href="#polling">Polling, errors, and compatibility</a>
       </nav>
     </details>
 
     <article aria-label="Monitoring API documentation">
-      <!-- Source: demand-user-dashboard-server/monitoring-api.md. Plain-language presentation; API facts, limits, and caveats are sourced only from that document. -->
-      <section id="quick-start" aria-labelledby="quick-start-title">
-        <h2 id="quick-start-title">Example API request</h2>
-        <p>The monitoring API lets your software read your mining activity automatically: account hashrate, worker status, share statistics, fees, estimated earnings, and confirmed payout-output history. Access is read-only.</p>
-        <div class="base-url">
-          <div><small>Base URL · the start of every request</small><code id="base-url">https://api.dmnd.work/api/v1</code></div>
-          <button class="copy-button" type="button" data-copy="base-url" aria-label="Copy base URL" hidden>Copy</button>
+      <!-- Source: demand-user-dashboard-server/monitoring-api.md. Source wording and order are preserved; only Markdown formatting is converted to HTML. -->
+      <section id="overview" aria-label="Overview">
+        <p>The monitoring API provides account hashrate, worker status, share statistics, fees, estimated earnings, and confirmed payout-output history for automatic monitoring systems. Use the HTTPS base URL <code>https://api.dmnd.work/api/v1</code>. The dashboard's unversioned <code>/api</code> routes provide compatibility for existing watcher workflows; their earnings-history defaults differ as described below.</p>
+      </section>
+      <section id="authentication" aria-labelledby="authentication-title">
+        <h2 id="authentication-title">Authentication and access</h2>
+        <p>Create a monitoring token in the dashboard's API Keys page. Select the exact account to monitor and only the required scopes. The signed-in owner can retrieve available secrets and open or copy watcher links from this page. Store the token in your monitoring system's secret store.</p>
+        <p>Send the token in the HTTP header <code>Authorization: Bearer &lt;token&gt;</code>. Query-string credentials are rejected by <code>/api/v1</code>. Mining tokens and FPPS credentials are not monitoring credentials. Only active dedicated monitoring-key records authenticate, including preserved historical keys. Programmatic clients should send no session cookies. When both a bearer token and a dashboard session are supplied, the bearer token determines the account and scopes.</p>
+        <p>Tokens have no expiration by default; an owner can choose an explicit future expiry. Check the listed expiry for each key, since existing keys retain their stored dates. Each target account may have at most 100 active tokens. Revoking a token prevents authentication on subsequent requests; requests already authenticated may finish. If a key expires or must be rotated, create a replacement, update the monitoring secret, check a successful read, and then revoke the old key.</p>
+        <p>Existing unversioned monitoring GET URLs may use a single <code>token</code> query parameter for compatibility. Do not add query credentials to new integrations: URLs can leak through logs and link previews. An Authorization header combined with a query credential, duplicate query credentials, or a query credential on any <code>/api/v1</code> endpoint is rejected.</p>
+        <p>An account token can read that account and its directly owned subaccounts, subject to its scopes. A token created for a specific subaccount cannot read the master or sibling subaccounts. Account IDs are decimal strings, including negative values; preserve them exactly and do not parse them as JavaScript numbers.</p>
+        <div class="table-wrap" role="region" aria-label="Scopes" tabindex="0">
+          <table>
+            <thead><tr><th scope="col">Scope</th><th scope="col">Data exposed</th></tr></thead>
+            <tbody>
+              <tr><td><code>hashrate_read</code></td><td>Current and historical PPLNS, FPPS, and total hashrate</td></tr>
+              <tr><td><code>workers_read</code></td><td>Worker names, online status, hashrates, and accepted/rejected counters</td></tr>
+              <tr><td><code>rejects_read</code></td><td>Account share counter deltas for a requested time window</td></tr>
+              <tr><td><code>fees_read</code></td><td>Pool and broker fee rates</td></tr>
+              <tr><td><code>earnings_read</code></td><td>FPPS generated BTC, PPLNS projected amounts, and recorded-address payout history</td></tr>
+            </tbody>
+          </table>
         </div>
-        <p>This Python example reads the latest account hashrate. It uses the following credentials and permission:</p>
-        <ul class="example-requirements">
-          <li><strong>Monitoring token.</strong> A dedicated token created in the <a href="https://dashboard.dmnd.work">dashboard’s API Keys page</a> for the exact account being monitored.</li>
-          <li><strong>Required permission.</strong> The token needs the <code>hashrate_read</code> scope.</li>
-          <li><strong>Secret storage.</strong> The token is stored in the monitoring system’s secret store and supplied through the secret manager as <code>DEMAND_MONITORING_TOKEN</code>.</li>
-        </ul>
+        <p>These are read permissions, but the data is private: worker names can identify sites and earnings can reveal business activity. A watcher link grants access to anyone who possesses it. Treat the entire link as a secret; do not include it in support tickets or third-party link previews.</p>
+        <h3 id="quick-start">Example: one monitoring read</h3>
+        <p>Provision <code>DEMAND_MONITORING_TOKEN</code> through your secret manager. This Python standard-library example makes one request, sets a timeout, and prints the decoded data without logging the token:</p>
         <div class="code-block">
-          <div class="code-header"><span>Python · no extra packages needed</span><button class="copy-button" type="button" data-copy="quickstart-python" aria-label="Copy Python example" hidden>Copy</button></div>
-          <pre tabindex="0" aria-label="Python request example"><code class="language-python" id="quickstart-python"><span class="syntax-keyword">import</span> <span class="syntax-variable">json</span>
+          <div class="code-header"><span>Python</span><button class="copy-button" type="button" data-copy="quickstart-python" aria-label="Copy python example" hidden>Copy</button></div>
+          <pre tabindex="0" aria-label="python example"><code class="language-python" id="quickstart-python"><span class="syntax-keyword">import</span> <span class="syntax-variable">json</span>
 <span class="syntax-keyword">import</span> <span class="syntax-variable">os</span>
 <span class="syntax-keyword">import</span> <span class="syntax-variable">urllib</span><span class="syntax-punctuation">.</span><span class="syntax-variable">request</span>
 
@@ -111,74 +115,41 @@
     <span class="syntax-variable">snapshot</span> <span class="syntax-punctuation">=</span> <span class="syntax-variable">json</span><span class="syntax-punctuation">.</span><span class="syntax-function">load</span><span class="syntax-punctuation">(</span><span class="syntax-variable">response</span><span class="syntax-punctuation">)</span>
 <span class="syntax-function">print</span><span class="syntax-punctuation">(</span><span class="syntax-variable">snapshot</span><span class="syntax-punctuation">)</span></code></pre>
         </div>
-        <p class="small">This example makes one request, sets a timeout, and prints the decoded response without logging the token. It does not retry. Before scheduling it to run repeatedly, add <a href="#errors">error handling</a> and follow the <a href="#polling">polling guidance</a>.</p>
-        <div class="callout tip"><p><strong>What you’ll get back:</strong> your account ID, the snapshot’s <code>observed_at</code> timestamp, and separate PPLNS, FPPS, and total rates. <a href="#hashrate">See the example response →</a></p></div>
+        <p>The key needs <code>hashrate_read</code>. A scheduled collector must also handle HTTP errors and apply the polling/backoff rules below; this one-shot example does not retry.</p>
       </section>
-
-      <section id="authentication" aria-labelledby="authentication-title">
-        <h2 id="authentication-title">API keys &amp; permissions</h2>
-        <p>A monitoring token is a secret that tells DMND which account and data your tool may access. Send it in the <code>Authorization</code> header on every request.</p>
-        <div class="code-block">
-          <div class="code-header"><span>Request header · replace the placeholder in your client</span></div>
-          <pre tabindex="0" aria-label="Authorization header"><code class="language-http"><span class="syntax-property">Authorization</span><span class="syntax-punctuation">:</span> <span class="syntax-keyword">Bearer</span> <span class="syntax-string">&lt;token&gt;</span></code></pre>
-        </div>
-        <p>Create a dedicated monitoring key in the dashboard’s <strong>API Keys</strong> page, selecting the exact account and only the required scopes. Mining tokens and FPPS credentials won’t work here. Programmatic clients should send no session cookies; if both a session and a bearer token are supplied, the bearer token decides the account and permissions.</p>
-        <div class="table-wrap" role="region" aria-label="API key permissions" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">Permission (scope)</th><th scope="col">What it lets you read</th></tr></thead>
-            <tbody>
-              <tr><td><code>hashrate_read</code></td><td>Current and historical PPLNS, FPPS, and total hashrate.</td></tr>
-              <tr><td><code>workers_read</code></td><td>Worker names, online status, hashrates, and accepted/rejected counters.</td></tr>
-              <tr><td><code>rejects_read</code></td><td>Accepted and rejected share counter changes over a time window.</td></tr>
-              <tr><td><code>fees_read</code></td><td>Pool and broker fee rates.</td></tr>
-              <tr><td><code>earnings_read</code></td><td>Generated FPPS BTC, projected PPLNS BTC, and confirmed payout history for recorded addresses.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="callout"><p><strong>Keep the token private.</strong> Give each key only the permissions your tool needs. For new integrations, keep tokens out of request URLs: <code>/api/v1</code> rejects query-string credentials. The legacy exception is explained below. Worker names can identify sites, and earnings can reveal business activity. Anyone with a watcher link can access the data it exposes, so treat the entire link as a secret. Don’t include it in support tickets or third-party link previews. Keep bearer headers, API secrets, watcher links, and responses that create or list credentials out of request logs, traces, and alerts.</p></div>
-        <details>
-          <summary>Expiry, replacement keys, and older integrations</summary>
-          <div class="details-body">
-            <p><strong>Tokens have no expiration by default.</strong> An owner can choose an explicit future expiry. Check the listed expiry for each key, since existing keys retain their stored dates. Each target account may have at most <strong>100 active tokens</strong>.</p>
-            <p>Revoking a token prevents authentication on subsequent requests; requests already authenticated may finish. If a key expires or must be rotated, create a replacement, update the monitoring secret, check a successful read, and then revoke the old key.</p>
-            <p>Token creation and revocation use the signed-in dashboard, outside <code>/api/v1</code>.</p>
-            <p>The signed-in owner can retrieve available secrets and open or copy watcher links from API Keys. Only active dedicated monitoring-key records authenticate, including preserved historical keys.</p>
-            <p>The dashboard’s unversioned <code>/api</code> routes support existing watcher workflows. Existing unversioned monitoring GET URLs may use a single <code>token</code> query parameter for compatibility. Don’t use that pattern for new integrations: URLs can leak through logs and link previews. Combining a query credential with an Authorization header, supplying duplicate query credentials, or sending any query credential to <code>/api/v1</code> is rejected.</p>
-          </div>
-        </details>
-      </section>
-
       <section id="endpoints" aria-labelledby="endpoints-title">
-        <h2 id="endpoints-title">Choose what you want to read</h2>
-        <p>Each path below is relative to the base URL. All endpoints use <code>GET</code> to read the data described in this reference.</p>
-        <div class="table-wrap" role="region" aria-label="Account endpoints" tabindex="0">
+        <h2 id="endpoints-title">Endpoints</h2>
+        <p>All paths in this table are relative to the base URL. All methods are <code>GET</code>.</p>
+        <div class="table-wrap" role="region" aria-label="Endpoints" tabindex="0">
           <table>
-            <caption>Account endpoints · all paths start after <code>/api/v1</code></caption>
-            <thead><tr><th scope="col">I want to…</th><th scope="col">GET path</th><th scope="col">Permission</th></tr></thead>
+            <thead><tr><th scope="col">Path</th><th scope="col">Required scope</th><th scope="col">Target</th></tr></thead>
             <tbody>
-              <tr><td><a href="#hashrate">Check current hashrate</a></td><td><code>/user/hashrate</code></td><td><code>hashrate_read</code></td></tr>
-              <tr><td><a href="#hashrate-history">Chart past hashrate</a></td><td><code>/user/hashrate/historical</code></td><td><code>hashrate_read</code></td></tr>
-              <tr><td><a href="#workers">List live workers</a></td><td><code>/workers</code></td><td><code>workers_read</code></td></tr>
-              <tr><td><a href="#workers">Include offline workers</a></td><td><code>/workers/all</code></td><td><code>workers_read</code></td></tr>
-              <tr><td><a href="#shares-fees">Check accepted / rejected shares</a></td><td><code>/user/share_stats</code></td><td><code>rejects_read</code></td></tr>
-              <tr><td><a href="#shares-fees">Look up my fee rates</a></td><td><code>/user/fees</code></td><td><code>fees_read</code></td></tr>
-              <tr><td><a href="#earnings">Read daily estimated earnings</a></td><td><code>/user/generated_btc</code></td><td><code>earnings_read</code></td></tr>
-              <tr><td><a href="#payouts">Read confirmed payout outputs</a></td><td><code>/user/payouts</code></td><td><code>earnings_read</code></td></tr>
+              <tr><td><code>/user/hashrate</code></td><td><code>hashrate_read</code></td><td>Token account</td></tr>
+              <tr><td><code>/user/hashrate/historical</code></td><td><code>hashrate_read</code></td><td>Token account</td></tr>
+              <tr><td><code>/workers</code></td><td><code>workers_read</code></td><td>Live workers for token account</td></tr>
+              <tr><td><code>/workers/all</code></td><td><code>workers_read</code></td><td>Live and offline workers for token account</td></tr>
+              <tr><td><code>/user/share_stats</code></td><td><code>rejects_read</code></td><td>Token account</td></tr>
+              <tr><td><code>/user/fees</code></td><td><code>fees_read</code></td><td>Token account</td></tr>
+              <tr><td><code>/user/generated_btc</code></td><td><code>earnings_read</code></td><td>Token account plus directly owned subaccounts</td></tr>
+              <tr><td><code>/user/payouts</code></td><td><code>earnings_read</code></td><td>Token account plus directly owned subaccounts</td></tr>
+              <tr><td><code>/user/sub_account/{id}/hashrate</code></td><td><code>hashrate_read</code></td><td>Exact target account</td></tr>
+              <tr><td><code>/user/sub_account/{id}/hashrate/historical</code></td><td><code>hashrate_read</code></td><td>Exact target account</td></tr>
+              <tr><td><code>/user/sub_account/{id}/workers</code></td><td><code>workers_read</code></td><td>Exact target account</td></tr>
+              <tr><td><code>/user/sub_account/{id}/share_stats</code></td><td><code>rejects_read</code></td><td>Exact target account</td></tr>
+              <tr><td><code>/user/sub_account/{id}/fees</code></td><td><code>fees_read</code></td><td>Exact target account</td></tr>
+              <tr><td><code>/user/sub_account/{id}/generated_btc</code></td><td><code>earnings_read</code></td><td>Exact target account</td></tr>
+              <tr><td><code>/user/sub_account/{id}/payouts</code></td><td><code>earnings_read</code></td><td>Exact target account</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="small">These routes read the token’s account. <strong>Earnings and payouts also include directly owned subaccounts.</strong> To select one exact account, use the <a href="#subaccounts">subaccount routes</a>.</p>
-        <p class="small">Detailed PPLNS projections and the combined dashboard summary are dashboard interfaces outside the versioned monitoring contract. Mining telemetry, payment initiation, registration, and session management are also outside this API.</p>
+        <p>The detailed PPLNS projection and combined dashboard summary are dashboard interfaces outside the versioned monitoring contract. Mining telemetry, payment initiation, registration, and session management are also outside this API. Payout-history routes exist only under <code>/api/v1</code>; the dashboard's existing payout-address discovery and watcher-link behavior are separate interfaces.</p>
       </section>
-
       <section id="hashrate" aria-labelledby="hashrate-title">
-        <h2 id="hashrate-title">Hashrate</h2>
-        <div class="endpoint"><span class="method">GET</span><code>/user/hashrate</code></div>
-        <p class="scope">Requires <a href="#authentication"><code>hashrate_read</code></a></p>
-        <p>Read the latest account snapshot, with separate PPLNS, FPPS, and total rates. This endpoint returns all three in raw <strong>hashes per second (H/s)</strong>.</p>
+        <h2 id="hashrate-title">Hashrate and freshness</h2>
+        <p><code>/user/hashrate</code> returns raw hashes per second (H/s):</p>
         <div class="code-block">
-          <div class="code-header"><span>Example response</span><button class="copy-button" type="button" data-copy="hashrate-json" aria-label="Copy hashrate response" hidden>Copy</button></div>
-          <pre tabindex="0" aria-label="Hashrate response"><code class="language-json" id="hashrate-json"><span class="syntax-punctuation">{</span>
+          <div class="code-header"><span>JSON</span><button class="copy-button" type="button" data-copy="hashrate-json" aria-label="Copy json example" hidden>Copy</button></div>
+          <pre tabindex="0" aria-label="json example"><code class="language-json" id="hashrate-json"><span class="syntax-punctuation">{</span>
   <span class="syntax-property">"account_id"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"9223372036854775807"</span><span class="syntax-punctuation">,</span>
   <span class="syntax-property">"observed_at"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"2026-09-08T10:00:00Z"</span><span class="syntax-punctuation">,</span>
   <span class="syntax-property">"pplns_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">150000000000000</span><span class="syntax-punctuation">,</span>
@@ -186,129 +157,61 @@
   <span class="syntax-property">"total_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">200000000000000</span>
 <span class="syntax-punctuation">}</span></code></pre>
         </div>
-        <p>Snapshots are normally saved <strong>every two minutes</strong> using fresh worker telemetry. A worker counts as online while its latest telemetry is less than ten minutes old. These are periodic snapshots, so they may differ from an instantaneous miner reading.</p>
-        <div class="callout tip"><p><strong>Check the timestamp as well as the rate.</strong> Use <code>observed_at</code> to detect stale collection separately from low hashrate. If there is no snapshot yet, <code>observed_at</code> is <code>null</code> and all rates are zero.</p></div>
-        <h3 id="hashrate-history">Looking back in time</h3>
-        <div class="endpoint"><span class="method">GET</span><code>/user/hashrate/historical</code></div>
-        <p>This returns an array of snapshots in ascending <code>observed_at</code> order—oldest first. Supply <code>from</code> and <code>to</code> as RFC3339 timestamps or <code>YYYY-MM-DD</code> dates. Omitted bounds default to the last 24 hours.</p>
-        <div class="table-wrap" role="region" aria-label="Historical hashrate parameters" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">Parameter</th><th scope="col">How to use it</th></tr></thead>
-            <tbody>
-              <tr><td><code>from</code></td><td>Start timestamp (RFC3339) or UTC date, such as <code>2026-09-01</code>. A date alone starts at 00:00:00 UTC.</td></tr>
-              <tr><td><code>to</code></td><td>End timestamp or UTC date. A date alone ends at 23:59:59 UTC.</td></tr>
-            </tbody>
-          </table>
+        <p>The subaccount hashrate routes return each rate as a value/unit object, rounded to two decimal places. The unit is <code>TH/s</code> or <code>PH/s</code>. For example:</p>
+        <div class="code-block">
+          <div class="code-header"><span>JSON</span><button class="copy-button" type="button" data-copy="subaccount-json" aria-label="Copy json example" hidden>Copy</button></div>
+          <pre tabindex="0" aria-label="json example"><code class="language-json" id="subaccount-json"><span class="syntax-punctuation">{</span>
+  <span class="syntax-property">"account_id"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"1234567890123456789"</span><span class="syntax-punctuation">,</span>
+  <span class="syntax-property">"observed_at"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"2026-09-08T10:00:00Z"</span><span class="syntax-punctuation">,</span>
+  <span class="syntax-property">"pplns_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-punctuation">{</span><span class="syntax-property">"value"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">150.0</span><span class="syntax-punctuation">,</span> <span class="syntax-property">"unit"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"TH/s"</span><span class="syntax-punctuation">}</span><span class="syntax-punctuation">,</span>
+  <span class="syntax-property">"fpps_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-punctuation">{</span><span class="syntax-property">"value"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">50.0</span><span class="syntax-punctuation">,</span> <span class="syntax-property">"unit"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"TH/s"</span><span class="syntax-punctuation">}</span><span class="syntax-punctuation">,</span>
+  <span class="syntax-property">"total_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-punctuation">{</span><span class="syntax-property">"value"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">200.0</span><span class="syntax-punctuation">,</span> <span class="syntax-property">"unit"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"TH/s"</span><span class="syntax-punctuation">}</span>
+<span class="syntax-punctuation">}</span></code></pre>
         </div>
-        <p>Each request covers at most <strong>seven days</strong> and returns at most <strong>6,000 points</strong>. Approximately 100 days are retained. To collect a longer history, request successive windows up to seven days each and remove duplicate boundary timestamps. Fix the range before your first request so its end does not move between pages. An empty array means there are no snapshots in that window.</p>
+        <p>Snapshots are normally written every two minutes from fresh worker telemetry. A worker is online while its latest telemetry is less than ten minutes old. These values are not instantaneous miner measurements. Use <code>observed_at</code> to detect stale collection separately from low hashrate. When no snapshot exists, <code>observed_at</code> is <code>null</code> and all hashrates are zero.</p>
+        <p>Historical endpoints return arrays of snapshots in ascending <code>observed_at</code> order. Supply <code>from</code> and <code>to</code> as RFC3339 timestamps or <code>YYYY-MM-DD</code> dates. A date-only <code>from</code> means 00:00:00 UTC; a date-only <code>to</code> means 23:59:59 UTC. Omitted bounds default to the last 24 hours. The maximum span is seven days and each response is bounded to 6,000 points. The service retains approximately 100 days.</p>
+        <p>To backfill longer periods, request successive windows no larger than seven days and deduplicate shared boundary timestamps. Freeze the range before the first request so its end does not move between pages. An empty array means there are no snapshots in that window.</p>
       </section>
-
       <section id="workers" aria-labelledby="workers-title">
-        <h2 id="workers-title">Workers</h2>
-        <div class="endpoint"><span class="method">GET</span><code>/workers</code></div>
-        <div class="endpoint"><span class="method">GET</span><code>/workers/all</code></div>
-        <p class="scope">Requires <a href="#authentication"><code>workers_read</code></a></p>
-        <p>Use <code>/workers</code> for live workers, or <code>/workers/all</code> to include offline workers. Results come in pages of <strong>200 workers by default</strong>; use <code>limit</code> to request up to <strong>1,000</strong>.</p>
-        <p>Responses have the shape <code>{"workers": [...], "next_cursor": "..."}</code>. Pass <code>next_cursor</code> back unchanged as <code>cursor</code> for the next page; it is opaque, so your client should not interpret it. When it is <code>null</code>, you’re done.</p>
-        <div class="table-wrap" role="region" aria-label="Worker response fields" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">Field</th><th scope="col">What it means</th></tr></thead>
-            <tbody>
-              <tr><td><code>name</code></td><td>The worker’s name.</td></tr>
-              <tr><td><code>is_connected</code></td><td>Whether the worker is online.</td></tr>
-              <tr><td><code>connected_at</code></td><td>A Unix timestamp in <strong>milliseconds</strong>, or <code>null</code>.</td></tr>
-              <tr><td><code>hashrate</code>, <code>fpps_hashrate</code></td><td>Rates in raw H/s, including on subaccount worker routes.</td></tr>
-              <tr><td><code>total_shares</code>, <code>rejected_shares</code></td><td>PPLNS share counters. The equivalent FPPS counter names begin with <code>fpps_</code>.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="small">Missing telemetry for a payout mode is <code>null</code>. Worker counters can reset, disconnected miners can affect changes between readings, and the worker list can change while you fetch pages.</p>
+        <h2 id="workers-title">Workers, counters, and fees</h2>
+        <p>Worker endpoints accept <code>limit</code> (default 200, maximum 1,000) and an opaque <code>cursor</code>. Responses have the shape <code>{&quot;workers&quot;: [...], &quot;next_cursor&quot;: &quot;...&quot;}</code>. Pass <code>next_cursor</code> unchanged to the next request; <code>null</code> marks the last page. The roster can change while pages are fetched.</p>
+        <p>Each worker contains <code>name</code>, <code>is_connected</code>, and <code>connected_at</code> (Unix milliseconds or <code>null</code>). <code>hashrate</code> and <code>fpps_hashrate</code> are raw H/s, even on subaccount worker routes. The PPLNS counters are <code>total_shares</code> and <code>rejected_shares</code>; FPPS equivalents begin with <code>fpps_</code>. Missing telemetry for one payment mode is represented by <code>null</code>. Counter resets and disconnected miners can affect deltas.</p>
+        <p>Share-statistics endpoints accept <code>hours</code>, default 24 and maximum 168. Responses contain <code>window_hours</code>, <code>pplns_accepted</code>, <code>pplns_rejected</code>, <code>fpps_accepted</code>, <code>fpps_rejected</code>, <code>accepted</code>, and <code>rejected</code>. Calculate a rejection ratio as <code>rejected / (accepted + rejected)</code> when the denominator is nonzero. Counters are telemetry-derived; they are not a count of immutable raw share records.</p>
+        <p>Fee endpoints return <code>pool_fee</code> and <code>broker_fee</code> as fractions: <code>0.02</code> means 2%.</p>
       </section>
-
-      <section id="shares-fees" aria-labelledby="shares-fees-title">
-        <h2 id="shares-fees-title">Shares &amp; fees</h2>
-        <h3>Check your rejection rate</h3>
-        <div class="endpoint"><span class="method">GET</span><code>/user/share_stats?hours=24</code></div>
-        <p class="scope">Requires <a href="#authentication"><code>rejects_read</code></a></p>
-        <p>This endpoint reports changes in accepted and rejected share counters over your chosen window. The <code>hours</code> parameter defaults to <strong>24</strong> and can be at most <strong>168</strong> (seven days).</p>
-        <p>The response includes <code>window_hours</code>, <code>pplns_accepted</code>, <code>pplns_rejected</code>, <code>fpps_accepted</code>, <code>fpps_rejected</code>, <code>accepted</code>, and <code>rejected</code>.</p>
-        <div class="callout tip"><p><strong>Rejection ratio:</strong> <code>rejected / (accepted + rejected)</code>. Only calculate it when <code>accepted + rejected</code> is not zero.</p></div>
-        <p class="small">These numbers come from telemetry counter changes, rather than an immutable record of every raw share.</p>
-        <h3>Read your pool and broker fees</h3>
-        <div class="endpoint"><span class="method">GET</span><code>/user/fees</code></div>
-        <p class="scope">Requires <a href="#authentication"><code>fees_read</code></a></p>
-        <p>The response contains <code>pool_fee</code> and <code>broker_fee</code>. Both are fractions: <strong><code>0.02</code> means 2%</strong>.</p>
-      </section>
-
       <section id="earnings" aria-labelledby="earnings-title">
-        <h2 id="earnings-title">Estimated earnings, day by day</h2>
-        <div class="endpoint"><span class="method">GET</span><code>/user/generated_btc</code></div>
-        <p class="scope">Requires <a href="#authentication"><code>earnings_read</code></a> · Includes directly owned subaccounts</p>
-        <p>Read daily generated FPPS BTC alongside projected PPLNS BTC. Results are an array ordered by <code>entry_day</code>, newest first. Every day is measured in UTC.</p>
-        <div class="callout"><p><strong>Estimated earnings are not confirmed payments.</strong> PPLNS projections can change and exclude amounts already earned from found blocks. The combined total isn’t a paid balance, payout guarantee, or settled accounting record. Use <a href="#payouts">confirmed payout history</a> to see transaction outputs.</p></div>
-        <div class="table-wrap" role="region" aria-label="Earnings query parameters" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">Parameter</th><th scope="col">How to use it</th></tr></thead>
-            <tbody>
-              <tr><td><code>date</code></td><td>One UTC day: <code>YYYY-MM-DD</code>. Don’t combine with <code>before</code> or <code>limit</code>.</td></tr>
-              <tr><td><code>before</code></td><td>The last UTC day to include, inclusive. Defaults to today.</td></tr>
-              <tr><td><code>limit</code></td><td>Number of <strong>calendar days</strong>, not rows. Defaults to 30; maximum 100.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="table-wrap" role="region" aria-label="Daily earnings response fields" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">Field</th><th scope="col">What it means</th></tr></thead>
-            <tbody>
-              <tr><td><code>entry_day</code></td><td>The work day, formatted <code>YYYY-MM-DD</code> in UTC.</td></tr>
-              <tr><td><code>fpps_btc_generated</code></td><td>Generated FPPS earnings in BTC.</td></tr>
-              <tr><td><code>pplns_btc_generated</code></td><td>Cached future PPLNS projected BTC attributed to this work day.</td></tr>
-              <tr><td><code>btc_generated</code></td><td>The sum of the FPPS and projected PPLNS values.</td></tr>
-              <tr><td><code>hashrate</code></td><td>The FPPS-derived daily hashrate in H/s; zero for a day with only PPLNS projections.</td></tr>
-              <tr><td><code>pplns_hashrate</code></td><td>PPLNS hashrate from recorded accepted-share work, in H/s. <code>null</code> means unavailable.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h3>Collecting older earnings</h3>
-        <p>Use the preceding calendar window to collect older data. Missing mining days are omitted, so a page with missing days does not mean older data is unavailable.</p>
-        <p>For both account and subaccount routes, a request for one specific <code>date</code> with no earnings returns one zero-earnings row. Its PPLNS hashrate still follows the independent recorded-work availability rules. The FPPS earnings accumulator normally runs every five minutes.</p>
-        <details>
-          <summary>Why PPLNS hashrate can be null, and how it is calculated</summary>
-          <div class="details-body">
-            <p><strong>Keep <code>null</code> distinct from zero.</strong> A covered day that was read successfully and had no recorded PPLNS work returns <code>pplns_hashrate: 0</code>. <code>null</code> means the rate is unavailable, whether due to age, incomplete coverage, or a temporary refresh problem. Unavailable rates are never reported as zero.</p>
-            <p>Coverage is limited to today and the previous 99 UTC days, starting no earlier than the first complete UTC day after the database’s explicit-UTC share-timestamp migration. Earlier timestamps cannot establish that a full day’s work was recorded with the correct date. Older earnings rows remain available with <code>pplns_hashrate: null</code>. Recorded work alone does not create an earnings row.</p>
-            <p>The rate uses accepted shares grouped by the UTC day the database recorded them. Delayed ingestion can place work in a later day; miner-supplied <code>ntime</code> does not set the day. For completed days the calculation is <code>sum(difficulty) * 2^32 / 86400</code>. Today uses elapsed whole seconds since UTC midnight. Rates are rounded to two decimal places.</p>
-            <p>This is separate from worker telemetry, the difficulty in the moving PPLNS reward window, and the FPPS-derived <code>hashrate</code> field.</p>
-            <p>For current monitoring, use <code>?date=YYYY-MM-DD</code> with today’s UTC date every two to five minutes. For older data, use smaller windows and wait at least 60 seconds before retrying missing rates.</p>
-            <p>The supplemental rate is cached for 60 seconds, with up to 128 account/range combinations, one concurrent refresh per server, and three refresh attempts per target account per minute. Ownership is checked before cache lookup. Refreshes have a five-second SQL deadline; large histories can exceed it. Busy refreshes, exhausted budgets, errors, and invalid work values return <code>null</code> without failing or changing the earnings response. Failed refreshes are also cached for 60 seconds.</p>
-          </div>
-        </details>
-        <p class="small">Compatibility note: unversioned dashboard earnings routes under <code>/api</code> return complete available history when these parameters are omitted, so dashboard history and exports do not need pagination. New integrations using <code>/api/v1</code> use the bounded defaults above.</p>
+        <h2 id="earnings-title">Earnings windows</h2>
+        <p>Versioned generated-BTC endpoints return daily arrays in descending <code>entry_day</code> order. Optional <code>date</code> selects one UTC day. Otherwise, <code>before</code> is the inclusive final UTC day of a page (default today) and <code>limit</code> is the number of calendar days (default 30, maximum 100). Use the preceding calendar window for older data; missing mining days are omitted and are not a signal that older data is unavailable. <code>date</code> cannot be combined with <code>before</code> or <code>limit</code>.</p>
+        <p>The unversioned dashboard earnings routes return complete available history when these parameters are omitted, so dashboard history and exports do not require pagination. Automation using <code>/api/v1</code> retains the bounded defaults above.</p>
+        <p>Every row contains:</p>
+        <ul>
+          <li><code>entry_day</code>: <code>YYYY-MM-DD</code> in UTC;</li>
+          <li><code>fpps_btc_generated</code>: generated FPPS BTC;</li>
+          <li><code>pplns_btc_generated</code>: cached future PPLNS projected BTC attributed to that work day;</li>
+          <li><code>btc_generated</code>: the sum of those two values;</li>
+          <li><code>hashrate</code>: the FPPS-derived daily rate in H/s, or zero for a projection-only day;</li>
+          <li><code>pplns_hashrate</code>: recorded accepted-share PPLNS work in raw H/s, or <code>null</code> when unavailable.</li>
+        </ul>
+        <p><code>pplns_hashrate</code> groups accepted shares by their database-recorded UTC day, not miner-supplied <code>ntime</code>. Ingestion delays can move work into a later recorded day. Completed days use <code>sum(difficulty) * 2^32 / 86400</code>; today uses elapsed whole seconds since UTC midnight. Rates are rounded to two decimal places. They do not use worker telemetry or the difficulty retained in the moving PPLNS reward window. The existing FPPS <code>hashrate</code> keeps its separate meaning.</p>
+        <p>PPLNS rate coverage is limited to today and the previous 99 UTC days, and starts no earlier than the first complete UTC day after the database's explicit-UTC share-timestamp migration. Earlier timestamps cannot prove complete correctly dated work. Older earnings rows remain present with <code>pplns_hashrate: null</code>; raw work alone does not add earnings rows. A successfully read covered day with no recorded work has <code>pplns_hashrate: 0</code>. Unavailable history is never reported as zero.</p>
+        <p>The supplemental rate has a 60-second cache, a maximum of 128 cached account/range combinations, one concurrent refresh per server, and three refresh attempts per target account per minute. Existing account ownership is resolved before cache lookup. A refresh has a five-second SQL deadline. Busy refreshes, exhausted refresh budgets, source errors, and invalid work values produce <code>null</code> without failing or changing the earnings response; failed refreshes are cached for 60 seconds. Large account histories can exceed the deadline. For current monitoring, request <code>?date=YYYY-MM-DD</code> for today's UTC date every two to five minutes. For backfills, use smaller date windows and wait at least 60 seconds before retrying unavailable rates. Do not replace <code>null</code> with zero in your client.</p>
+        <p>PPLNS projections can change and exclude amounts already earned from found blocks. Consequently, <code>btc_generated</code> is not a paid balance, payout guarantee, or settled accounting record. The FPPS accumulator normally runs every five minutes. A requested single day with no earnings returns one zero-earnings row, consistently for account and subaccount routes; its supplemental PPLNS rate follows the independent recorded-work coverage rules above.</p>
       </section>
-
       <section id="payouts" aria-labelledby="payouts-title">
-        <h2 id="payouts-title">Confirmed payouts</h2>
-        <div class="endpoint"><span class="method">GET</span><code>/user/payouts</code></div>
-        <p class="scope">Requires <a href="#authentication"><code>earnings_read</code></a> · Includes directly owned subaccounts</p>
-        <p>Read confirmed FPPS and PPLNS transaction outputs sent to your account’s recorded Bitcoin addresses, including inactive addresses. Unrelated recipients, transfers back to funding addresses, unrelated deposits, and unconfirmed transactions are excluded. This API only reads history; it never initiates payments or changes payout addresses.</p>
-        <div class="callout"><p><strong>This is history associated with addresses.</strong> Address records have no effective ownership dates, so even an unshared recorded address does not prove who owned it at the time of a historical payment. This is not an account ownership ledger. If an address is also recorded against an account outside the requested group, the entire request returns <code>409</code> with <code>payouts-ambiguous-address</code>. The API does not guess ownership or silently leave that address out.</p></div>
-        <div class="table-wrap" role="region" aria-label="Payout query parameters" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">Parameter</th><th scope="col">How to use it</th></tr></thead>
-            <tbody>
-              <tr><td><code>from</code>, <code>to</code></td><td>Inclusive UTC dates, <code>YYYY-MM-DD</code>. No future dates. <code>to</code> defaults to today; <code>from</code> defaults to 29 days before it. Maximum <strong>30 calendar days</strong>.</td></tr>
-              <tr><td><code>limit</code></td><td>Outputs per page: 1–100. Defaults to 100.</td></tr>
-              <tr><td><code>cursor</code></td><td>The previous <code>next_cursor</code>, unchanged. Keep the same explicit dates and target account across pages.</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <h2 id="payouts-title">Confirmed payout history</h2>
+        <p><code>GET /user/payouts</code> returns confirmed FPPS/PPLNS transaction outputs associated with the account's recorded Bitcoin addresses, including inactive addresses and directly owned subaccounts. <code>GET /user/sub_account/{id}/payouts</code> restricts the result to that exact authorized account. Both require <code>earnings_read</code>; the API never initiates payments or changes payout addresses.</p>
+        <p>This is <strong>address-associated transaction history, not an account ownership ledger</strong>. Address records have no effective ownership dates, so even an unshared recorded address does not prove who owned it at the time of a historical payment. If any address is also recorded against an account outside the requested set, the complete request returns HTTP 409 with code <code>payouts-ambiguous-address</code>; it does not guess attribution or silently omit that address. An aggregate request may include an address shared entirely within its requested account set, but the corresponding exact-account request is ambiguous when another recorded owner lies outside it.</p>
+        <p>Funding inputs must match the configured FPPS/PPLNS sources or the historical FPPS source <code>bc1qwk7rplr3ztrsvlcxujnxdvp77atpqawlh94wgw</code>. Only outputs to authorized recorded recipient addresses are returned. Unrelated recipients, transfers back to funding addresses, unrelated deposits and unconfirmed transactions are excluded. Each <code>(txid, output_index)</code> appears once, including when addresses are shared within an aggregate or several funding inputs match.</p>
+        <p>Parameters:</p>
+        <ul>
+          <li><code>from</code>, <code>to</code>: inclusive UTC dates (<code>YYYY-MM-DD</code>), with no future dates. <code>to</code> defaults to today; <code>from</code> defaults to 29 days before <code>to</code>. The maximum window is 30 calendar days.</li>
+          <li><code>limit</code>: outputs per page, default 100 and maximum 100, minimum 1.</li>
+          <li><code>cursor</code>: the previous response's <code>next_cursor</code>, unchanged. Keep the same explicit dates and target account while traversing a window. A null cursor marks the final page.</li>
+        </ul>
+        <p>For example, use <code>/user/payouts?from=2026-09-01&amp;to=2026-09-09&amp;limit=100</code> with the same Bearer header shown above. Its response has this shape:</p>
         <div class="code-block">
-          <div class="code-header"><span>Example URL · use the same Bearer header</span><button class="copy-button" type="button" data-copy="payouts-url" aria-label="Copy payouts URL" hidden>Copy</button></div>
-          <pre tabindex="0" aria-label="Payouts request URL"><code class="language-url" id="payouts-url"><span class="syntax-string">https://api.dmnd.work/api/v1/user/payouts</span><span class="syntax-punctuation">?</span><span class="syntax-property">from</span><span class="syntax-punctuation">=</span><span class="syntax-string">2026-09-01</span><span class="syntax-punctuation">&amp;</span><span class="syntax-property">to</span><span class="syntax-punctuation">=</span><span class="syntax-string">2026-09-09</span><span class="syntax-punctuation">&amp;</span><span class="syntax-property">limit</span><span class="syntax-punctuation">=</span><span class="syntax-number">100</span></code></pre>
-        </div>
-        <div class="code-block">
-          <div class="code-header"><span>Example response</span><button class="copy-button" type="button" data-copy="payouts-json" aria-label="Copy payouts response" hidden>Copy</button></div>
-          <pre tabindex="0" aria-label="Confirmed payout response"><code class="language-json" id="payouts-json"><span class="syntax-punctuation">{</span>
+          <div class="code-header"><span>JSON</span><button class="copy-button" type="button" data-copy="payouts-json" aria-label="Copy json example" hidden>Copy</button></div>
+          <pre tabindex="0" aria-label="json example"><code class="language-json" id="payouts-json"><span class="syntax-punctuation">{</span>
   <span class="syntax-property">"payouts"</span><span class="syntax-punctuation">:</span> <span class="syntax-punctuation">[</span>
     <span class="syntax-punctuation">{</span>
       <span class="syntax-property">"txid"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"</span><span class="syntax-punctuation">,</span>
@@ -325,131 +228,33 @@
   <span class="syntax-property">"to"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"2026-09-09"</span>
 <span class="syntax-punctuation">}</span></code></pre>
         </div>
-        <ul>
-          <li><code>amount_sats</code> is an integer number of satoshis, never a floating-point BTC amount.</li>
-          <li><code>txid</code> and the zero-based <code>output_index</code> together identify a unique transaction output. Each pair appears once.</li>
-          <li><code>kind</code> is <code>fpps</code> or <code>pplns</code>.</li>
-          <li><code>confirmed_at</code> is the block timestamp in Unix <strong>seconds</strong>, not the payment request time. <code>as_of</code> is when the server retrieved the snapshot, also in seconds.</li>
-          <li><code>next_cursor: null</code> means the last page. Rows are ordered descending by confirmation timestamp, then transaction ID and output index.</li>
-        </ul>
-        <p>An empty page means there are no matching confirmed outputs in a fully retrieved window, or no recorded recipient addresses. A failed or incomplete provider read returns an error, never a successful empty or partial history.</p>
-        <h3>When a payout snapshot changes</h3>
-        <p>Bitcoin confirmations can change after a chain reorganization. If you receive <code>409 payouts-cursor-changed</code>, restart without a cursor using the same fixed date window. Compare the replacement results with what you collected, using <code>txid</code> and <code>output_index</code>, so removed or changed outputs are reconciled.</p>
-        <p class="small">A change to the funding snapshot, requested dates, target account, or recorded recipient addresses invalidates the cursor with <code>409 payouts-cursor-changed</code>. A funding change can affect another recipient, even if your own payouts look unchanged.</p>
-        <details>
-          <summary>Payout refresh limits and history coverage</summary>
-          <div class="details-body">
-            <p>Poll every few minutes, reuse collected pages, and backfill one fixed window at a time. Set a client timeout that allows for a <strong>20-second provider deadline plus authentication and database work</strong>.</p>
-            <p>Chain snapshots are cached for at most 60 seconds, with up to four windows per server process. One provider fill runs at a time, with at most six uncached windows per fixed 60-second interval across all customers on that process. These limits are in addition to normal API budgets. On <code>429</code>, follow <code>Retry-After</code>.</p>
-            <p>Provider reads are bounded to 20 pages per funding source, 1 MiB per upstream response, and 50,000 outputs per window. Older windows can exceed the scan-depth limit even with few payouts, because scans begin at the newest transaction.</p>
-            <p>Missing configuration, provider failures, timeouts, incomplete scans, or inconsistent data return <code>503</code>. Respect <code>Retry-After</code>. After cache expiry, the service retrieves fresh history and does not serve stale data if that refresh fails.</p>
-            <p>Funding inputs must match configured FPPS/PPLNS sources or the historical FPPS source <code>bc1qwk7rplr3ztrsvlcxujnxdvp77atpqawlh94wgw</code>. Only outputs to authorized recorded recipient addresses are returned, without duplicates when several inputs match or an address is shared within the requested group.</p>
-            <p>Payout-history endpoints exist only under <code>/api/v1</code>. Dashboard payout-address discovery and watcher links are separate interfaces.</p>
-          </div>
-        </details>
+        <p><code>amount_sats</code> is an integer number of satoshis, never a floating-point BTC amount. <code>output_index</code> is the zero-based transaction output index; <code>kind</code> is <code>fpps</code> or <code>pplns</code>. <code>confirmed_at</code> is the upstream block timestamp in Unix seconds, not the payment request time. <code>as_of</code> is the server's snapshot retrieval time in Unix seconds. Rows are ordered descending by confirmation timestamp, then transaction ID and output index. An empty page means no matching confirmed outputs in a completely retrieved window, or no recorded recipient addresses.</p>
+        <p>Chain snapshots are cached for at most 60 seconds, with at most four windows per server process. One provider fill may run at a time, and at most six uncached windows may be requested per fixed 60-second interval across all customers on that process. These limits are additional to normal monitoring budgets; HTTP 429 includes <code>Retry-After</code>. Poll payouts every few minutes, reuse pages, and backfill one fixed window at a time. Allow a client timeout long enough for a 20-second provider deadline plus authentication/database work.</p>
+        <p>Provider reads are bounded to 20 pages per funding source, 1 MiB per upstream response and 50,000 outputs per window. A historical date window may exceed the scan-depth limit even when it contains few payouts, because the upstream index is walked from its newest transaction. Missing configuration, provider errors, timeouts, incomplete scans or inconsistent data return HTTP 503, never a successful empty or truncated history. Respect its <code>Retry-After</code> header.</p>
+        <p>Confirmed transactions can be reorganized. After cache expiry the service fetches fresh chain history; it does not serve stale results when refresh fails. A changed funding snapshot, requested window, target, or recorded recipient set invalidates the cursor with HTTP 409 and code <code>payouts-cursor-changed</code>. A funding-snapshot change may affect another recipient rather than your account. Restart pagination without a cursor, using the same fixed window, and reconcile collected outpoints against the replacement snapshot instead of assuming confirmations are irreversible.</p>
       </section>
-
-      <section id="subaccounts" aria-labelledby="subaccounts-title">
-        <h2 id="subaccounts-title">Monitoring subaccounts</h2>
-        <p>A token can read its own account and directly owned subaccounts, within its selected permissions. A key created for a subaccount cannot read the master account or sibling subaccounts.</p>
-        <p>To read one exact account, replace <code>{id}</code> in the paths below with that account’s ID. Unlike the main earnings and payout routes, these routes do not include that target’s subaccounts.</p>
-        <div class="callout"><p><strong>Keep account IDs as strings.</strong> They are decimal strings and can be negative. Preserve the exact value; don’t convert it to a JavaScript number.</p></div>
-        <div class="table-wrap" role="region" aria-label="Subaccount endpoints" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">GET path · exact target only</th><th scope="col">Permission</th></tr></thead>
-            <tbody>
-              <tr><td><code>/user/sub_account/{id}/hashrate</code></td><td><code>hashrate_read</code></td></tr>
-              <tr><td><code>/user/sub_account/{id}/hashrate/historical</code></td><td><code>hashrate_read</code></td></tr>
-              <tr><td><code>/user/sub_account/{id}/workers</code></td><td><code>workers_read</code></td></tr>
-              <tr><td><code>/user/sub_account/{id}/share_stats</code></td><td><code>rejects_read</code></td></tr>
-              <tr><td><code>/user/sub_account/{id}/fees</code></td><td><code>fees_read</code></td></tr>
-              <tr><td><code>/user/sub_account/{id}/generated_btc</code></td><td><code>earnings_read</code></td></tr>
-              <tr><td><code>/user/sub_account/{id}/payouts</code></td><td><code>earnings_read</code></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h3>One important difference: hashrate units</h3>
-        <p>Subaccount hashrate snapshots return each rate as a <code>value</code>/<code>unit</code> object, rounded to two decimal places, using TH/s or PH/s. This applies to current and historical hashrate routes. Worker rates still use raw H/s.</p>
-        <div class="code-block">
-          <div class="code-header"><span>Example subaccount hashrate response</span><button class="copy-button" type="button" data-copy="subaccount-json" aria-label="Copy subaccount response" hidden>Copy</button></div>
-          <pre tabindex="0" aria-label="Subaccount hashrate response"><code class="language-json" id="subaccount-json"><span class="syntax-punctuation">{</span>
-  <span class="syntax-property">"account_id"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"1234567890123456789"</span><span class="syntax-punctuation">,</span>
-  <span class="syntax-property">"observed_at"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"2026-09-08T10:00:00Z"</span><span class="syntax-punctuation">,</span>
-  <span class="syntax-property">"pplns_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-punctuation">{</span><span class="syntax-property">"value"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">150.0</span><span class="syntax-punctuation">,</span> <span class="syntax-property">"unit"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"TH/s"</span><span class="syntax-punctuation">}</span><span class="syntax-punctuation">,</span>
-  <span class="syntax-property">"fpps_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-punctuation">{</span><span class="syntax-property">"value"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">50.0</span><span class="syntax-punctuation">,</span> <span class="syntax-property">"unit"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"TH/s"</span><span class="syntax-punctuation">}</span><span class="syntax-punctuation">,</span>
-  <span class="syntax-property">"total_hashrate"</span><span class="syntax-punctuation">:</span> <span class="syntax-punctuation">{</span><span class="syntax-property">"value"</span><span class="syntax-punctuation">:</span> <span class="syntax-number">200.0</span><span class="syntax-punctuation">,</span> <span class="syntax-property">"unit"</span><span class="syntax-punctuation">:</span> <span class="syntax-string">"TH/s"</span><span class="syntax-punctuation">}</span>
-<span class="syntax-punctuation">}</span></code></pre>
-        </div>
-        <p class="small">Outputs to an address shared entirely within an aggregate account group can appear in that group’s history. Each <code>(txid, output_index)</code> appears once. The corresponding exact-account request is ambiguous and returns <code>409 payouts-ambiguous-address</code> when another recorded owner is outside that exact target.</p>
-      </section>
-
       <section id="polling" aria-labelledby="polling-title">
-        <h2 id="polling-title">How often should I check?</h2>
-        <p><strong>Every two to five minutes</strong> is an appropriate interval for current statistics, matching the snapshot cadence. Check payouts every few minutes, too.</p>
-        <ul>
-          <li>Save collected data in your own monitoring store. Fetch only what you need instead of the entire history each time.</li>
-          <li>Stagger requests across accounts and limit how many run at once.</li>
-          <li>Set connection and request timeouts. Give payout requests enough time for their provider lookup.</li>
-        </ul>
-        <div class="table-wrap" role="region" aria-label="API request limits" tabindex="0">
+        <h2 id="polling-title">Polling, errors, and compatibility</h2>
+        <p>Polling current statistics every two to five minutes is appropriate for the snapshot cadence. Avoid re-fetching all history on every poll. Cache the collected data in your own monitoring store, stagger accounts, bound concurrent requests, and configure connection and request timeouts.</p>
+        <p>The service allows 240 requests per token and 600 requests per token account in each fixed 60-second window; multiple tokens for the same account share the account budget. There is also a 1,200-request client-IP budget across protected API paths. These limits are per server process, not a guaranteed cluster-wide allowance; obey every 429 even when your own counter is lower. Additional edge protection or temporary capacity limits may also reject traffic.</p>
+        <p>Responses containing account data use <code>Cache-Control: private, no-store</code>. Do not record bearer headers, API secrets, watcher links, or credential-listing/creation responses in request logs, traces, or alerts. HTTP 429 includes <code>Retry-After</code> in seconds. Wait at least that long and add random jitter. Retry transient server errors with bounded exponential backoff; do not keep retrying 400, 401, or 403.</p>
+        <div class="table-wrap" role="region" aria-label="HTTP statuses" tabindex="0">
           <table>
-            <caption>Request budgets · each fixed 60-second window</caption>
-            <thead><tr><th scope="col">Budget</th><th scope="col">Requests</th><th scope="col">Shared by</th></tr></thead>
+            <thead><tr><th scope="col">HTTP status</th><th scope="col">Meaning</th></tr></thead>
             <tbody>
-              <tr><td>Per token</td><td>240</td><td>All requests using that token.</td></tr>
-              <tr><td>Per token account</td><td>600</td><td>All tokens for the same account.</td></tr>
-              <tr><td>Per client IP</td><td>1,200</td><td>Requests from that IP across protected API paths.</td></tr>
+              <tr><td>200</td><td>Successful read; empty data may be valid</td></tr>
+              <tr><td>400</td><td>Invalid query, unsupported URL credential, or out-of-range limit</td></tr>
+              <tr><td>401</td><td>Missing, invalid, revoked, or expired credential</td></tr>
+              <tr><td>403</td><td>Missing scope or account outside the credential's permitted targets</td></tr>
+              <tr><td>404</td><td>Unknown endpoint or requested resource unavailable</td></tr>
+              <tr><td>409</td><td>Payout address attribution is ambiguous, or the pagination snapshot changed</td></tr>
+              <tr><td>429</td><td>Request budget exhausted; obey <code>Retry-After</code></td></tr>
+              <tr><td>500/503</td><td>Backend failure or temporary unavailability</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="small">These limits apply per server process, not as a guaranteed cluster-wide allowance. Payout lookups have additional request budgets. Edge protection or temporary capacity limits may also reject traffic. Always obey a <code>429</code>, even if your own request count is lower. The separate limits for supplemental PPLNS-rate refreshes return <code>null</code> when a refresh is unavailable, as described under <a href="#earnings">estimated earnings</a>.</p>
-        <div class="callout tip"><p><strong>If you’re asked to slow down:</strong> read the <code>Retry-After</code> header on a <code>429</code> response. Wait at least that many seconds, then add a small random delay.</p></div>
-        <p class="small">Account responses use <code>Cache-Control: private, no-store</code>. Do not record bearer headers, API secrets, watcher links, or responses that create or list credentials in request logs, traces, or alerts.</p>
-      </section>
-
-      <section id="errors" aria-labelledby="errors-title">
-        <h2 id="errors-title">When a request doesn’t work</h2>
-        <p>Errors are JSON objects with <code>code</code> and <code>message</code> strings. Use the HTTP status to decide whether to retry. The message is for diagnosis and may change.</p>
-        <div class="table-wrap" role="region" aria-label="HTTP status troubleshooting" tabindex="0">
-          <table>
-            <thead><tr><th scope="col">HTTP status</th><th scope="col">What it means</th><th scope="col">What to do</th></tr></thead>
-            <tbody>
-              <tr><td>200</td><td>The request worked.</td><td>Read the result. Empty data can be valid.</td></tr>
-              <tr><td>400</td><td>Invalid parameters, URL credentials, or an out-of-range limit.</td><td>Fix the request before trying again.</td></tr>
-              <tr><td>401</td><td>The key is missing, invalid, revoked, or expired.</td><td>Check the bearer header and the key in API Keys. Don’t retry unchanged.</td></tr>
-              <tr><td>403</td><td>The key lacks a scope or access to the target account.</td><td>Check the selected permissions and account. Don’t retry unchanged.</td></tr>
-              <tr><td>404</td><td>Unknown endpoint or unavailable resource.</td><td>Check the base URL, path, and requested resource.</td></tr>
-              <tr><td>409</td><td>Payout address attribution is ambiguous, or the pagination snapshot changed.</td><td>Check the error code and the guidance below.</td></tr>
-              <tr><td>429</td><td>A request or capacity budget was reached.</td><td>Wait for <code>Retry-After</code> seconds, plus a small random delay.</td></tr>
-              <tr><td>500 / 503</td><td>A backend failure or temporary unavailability.</td><td>For transient failures, retry with bounded exponential backoff. Respect <code>Retry-After</code> when supplied.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h3>Two payout errors to handle differently</h3>
-        <p><code>payouts-ambiguous-address</code>: an address is recorded against an account outside your requested group. The entire request returns <code>409</code> instead of guessing attribution or silently omitting that address.</p>
-        <p><code>payouts-cursor-changed</code>: the pagination snapshot or request context changed. Restart the same fixed window without a cursor and reconcile your saved outputs with the replacement results.</p>
-        <p class="small">For transient server errors, retry with bounded exponential backoff. Don’t keep retrying <code>400</code>, <code>401</code>, or <code>403</code>.</p>
-        <details>
-          <summary>Versioning and compatibility</summary>
-          <div class="details-body">
-            <p>Ignore response fields your client doesn’t recognize. New fields can be added within v1. Incompatible response or authentication changes require a new API version and a documented migration. This interface does not imply an availability SLA.</p>
-          </div>
-        </details>
-      </section>
-
-      <section id="reading-data" aria-labelledby="reading-data-title">
-        <h2 id="reading-data-title">Reading the values</h2>
-        <dl class="glossary">
-          <dt>Account and subaccount hashrate</dt><dd>The account hashrate endpoint returns raw H/s. Subaccount hashrate routes return value/unit objects in TH/s or PH/s, rounded to two decimal places. Worker hashrates remain raw H/s on both account and subaccount routes.</dd>
-          <dt>Estimated earnings and payout history</dt><dd>Generated-BTC results combine generated FPPS BTC with cached future PPLNS projections. That combined amount is not a paid balance, payout guarantee, or settled accounting record. Payout history reports confirmed outputs associated with recorded addresses.</dd>
-          <dt>Dates and timestamps</dt><dd>Earnings days and payout date windows use UTC. Worker <code>connected_at</code> values use Unix milliseconds or <code>null</code>; payout <code>confirmed_at</code> and <code>as_of</code> values use Unix seconds.</dd>
-          <dt>Missing PPLNS hashrate</dt><dd>For earnings rows, <code>pplns_hashrate: null</code> means the rate is unavailable. A covered day that was read successfully and had no recorded work returns <code>pplns_hashrate: 0</code>. Unavailable rates are never reported as zero. Do not replace <code>null</code> with zero.</dd>
-          <dt>Pages of results</dt><dd>Worker and payout responses use <code>next_cursor</code> to continue to the next page; <code>null</code> marks the last page. Earnings use calendar-day windows instead.</dd>
-        </dl>
-        <div class="end-note">
-          <p><strong>Monitoring keys are managed in the dashboard.</strong><br>The request example above uses a key with <code>hashrate_read</code> to read the account’s latest hashrate.</p>
-          <a href="https://dashboard.dmnd.work" class="button primary">Open your dashboard ↗</a>
-        </div>
+        <p>Errors are JSON objects with <code>code</code> and <code>message</code> strings. Use HTTP status for retry decisions; message text is intended for diagnostics and may change. Unknown response fields must be ignored. Additive fields are permitted in v1; incompatible response or authentication changes require a new version and a documented migration. No availability SLA is implied by this interface.</p>
+        <p>Token creation and revocation use the signed-in dashboard, outside <code>/api/v1</code>.</p>
       </section>
     </article>
   </main>
