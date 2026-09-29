@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMND's Trust Center</title>
+  <meta name="description" content="DMND's Trust Center — security, compliance, and privacy information for partners and customers." />
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dmnd: {
+              red:      '#E5322D',
+              redDark:  '#C2241F',
+              ink:      '#0B0B0C',
+              graphite: '#1F2125',
+              steel:    '#6B7280',
+              line:     '#E5E7EB',
+              wash:     '#F7F8FA',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+            mono: ['JetBrains Mono','ui-monospace','SFMono-Regular','Menlo','monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; color: #0B0B0C; }
+    .hero-bg {
+      background-color: #0B0B0C;
+      background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(229,50,45,0.18), transparent 55%),
+        radial-gradient(ellipse at 80% 70%, rgba(229,50,45,0.10), transparent 60%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 104' width='120' height='104'><g fill='none' stroke='%23E5322D' stroke-opacity='0.10' stroke-width='1'><polygon points='30,2 58,18 58,52 30,68 2,52 2,18'/><polygon points='90,2 118,18 118,52 90,68 62,52 62,18'/><polygon points='60,52 88,68 88,102 60,118 32,102 32,68'/></g></svg>");
+    }
+    .tab-link.active { color: #E5322D; }
+    .tab-link.active::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: #E5322D;
+    }
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+    .policy-card:hover { border-color: #E5322D; }
+    .nda-modal[hidden] { display: none; }
+    @media (max-width: 768px) {
+      .hero-headline { font-size: 2rem !important; line-height: 1.15 !important; }
+    }
+  </style>
+</head>
+<body class="bg-white text-dmnd-ink">
+
+<!-- ============== HEADER ============== -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-dmnd-line">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16">
+    <a href="#overview" class="flex items-center gap-3">
+      <!-- DMND wordmark: fallback SVG until /assets/dmnd-logo.svg is uploaded -->
+      <span class="inline-flex items-baseline tracking-tight">
+        <span class="font-extrabold text-2xl text-dmnd-red">DMN<span class="relative">D<span class="absolute -bottom-1 left-0 w-full h-[3px] bg-dmnd-red"></span></span></span>
+      </span>
+      <span class="hidden sm:inline-block text-sm text-dmnd-steel border-l border-dmnd-line pl-3">Trust Center</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
+      <a class="relative text-sm font-medium text-dmnd-graphite hover:text-dmnd-red py-5" href="../index.html">Home</a>
+      <a data-tab="overview"      class="tab-link relative text-sm font-medium text-dmnd-graphite hover:text-dmnd-red py-5 active" href="#overview">Overview</a>
+      <a data-tab="resources"     class="tab-link relative text-sm font-medium text-dmnd-graphite hover:text-dmnd-red py-5" href="#resources">Resources</a>
+      <a data-tab="controls"      class="tab-link relative text-sm font-medium text-dmnd-graphite hover:text-dmnd-red py-5" href="#controls">Controls</a>
+      <a data-tab="subprocessors" class="tab-link relative text-sm font-medium text-dmnd-graphite hover:text-dmnd-red py-5" href="#subprocessors">Subprocessors</a>
+    </nav>
+    <a href="mailto:Info@DMND.work" class="hidden sm:inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md bg-dmnd-red hover:bg-dmnd-redDark text-white transition">
+      Contact
+    </a>
+    <button id="mobileToggle" class="md:hidden text-dmnd-graphite" aria-label="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="md:hidden border-t border-dmnd-line hidden">
+    <nav class="px-5 py-3 flex flex-col gap-3">
+      <a class="text-sm font-medium" href="../index.html">Home</a>
+      <a class="text-sm font-medium" href="../api.html">API Docs</a>
+      <a class="text-sm font-medium" href="../slice.html">SLICE</a>
+      <a class="text-sm font-medium" href="#overview">Overview</a>
+      <a class="text-sm font-medium" href="#resources">Resources</a>
+      <a class="text-sm font-medium" href="#controls">Controls</a>
+      <a class="text-sm font-medium" href="#subprocessors">Subprocessors</a>
+      <a class="text-sm font-medium text-dmnd-red" href="mailto:Info@DMND.work">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero-bg text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs uppercase tracking-wider text-white/80 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-dmnd-red"></span>
+        Bitcoin mining pool · Trust & compliance
+      </div>
+      <h1 class="hero-headline font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+        STOP COMPROMISING,<br/>
+        <span class="text-dmnd-red">OWN EVERY HASH.</span>
+      </h1>
+      <p class="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl">
+        DMND empowers 100% of your operation for total sovereignty:
+        <strong class="text-white font-semibold">miner-side block templates</strong>,
+        auditable history, and
+        <strong class="text-white font-semibold">censorship-resistant</strong> profits.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#resources" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-dmnd-red hover:bg-dmnd-redDark font-medium transition">
+          Browse documents
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#controls" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-white/20 hover:border-white/40 font-medium transition">
+          View controls
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MAIN ============== -->
+<main class="max-w-7xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
+
+  <!-- ===== OVERVIEW TAB ===== -->
+  <section id="overview" class="tab-panel">
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-8">
+      <h2 class="text-2xl font-bold tracking-tight">Overview</h2>
+      <p class="text-sm text-dmnd-steel">✓ Updated <span class="updated-stamp">May 22, 2026</span></p>
+    </div>
+
+    <!-- Compliance -->
+    <div class="mb-12">
+      <h3 class="text-xs font-semibold uppercase tracking-wider text-dmnd-steel mb-4">Compliance</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="border border-dmnd-line rounded-lg p-5 flex items-center gap-4 bg-white">
+          <img src="/assets/aicpa-soc2.png" alt="AICPA SOC 2" class="w-14 h-14 object-contain" onerror="this.outerHTML='<div class=&quot;w-14 h-14 rounded-full bg-dmnd-wash border border-dmnd-line flex items-center justify-center text-[10px] font-bold text-dmnd-steel text-center leading-tight&quot;>AICPA<br/>SOC 2</div>'">
+          <div>
+            <p class="font-semibold">SOC 2</p>
+            <p class="text-sm text-dmnd-steel">AICPA · Type 2</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column teaser: Resources + Controls -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+      <!-- Resources teaser -->
+      <div class="border border-dmnd-line rounded-lg p-6 bg-white">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Resources</h3>
+          <a href="#resources" class="text-sm text-dmnd-red font-medium hover:underline">View all →</a>
+        </div>
+
+        <div class="mb-5">
+          <p class="text-xs uppercase tracking-wider text-dmnd-steel mb-2">3rd Party Attestations</p>
+          <a href="#doc-request" data-nda class="block text-sm py-2 border-b border-dmnd-line hover:text-dmnd-red">Penetration Test Report <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-dmnd-red/10 text-dmnd-red font-semibold ml-1">NDA</span></a>
+        </div>
+
+        <div class="mb-5">
+          <p class="text-xs uppercase tracking-wider text-dmnd-steel mb-2">Information Security Policies</p>
+          <ul class="text-sm divide-y divide-dmnd-line">
+            <li><a href="policies/access-control-policy.pdf" class="block py-2 hover:text-dmnd-red">Access Control Policy</a></li>
+            <li><a href="policies/human-resource-security-policy.pdf" class="block py-2 hover:text-dmnd-red">Human Resource Security Policy</a></li>
+            <li><a href="policies/code-of-conduct-policy.pdf" class="block py-2 hover:text-dmnd-red">Code of Conduct Policy</a></li>
+            <li><a href="policies/third-party-management-policy.pdf" class="block py-2 hover:text-dmnd-red">Third Party Management Policy</a></li>
+          </ul>
+          <a href="#resources" class="inline-block mt-3 text-sm text-dmnd-red font-medium hover:underline">View 11 more →</a>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-wider text-dmnd-steel mb-2">Other resources</p>
+          <ul class="text-sm divide-y divide-dmnd-line">
+            <li><a href="#doc-request" class="block py-2 hover:text-dmnd-red" data-nda>Engagement Letter <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-dmnd-red/10 text-dmnd-red font-semibold ml-1">NDA</span></a></li>
+            <li><a href="#doc-request" class="block py-2 hover:text-dmnd-red" data-nda>DMND 2025 SOC 2 Type 2 Report <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-dmnd-red/10 text-dmnd-red font-semibold ml-1">NDA</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Controls teaser -->
+      <div class="border border-dmnd-line rounded-lg p-6 bg-white">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Controls</h3>
+          <p class="text-sm text-dmnd-steel">✓ Updated <span class="updated-stamp">May 22, 2026</span></p>
+        </div>
+
+        <div class="space-y-5" id="controlsTeaser">
+          <!-- populated by JS to keep markup terse -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Data collected -->
+    <div class="border border-dmnd-line rounded-lg p-6 bg-white">
+      <h3 class="font-semibold mb-1">Data and privacy</h3>
+      <p class="text-sm text-dmnd-steel mb-5">Types of customer data DMND processes.</p>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+        <li class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-green-100 text-green-700 inline-flex items-center justify-center text-xs">✓</span> Customer personally identifiable information</li>
+        <li class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-green-100 text-green-700 inline-flex items-center justify-center text-xs">✓</span> Employee personally identifiable information</li>
+        <li class="flex items-center gap-2 text-dmnd-steel"><span class="w-5 h-5 rounded-full bg-gray-100 text-gray-500 inline-flex items-center justify-center text-xs">✕</span> Credit card information</li>
+        <li class="flex items-center gap-2 text-dmnd-steel"><span class="w-5 h-5 rounded-full bg-gray-100 text-gray-500 inline-flex items-center justify-center text-xs">✕</span> Personal health information</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== RESOURCES TAB ===== -->
+  <section id="resources" class="tab-panel pt-16">
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-8">
+      <h2 class="text-2xl font-bold tracking-tight">Resources</h2>
+      <div class="flex items-center gap-2">
+        <button id="bulkDownload" class="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md border border-dmnd-line hover:border-dmnd-red hover:text-dmnd-red transition">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Bulk download
+        </button>
+        <div class="relative">
+          <input id="resourceSearch" type="search" placeholder="Search" class="text-sm px-3 py-2 pl-9 border border-dmnd-line rounded-md focus:outline-none focus:border-dmnd-red w-44 sm:w-56" />
+          <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 text-dmnd-steel" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
+      <!-- Sidebar -->
+      <aside class="lg:sticky lg:top-24 self-start">
+        <nav class="text-sm flex lg:flex-col gap-1 overflow-x-auto">
+          <a href="#attestations" class="px-3 py-2 rounded-md hover:bg-dmnd-wash font-medium whitespace-nowrap">3rd Party Attestations</a>
+          <a href="#policies"     class="px-3 py-2 rounded-md hover:bg-dmnd-wash font-medium whitespace-nowrap">Information Security Policies</a>
+          <a href="#other"        class="px-3 py-2 rounded-md hover:bg-dmnd-wash font-medium whitespace-nowrap">Other resources</a>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <div class="space-y-12">
+        <!-- 3rd party attestations -->
+        <div id="attestations">
+          <h3 class="text-lg font-semibold mb-4">3rd Party Attestations</h3>
+          <div class="resource-list grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <article class="policy-card border border-dmnd-line rounded-lg p-5 bg-white transition" data-title="Penetration Test Report DMND Pentest Report Q3 2025 NDA required">
+              <div class="flex items-start justify-between gap-2 mb-1">
+                <h4 class="font-semibold">Penetration Test Report</h4>
+                <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-dmnd-red/10 text-dmnd-red font-semibold whitespace-nowrap">NDA</span>
+              </div>
+              <p class="text-sm text-dmnd-steel mb-4">DMND Pentest Report Q3 2025 (available under NDA)</p>
+              <div class="flex items-center gap-2">
+                <button data-nda class="text-sm font-medium text-dmnd-red hover:underline">Request access</button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Information security policies -->
+        <div id="policies">
+          <h3 class="text-lg font-semibold mb-4">Information Security Policies</h3>
+          <div id="policiesList" class="resource-list grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          <p class="text-xs text-dmnd-steel mt-4">Policy owner across all DMND policies: <strong>Alejandro De La Torre</strong></p>
+        </div>
+
+        <!-- Other resources -->
+        <div id="other">
+          <h3 class="text-lg font-semibold mb-4">Other resources</h3>
+          <div class="resource-list grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <article class="policy-card border border-dmnd-line rounded-lg p-5 bg-white transition" data-title="Engagement Letter Auditor engagement letter NDA required">
+              <div class="flex items-start justify-between gap-2 mb-1">
+                <h4 class="font-semibold">Engagement Letter</h4>
+                <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-dmnd-red/10 text-dmnd-red font-semibold whitespace-nowrap">NDA</span>
+              </div>
+              <p class="text-sm text-dmnd-steel mb-4">Auditor engagement letter (available under NDA)</p>
+              <div class="flex items-center gap-2">
+                <button data-nda class="text-sm font-medium text-dmnd-red hover:underline">Request access</button>
+              </div>
+            </article>
+            <article class="policy-card border border-dmnd-line rounded-lg p-5 bg-white transition" data-title="DMND-2025-Type 2 SOC 2-Final Report SOC 2 Type 2 final audit report NDA required">
+              <div class="flex items-start justify-between gap-2 mb-1">
+                <h4 class="font-semibold">DMND-2025-Type 2 SOC 2-Final Report</h4>
+                <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-dmnd-red/10 text-dmnd-red font-semibold whitespace-nowrap">NDA</span>
+              </div>
+              <p class="text-sm text-dmnd-steel mb-4">SOC 2 Type 2 final audit report (available under NDA)</p>
+              <div class="flex items-center gap-2">
+                <button data-nda class="text-sm font-medium text-dmnd-red hover:underline">Request access</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTROLS TAB ===== -->
+  <section id="controls" class="tab-panel pt-16">
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-2">
+      <h2 class="text-2xl font-bold tracking-tight">Controls</h2>
+      <p class="text-sm text-dmnd-steel">✓ Updated <span class="updated-stamp">May 22, 2026</span></p>
+    </div>
+    <p class="text-sm text-dmnd-steel mb-8 max-w-2xl">DMND's 48 active controls grouped by domain, tested as part of our SOC 2 Type 2 audit.</p>
+
+    <div id="controlsFull" class="space-y-10"></div>
+  </section>
+
+  <!-- ===== SUBPROCESSORS TAB ===== -->
+  <section id="subprocessors" class="tab-panel pt-16">
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-8">
+      <h2 class="text-2xl font-bold tracking-tight">Subprocessors</h2>
+      <p class="text-sm text-dmnd-steel">9 active subprocessors</p>
+    </div>
+
+    <div class="border border-dmnd-line rounded-lg overflow-hidden bg-white">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-dmnd-wash text-left text-xs uppercase tracking-wider text-dmnd-steel">
+            <tr>
+              <th class="px-5 py-3 font-semibold">Name</th>
+              <th class="px-5 py-3 font-semibold">Category</th>
+              <th class="px-5 py-3 font-semibold">Country</th>
+              <th class="px-5 py-3 font-semibold">Description</th>
+              <th class="px-5 py-3 font-semibold">URL</th>
+            </tr>
+          </thead>
+          <tbody id="subprocessorsBody" class="divide-y divide-dmnd-line"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============== FOOTER ============== -->
+<footer class="border-t border-dmnd-line bg-dmnd-wash mt-16">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
+    <div>
+      <div class="flex items-baseline gap-2 mb-3">
+        <span class="font-extrabold text-xl text-dmnd-red">DMN<span class="relative">D<span class="absolute -bottom-1 left-0 w-full h-[3px] bg-dmnd-red"></span></span></span>
+      </div>
+      <p class="text-sm text-dmnd-steel">DMND is a Bitcoin mining pool focused on miner sovereignty, auditable settlement, and censorship resistance.</p>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-wider text-dmnd-steel mb-3">Contact</p>
+      <a href="mailto:Info@DMND.work" class="text-sm font-medium hover:text-dmnd-red">Info@DMND.work</a>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-wider text-dmnd-steel mb-3">Legal</p>
+      <ul class="text-sm space-y-1">
+        <li><a href="https://dmnd.work" class="hover:text-dmnd-red">dmnd.work</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-5 border-t border-dmnd-line text-xs text-dmnd-steel flex flex-wrap items-center justify-between gap-2">
+    <p>© <span id="copyYear">2026</span> DMND. All rights reserved.</p>
+    <p>Trust Center · <span class="updated-stamp">May 22, 2026</span></p>
+  </div>
+</footer>
+
+<!-- ============== NDA MODAL ============== -->
+<div id="ndaModal" class="nda-modal fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" hidden>
+  <div class="bg-white rounded-lg max-w-md w-full p-6 relative">
+    <button id="ndaClose" class="absolute top-3 right-3 text-dmnd-steel hover:text-dmnd-ink" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <h3 class="text-lg font-semibold mb-1">Request documents under NDA</h3>
+    <p class="text-sm text-dmnd-steel mb-5">Our SOC 2 Type 2 report, penetration test report and auditor engagement letter are shared under NDA. Tell us which you need and we'll be in touch.</p>
+    <form id="ndaForm" class="space-y-3">
+      <div>
+        <label class="block text-xs font-medium text-dmnd-graphite mb-1">Work email</label>
+        <input required type="email" name="email" class="w-full px-3 py-2 border border-dmnd-line rounded-md text-sm focus:outline-none focus:border-dmnd-red" placeholder="you@company.com" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-dmnd-graphite mb-1">Company</label>
+        <input required type="text" name="company" class="w-full px-3 py-2 border border-dmnd-line rounded-md text-sm focus:outline-none focus:border-dmnd-red" placeholder="Company name" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-dmnd-graphite mb-1">Reason for request</label>
+        <textarea required name="reason" rows="3" class="w-full px-3 py-2 border border-dmnd-line rounded-md text-sm focus:outline-none focus:border-dmnd-red" placeholder="Which documents, and why (vendor assessment, procurement review, etc.)"></textarea>
+      </div>
+      <button type="submit" class="w-full px-4 py-2.5 rounded-md bg-dmnd-red hover:bg-dmnd-redDark text-white text-sm font-medium transition">Submit request</button>
+      <p class="text-xs text-dmnd-steel text-center">Or email <a class="underline" href="mailto:Info@DMND.work?subject=Trust%20Center%20Document%20Request">Info@DMND.work</a> directly.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ============== TOAST ============== -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dmnd-ink text-white text-sm px-4 py-2.5 rounded-md shadow-lg opacity-0 pointer-events-none transition-opacity"></div>
+
+<!-- ============== DATA + LOGIC ============== -->
+<script>
+/* ------------------------------------------------------------------ *
+ * DATA — single source of truth for policies, controls, subprocessors
+ * ------------------------------------------------------------------ */
+const POLICIES = [
+  { title: "Access Control Policy", purpose: "To limit access to information and information processing systems, networks, and facilities to authorized parties in accordance with business objectives.", path: "policies/access-control-policy.pdf" },
+  { title: "Human Resource Security Policy", purpose: "To ensure that personnel and contractors meet security requirements, understand their responsibilities, and are suitable for their roles.", path: "policies/human-resource-security-policy.pdf" },
+  { title: "Code of Conduct Policy", purpose: "Develops and maintains a standard of conduct that is acceptable to the company and its employees, customers, and vendors.", path: "policies/code-of-conduct-policy.pdf" },
+  { title: "Third Party Management Policy", purpose: "To ensure protection of the organization's data and assets that are shared with, accessible to, or managed by suppliers, including external parties or third-party organizations such as service providers, vendors, and customers, and to maintain an agreed level of information security and service delivery in line with supplier agreements.", path: "policies/third-party-management-policy.pdf" },
+  { title: "Risk Management Policy", purpose: "To define the methodology for assessing and managing the company's information security risks in order to achieve the company's business and information security objectives.", path: "policies/risk-management-policy.pdf" },
+  { title: "Asset Management Policy", purpose: "To identify organizational assets and define appropriate protection responsibilities. To ensure that information receives an appropriate level of protection in accordance with its importance to the organization. To prevent unauthorized disclosure, modification, removal, or destruction of information stored on media.", path: "policies/asset-management-policy.pdf" },
+  { title: "Data Management Policy", purpose: "To ensure that information is classified, protected, retained and securely disposed of in accordance with its importance to the organization.", path: "policies/data-management-policy.pdf" },
+  { title: "Cryptography Policy", purpose: "To ensure proper and effective use of cryptography to protect the confidentiality, authenticity and/or integrity of information. This policy establishes requirements for the use and protection of cryptographic keys throughout their entire lifecycle.", path: "policies/cryptography-policy.pdf" },
+  { title: "Secure Development Policy", purpose: "To ensure that information security is designed and implemented within the development lifecycle for applications and information systems.", path: "policies/secure-development-policy.pdf" },
+  { title: "Business Continuity and Disaster Recovery Plan", purpose: "The purpose of this business continuity plan is to prepare the company in the event of extended service outages caused by factors beyond our control (e.g., natural disasters, man-made events), and to restore services to the widest extent possible in a minimum time frame.", path: "policies/bcdr-plan.pdf" },
+  { title: "Operations Security Policy", purpose: "To ensure the correct and secure operation of information processing systems and facilities.", path: "policies/operations-security-policy.pdf" },
+  { title: "Physical Security Policy", purpose: "To prevent unauthorized physical access or damage to the organization's information and information processing facilities.", path: "policies/physical-security-policy.pdf" },
+  { title: "Information Security Roles and Responsibilities", purpose: "This policy and associated guidance establish the roles and responsibilities within the company, which is critical for effective communication of information security policies and standards.", path: "policies/infosec-roles-responsibilities.pdf" },
+  { title: "Information Security Policy (AUP)", purpose: "The purpose of this policy is to communicate our information security policies and outline the acceptable use and protection of the company's information and assets.", path: "policies/infosec-policy-aup.pdf" },
+  { title: "Incident Response Plan", purpose: "This document establishes the plan for managing information security incidents and events, and offers guidance for employees or incident responders who believe they have discovered, or are responding to, a security incident.", path: "policies/incident-response-plan.pdf" },
+];
+
+const CONTROLS = {
+  "Infrastructure security": [
+    ["Database replication utilized", "The company's databases are replicated to a secondary data center in real-time. Alerts are configured to notify administrators if replication fails."],
+    ["Production data backups conducted", "The company performs periodic backups for production data. Data is backed up to a different location than the production system."],
+    ["Encryption key access restricted", "The company restricts privileged access to encryption keys to authorized users with a business need."],
+    ["Unique account authentication enforced", "The company requires authentication to systems and applications to use unique username and password or authorized Secure Socket Shell (SSH) keys."],
+    ["Production data segmented", "The company prohibits confidential or sensitive customer data, by policy, from being used or stored in non-production systems/environments."],
+    ["Production application access restricted", "System access restricted to authorized access only."],
+    ["Production OS access restricted", "The company restricts privileged access to the operating system to authorized users with a business need."],
+    ["Production network access restricted", "The company restricts privileged access to the production network to authorized users with a business need."],
+    ["Unique network system authentication enforced", "The company requires authentication to the production network to use unique usernames and passwords or authorized SSH keys."],
+    ["Network firewalls reviewed", "The company reviews its firewall rulesets at least annually. Required changes are tracked to completion."],
+    ["Network and system hardening standards maintained", "The company's network and system hardening standards are documented, based on industry best practices, and reviewed at least annually."],
+    ["Log management utilized", "The company utilizes a log management tool to identify events that may have a potential impact on the company's ability to achieve its security objectives."],
+    ["Remote access MFA enforced", "The company's production systems can only be remotely accessed by authorized employees possessing a valid multi-factor authentication (MFA) method."],
+    ["Remote access encrypted enforced", "The company's production systems can only be remotely accessed by authorized employees via an approved encrypted connection."],
+    ["Network segmentation implemented", "The company's network is segmented to prevent unauthorized access to customer data."],
+    ["Network firewalls utilized", "The company uses firewalls and configures them to prevent unauthorized access."],
+    ["Access revoked upon termination", "The company completes termination checklists to ensure that access is revoked for terminated employees within SLAs."],
+    ["Production database access restricted", "The company restricts privileged access to databases to authorized users with a business need."],
+  ],
+  "Organizational security": [
+    ["Environmental monitoring devices implemented", "The company has environmental monitoring devices in place and configured to automatically generate an alert to management for environmental incidents."],
+    ["Performance evaluations conducted", "The company managers are required to complete performance evaluations for direct reports at least annually."],
+    ["Password policy enforced", "The company requires passwords for in-scope system components to be configured according to the company's policy."],
+    ["Portable media encrypted", "The company encrypts portable and removable media devices when used."],
+    ["MDM system utilized", "The company has a mobile device management (MDM) system in place to centrally manage mobile devices supporting the service."],
+  ],
+  "Product security": [
+    ["Control self-assessments conducted", "The company performs control self-assessments at least annually to gain assurance that controls are in place and operating effectively. Corrective actions are taken based on relevant findings. If the company has committed to an SLA for a finding, the corrective action is completed within that SLA."],
+    ["Penetration testing performed", "The company's penetration testing is performed at least annually. A remediation plan is developed and changes are implemented to remediate vulnerabilities in accordance with SLAs."],
+    ["Data encryption utilized", "The company's datastores housing sensitive customer data are encrypted at rest."],
+    ["Data transmission encrypted", "The company uses secure data transmission protocols to encrypt confidential and sensitive data when transmitted over public networks."],
+  ],
+  "Internal security procedures": [
+    ["Cybersecurity insurance maintained", "The company maintains cybersecurity insurance to mitigate the financial impact of business disruptions."],
+    ["Production multi-availability zones established", "The company has a multi-location strategy for production environments employed to permit the resumption of operations at other company data centers in the event of loss of a facility."],
+    ["Board charter documented", "The company's board of directors has a documented charter that outlines its oversight responsibilities for internal control."],
+    ["Board expertise developed", "The company's board members have sufficient expertise to oversee management's ability to design, implement and operate information security controls. The board engages third-party information security experts and consultants as needed."],
+    ["Board meetings conducted", "The company's board of directors meets at least annually and maintains formal meeting minutes. The board includes directors that are independent of the company."],
+    ["System changes externally communicated", "The company notifies customers of critical system changes that may affect their processing."],
+    ["Organization structure documented", "The company maintains an organizational chart that describes the organizational structure and reporting lines."],
+    ["Roles and responsibilities specified", "Roles and responsibilities for the design, development, implementation, operation, maintenance, and monitoring of information security controls are formally assigned in job descriptions and/or the Roles and Responsibilities policy."],
+    ["Support system available", "The company has an external-facing support system in place that allows users to report system information on failures, incidents, concerns, and other complaints to appropriate personnel."],
+    ["System changes communicated", "The company communicates system changes to authorized internal users."],
+    ["External support resources available", "The company provides guidelines and technical support resources relating to system operations to customers."],
+    ["Service description communicated", "The company provides a description of its products and services to internal and external users."],
+    ["Risk assessments performed", "The company's risk assessments are performed at least annually. As part of this process, threats and changes (environmental, regulatory, and technological) to service commitments are identified and the risks are formally assessed. The risk assessment includes a consideration of the potential for fraud and how fraud may impact the achievement of objectives."],
+    ["SOC 2 - System Description", "Complete a description of the system for Section III of the audit report."],
+    ["Configuration management system established", "The company has a configuration management procedure in place to ensure that system configurations are deployed consistently throughout the environment."],
+    ["Board oversight briefings conducted", "The company's board of directors or a relevant subcommittee is briefed by senior management at least annually on the state of the company's cybersecurity and privacy risk. The board provides feedback and direction to management as needed."],
+    ["Company commitments externally communicated", "The company's security commitments are communicated to customers in Master Service Agreements (MSA) or Terms of Service (TOS)."],
+    ["Risk assessment objectives specified", "The company specifies its objectives to enable the identification and assessment of risk related to the objectives."],
+    ["Third-party agreements established", "The company has written agreements in place with vendors and related third-parties. These agreements include confidentiality and privacy commitments applicable to that entity."],
+    ["Access requests required", "The company ensures that user access to in-scope system components is based on job role and function or requires a documented access request form and manager approval prior to access being provisioned."],
+  ],
+  "Data and privacy": [
+    ["Customer data deleted upon leaving", "The company purges or removes customer data containing confidential information from the application environment, in accordance with best practices, when customers leave the service."],
+  ],
+};
+
+const SUBPROCESSORS = [
+  { name: "Cloudflare", category: "Hosting / Security", country: "US", description: "Web hosting, content delivery and network security.", url: "https://www.cloudflare.com" },
+  { name: "Amazon Web Services", category: "Cloud provider", country: "US", description: "Leading global provider of cloud infrastructure services.", url: "https://aws.amazon.com" },
+  { name: "Docker", category: "Engineering / IT", country: "US", description: "Containerization technology for application development.", url: "https://www.docker.com/" },
+  { name: "EasyDNS", category: "IT / Security", country: "CA", description: "Provides DNS management and domain registration.", url: "https://easydns.com/" },
+  { name: "Elastic Email", category: "Marketing / IT", country: "EU", description: "Email delivery and marketing automation platform.", url: "https://elasticemail.com" },
+  { name: "GitHub", category: "Version control", country: "US", description: "Cloud platform for hosting Git repositories.", url: "https://github.com/" },
+  { name: "Google Workspace", category: "Collaboration / Office Operations / Identity Provider", country: "US", description: "Suite of cloud-based productivity tools.", url: "https://admin.google.com" },
+  { name: "Pipedrive", category: "Sales / Customer Support", country: "US", description: "Cloud-based sales CRM and pipeline software.", url: "https://www.pipedrive.com" },
+  { name: "Quickbooks", category: "Finance and payments", country: "US", description: "Accounting software for small businesses.", url: "https://quickbooks.intuit.com" },
+];
+
+/* ------------------------------------------------------------------ *
+ * RENDER
+ * ------------------------------------------------------------------ */
+
+// Policies list (Resources tab)
+function renderPolicies() {
+  const list = document.getElementById('policiesList');
+  list.innerHTML = POLICIES.map(p => `
+    <article class="policy-card border border-dmnd-line rounded-lg p-5 bg-white transition" data-title="${escapeAttr(p.title + ' ' + p.purpose)}">
+      <h4 class="font-semibold mb-2">${escapeHtml(p.title)}</h4>
+      <p class="text-sm text-dmnd-steel mb-4 line-clamp-3">${escapeHtml(p.purpose)}</p>
+      <div class="flex items-center gap-3">
+        <a href="${p.path}" class="text-sm font-medium text-dmnd-red hover:underline">View</a>
+        <button class="copy-link text-sm text-dmnd-steel hover:text-dmnd-red" data-link="${p.path}">Copy link</button>
+      </div>
+    </article>
+  `).join('');
+}
+
+// Controls teaser (Overview tab) — 5 cards, 3 each
+function renderControlsTeaser() {
+  const wrap = document.getElementById('controlsTeaser');
+  wrap.innerHTML = Object.entries(CONTROLS).map(([section, items]) => {
+    const more = items.length - 3;
+    const preview = items.slice(0, 3).map(([name]) => `<li class="text-sm py-1.5 border-b border-dmnd-line last:border-0 flex items-center gap-2"><span class="w-4 h-4 rounded-full bg-green-50 text-green-600 inline-flex items-center justify-center text-[10px]">✓</span>${escapeHtml(name)}</li>`).join('');
+    return `
+      <div>
+        <p class="text-xs uppercase tracking-wider text-dmnd-steel mb-2">${escapeHtml(section)}</p>
+        <ul>${preview}</ul>
+        ${more > 0 ? `<a href="#controls" class="inline-block mt-2 text-xs text-dmnd-red font-medium hover:underline">View ${more} more ${section.toLowerCase()} controls →</a>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+// Controls full (Controls tab) — table per section
+function renderControlsFull() {
+  const wrap = document.getElementById('controlsFull');
+  wrap.innerHTML = Object.entries(CONTROLS).map(([section, items]) => `
+    <div>
+      <div class="flex items-baseline justify-between mb-3">
+        <h3 class="text-lg font-semibold">${escapeHtml(section)}</h3>
+        <span class="text-xs text-dmnd-steel">${items.length} control${items.length === 1 ? '' : 's'}</span>
+      </div>
+      <div class="border border-dmnd-line rounded-lg overflow-hidden bg-white">
+        <table class="w-full text-sm">
+          <thead class="bg-dmnd-wash text-left text-xs uppercase tracking-wider text-dmnd-steel">
+            <tr>
+              <th class="px-5 py-3 font-semibold w-1/3">Control</th>
+              <th class="px-5 py-3 font-semibold">Description</th>
+              <th class="px-5 py-3 font-semibold w-20 text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dmnd-line">
+            ${items.map(([name, desc]) => `
+              <tr>
+                <td class="px-5 py-3 font-medium align-top">${escapeHtml(name)}</td>
+                <td class="px-5 py-3 text-dmnd-graphite align-top">${escapeHtml(desc)}</td>
+                <td class="px-5 py-3 text-center align-top"><span class="inline-flex w-6 h-6 rounded-full bg-green-100 text-green-700 items-center justify-center text-xs font-bold">✓</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Subprocessors table
+function renderSubprocessors() {
+  const body = document.getElementById('subprocessorsBody');
+  body.innerHTML = SUBPROCESSORS.map(s => `
+    <tr>
+      <td class="px-5 py-3 font-semibold whitespace-nowrap">${escapeHtml(s.name)}</td>
+      <td class="px-5 py-3 text-dmnd-graphite">${escapeHtml(s.category)}</td>
+      <td class="px-5 py-3 text-dmnd-graphite">${escapeHtml(s.country)}</td>
+      <td class="px-5 py-3 text-dmnd-graphite">${escapeHtml(s.description)}</td>
+      <td class="px-5 py-3"><a href="${s.url}" target="_blank" rel="noopener" class="text-dmnd-red hover:underline whitespace-nowrap">${escapeHtml(s.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a></td>
+    </tr>
+  `).join('');
+}
+
+/* ------------------------------------------------------------------ *
+ * INTERACTIONS
+ * ------------------------------------------------------------------ */
+
+// Tab highlight as you scroll
+function setupScrollSpy() {
+  const tabs = document.querySelectorAll('.tab-link');
+  const sections = ['overview','resources','controls','subprocessors'].map(id => document.getElementById(id));
+  const setActive = (id) => tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  sections.forEach(s => obs.observe(s));
+}
+
+// Resources search
+function setupSearch() {
+  const input = document.getElementById('resourceSearch');
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    document.querySelectorAll('.resource-list .policy-card').forEach(card => {
+      const hay = (card.dataset.title || '').toLowerCase();
+      card.style.display = (!q || hay.includes(q)) ? '' : 'none';
+    });
+  });
+}
+
+// Copy-link buttons
+function setupCopyLinks() {
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy-link');
+    if (!btn) return;
+    const link = window.location.origin + btn.dataset.link;
+    navigator.clipboard.writeText(link).then(() => toast('Link copied'));
+  });
+}
+
+// NDA modal triggers
+function setupNda() {
+  const modal = document.getElementById('ndaModal');
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-nda]');
+    if (trigger) { e.preventDefault(); modal.hidden = false; }
+  });
+  document.getElementById('ndaClose').addEventListener('click', () => modal.hidden = true);
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.hidden = true; });
+  document.getElementById('ndaForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const subject = encodeURIComponent('Trust Center Document Request: ' + (data.company || ''));
+    const body = encodeURIComponent(`Email: ${data.email}\nCompany: ${data.company}\nReason: ${data.reason}`);
+    window.location.href = `mailto:Info@DMND.work?subject=${subject}&body=${body}`;
+    modal.hidden = true;
+    toast('Request prepared, sending via email');
+  });
+}
+
+// Bulk download (browser-native: opens all PDFs in new tabs)
+function setupBulkDownload() {
+  document.getElementById('bulkDownload').addEventListener('click', () => {
+    const files = POLICIES.map(p => p.path);
+    if (!confirm(`Open all ${files.length} documents in new tabs?`)) return;
+    files.forEach(f => window.open(f, '_blank', 'noopener'));
+  });
+}
+
+// Mobile menu
+function setupMobile() {
+  const btn = document.getElementById('mobileToggle');
+  const menu = document.getElementById('mobileMenu');
+  btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.add('hidden')));
+}
+
+// Toast helper
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.style.opacity = '0'; }, 1800);
+}
+
+// Escape helpers
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s) { return escapeHtml(s); }
+
+// Year + updated stamp
+function setupStamps() {
+  document.getElementById('copyYear').textContent = new Date().getFullYear();
+  // updated-stamp spans already hardcoded; replace if /updated.json exists
+  fetch('/updated.json').then(r => r.ok ? r.json() : null).then(d => {
+    if (d && d.updated) document.querySelectorAll('.updated-stamp').forEach(el => el.textContent = d.updated);
+  }).catch(() => {});
+}
+
+/* ------------------------------------------------------------------ *
+ * INIT
+ * ------------------------------------------------------------------ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderPolicies();
+  renderControlsTeaser();
+  renderControlsFull();
+  renderSubprocessors();
+  setupScrollSpy();
+  setupSearch();
+  setupCopyLinks();
+  setupNda();
+  setupBulkDownload();
+  setupMobile();
+  setupStamps();
+});
+</script>
+
+</body>
+</html>
